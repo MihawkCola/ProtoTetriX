@@ -30,11 +30,6 @@ public class Gamefield {
 
     public boolean isFinished = false;
 
-    public int x;
-    public int y;
-    int blockSize;
-    int i = 0;
-
     public Gamefield(Context context) {
         gamefieldBackground = BitmapFactory.decodeResource(context.getResources(), R.drawable.gamefield);
 

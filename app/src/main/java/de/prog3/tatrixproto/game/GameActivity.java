@@ -6,6 +6,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -18,6 +19,7 @@ public class GameActivity extends AppCompatActivity {
     private Handler handler = new Handler();
 
     private ImageButton buttonL, buttonR, buttonD,buttonRot;
+    private TextView score;
 
 
     @Override
@@ -25,6 +27,7 @@ public class GameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
+        score=findViewById(R.id.Score);
 
         // Hide the status bar.
         View decorView = getWindow().getDecorView();

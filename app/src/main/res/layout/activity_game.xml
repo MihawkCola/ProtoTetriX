@@ -28,80 +28,93 @@
 
     </ImageView>
 
-    <LinearLayout
-        android:id="@+id/game"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="75dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="75dp"
-        android:layout_marginBottom="190dp"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-
-    </LinearLayout>
-
-
-    <ImageButton
-        android:id="@+id/Butten_Left"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_marginStart="16dp"
-        android:adjustViewBounds="true"
-        android:background="@null"
-        android:scaleType="centerInside"
-        app:layout_constraintBottom_toBottomOf="@+id/background"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/game"
-        app:layout_constraintVertical_bias="0.218"
-        app:srcCompat="@drawable/custom_leftbutton" />
 
     <ImageButton
         android:id="@+id/Butten_Right"
         android:layout_width="80dp"
         android:layout_height="80dp"
+        android:layout_marginTop="28dp"
         android:adjustViewBounds="true"
         android:background="@null"
         android:scaleType="centerInside"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/Butten_Left"
-        app:layout_constraintTop_toBottomOf="@+id/game"
-        app:layout_constraintVertical_bias="0.218"
+        app:layout_constraintTop_toBottomOf="@+id/GameScreen"
         app:srcCompat="@drawable/custom_rightbutton" />
+
+    <ImageButton
+        android:id="@+id/Butten_Left"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="28dp"
+        android:adjustViewBounds="true"
+        android:background="@null"
+        android:scaleType="centerInside"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/GameScreen"
+        app:srcCompat="@drawable/custom_leftbutton" />
 
     <ImageButton
         android:id="@+id/Butten_Down"
         android:layout_width="80dp"
         android:layout_height="80dp"
+        android:layout_marginTop="64dp"
         android:adjustViewBounds="true"
         android:background="@null"
         android:scaleType="centerInside"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/Butten_Rotation"
+        app:layout_constraintHorizontal_bias="0.548"
         app:layout_constraintStart_toEndOf="@+id/Butten_Right"
-        app:layout_constraintTop_toBottomOf="@+id/game"
+        app:layout_constraintTop_toBottomOf="@+id/GameScreen"
         app:srcCompat="@drawable/custom_downbutton" />
 
     <ImageButton
         android:id="@+id/Butten_Rotation"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:layout_marginEnd="44dp"
+        android:layout_marginTop="28dp"
+        android:layout_marginEnd="32dp"
         android:adjustViewBounds="true"
         android:background="@null"
         android:scaleType="centerInside"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/background"
-        app:layout_constraintTop_toBottomOf="@+id/game"
-        app:layout_constraintVertical_bias="0.218"
+        app:layout_constraintTop_toBottomOf="@+id/GameScreen"
         app:srcCompat="@drawable/custom_rotatebutton" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/GameScreen"
+        android:layout_width="345dp"
+        android:layout_height="520dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/background">
+
+        <LinearLayout
+            android:id="@+id/game"
+            android:layout_width="261dp"
+            android:layout_height="520dp"
+
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <TextView
+            android:id="@+id/Score"
+            android:layout_width="67dp"
+            android:layout_height="33dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="16dp"
+            android:text="000000"
+            android:textColor="#00000000"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
