@@ -30,19 +30,30 @@
 
 
     <ImageButton
-        android:id="@+id/Butten_Right"
+        android:id="@+id/Button_Sound"
+        android:layout_width="62dp"
+        android:layout_height="62dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/custom_soundbutton"
+        android:state_selected="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/Button_Right"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_marginTop="28dp"
         android:adjustViewBounds="true"
         android:background="@null"
         android:scaleType="centerInside"
-        app:layout_constraintStart_toEndOf="@+id/Butten_Left"
+        app:layout_constraintStart_toEndOf="@+id/Button_Left"
         app:layout_constraintTop_toBottomOf="@+id/GameScreen"
         app:srcCompat="@drawable/custom_rightbutton" />
 
     <ImageButton
-        android:id="@+id/Butten_Left"
+        android:id="@+id/Button_Left"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_marginStart="28dp"
@@ -55,21 +66,21 @@
         app:srcCompat="@drawable/custom_leftbutton" />
 
     <ImageButton
-        android:id="@+id/Butten_Down"
+        android:id="@+id/Button_Down"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_marginTop="64dp"
         android:adjustViewBounds="true"
         android:background="@null"
         android:scaleType="centerInside"
-        app:layout_constraintEnd_toStartOf="@+id/Butten_Rotation"
+        app:layout_constraintEnd_toStartOf="@+id/Button_Rotation"
         app:layout_constraintHorizontal_bias="0.548"
-        app:layout_constraintStart_toEndOf="@+id/Butten_Right"
+        app:layout_constraintStart_toEndOf="@+id/Button_Right"
         app:layout_constraintTop_toBottomOf="@+id/GameScreen"
         app:srcCompat="@drawable/custom_downbutton" />
 
     <ImageButton
-        android:id="@+id/Butten_Rotation"
+        android:id="@+id/Button_Rotation"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_marginTop="28dp"
@@ -80,6 +91,8 @@
         app:layout_constraintEnd_toEndOf="@+id/background"
         app:layout_constraintTop_toBottomOf="@+id/GameScreen"
         app:srcCompat="@drawable/custom_rotatebutton" />
+
+
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/GameScreen"
@@ -107,7 +120,7 @@
             android:id="@+id/Score"
             android:layout_width="67dp"
             android:layout_height="33dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="68dp"
             android:layout_marginEnd="16dp"
             android:text="000000"
             android:textColor="#00000000"

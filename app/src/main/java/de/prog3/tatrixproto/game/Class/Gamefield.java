@@ -1,12 +1,14 @@
 package de.prog3.tatrixproto.game.Class;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 
 import java.util.concurrent.ThreadLocalRandom;
 
+import de.prog3.tatrixproto.MainActivity;
 import de.prog3.tatrixproto.R;
 import de.prog3.tatrixproto.game.interfaces.IPiece;
 import de.prog3.tatrixproto.game.pieces.LPieceLeft;
@@ -21,6 +23,7 @@ import de.prog3.tatrixproto.game.pieces.ZPieceRight;
 public class Gamefield {
     public static final int WIDTH = 10;
     public static final int HEIGHT = 20;
+    public int score;
 
     // Tetris Grid 10x21
     Block grid[][] = new Block[WIDTH][HEIGHT];
@@ -32,7 +35,7 @@ public class Gamefield {
 
     public Gamefield(Context context) {
         gamefieldBackground = BitmapFactory.decodeResource(context.getResources(), R.drawable.gamefield);
-
+        score =0;
 
         for (int i = 0; i < grid.length; i++){
             for (int k = 0; k < grid[i].length; k++){
@@ -83,17 +86,27 @@ public class Gamefield {
     public void moveRight(){
         activePiece.movePieceRight();
     }
+    public void rotate(){ activePiece.rotatePiece();}
 
     public void nextFrame() {
         if (isFinished) return;
 
         boolean hasMovedDown = activePiece.movePieceDown();
         if(!hasMovedDown) {
+            checkLine();
             createRandomNextPiece();
             boolean addedSuccessfully = activePiece.addToGrid();
             if (!addedSuccessfully) {
                 //TODO: SPIEL ABBRUCH
                 isFinished = true;
+            }
+        }
+    }
+
+    private void checkLine() {
+        for (int i = 0; i < grid.length; i++) {
+            for (int k = 0; k < grid[i].length; k++) {
+
             }
         }
     }

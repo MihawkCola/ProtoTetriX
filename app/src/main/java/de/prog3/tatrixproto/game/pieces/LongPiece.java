@@ -17,4 +17,16 @@ public class LongPiece extends Piece4x4 {
         this.blocks[2][1] = true;
         this.blocks[3][1] = true;
     }
+
+
+
+    @Override
+    public boolean canRotate(boolean[][] pre) {
+        return false;
+    }
+
+    @Override
+    public void rotatePiece() {
+
+    }
 }

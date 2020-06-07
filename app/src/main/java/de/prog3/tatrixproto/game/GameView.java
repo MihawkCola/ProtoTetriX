@@ -38,10 +38,13 @@ public class GameView extends View {
         //this.invalidate();
     }
     public void onButtonLeftClicked(){
-        gamefield.moveLeft();
+        if (!gamefield.isFinished){gamefield.moveLeft();}
     }
     public void onButtonRightClicked(){
-        gamefield.moveRight();
+        if (!gamefield.isFinished){gamefield.moveRight();}
+    }
+    public void onButtonRotateClicked(){
+        if (!gamefield.isFinished){gamefield.rotate();}
     }
 
     public static int getScreenWidth() {

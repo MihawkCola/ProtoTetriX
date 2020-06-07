@@ -2,6 +2,8 @@ package de.prog3.tatrixproto.game.Abstract;
 
 import android.graphics.Color;
 
+
+
 import de.prog3.tatrixproto.game.Class.Block;
 import de.prog3.tatrixproto.game.interfaces.IPiece;
 
@@ -58,7 +60,7 @@ public abstract class Piece3x3 implements IPiece {
                         return false;
                     }
 
-                    boolean isSelfLeft = false;
+                    boolean isSelfLeft = true;
                     if (i+1 <3) {
                         isSelfLeft = this.blocks[i+1][k];
                     }
@@ -125,7 +127,7 @@ public abstract class Piece3x3 implements IPiece {
                         if (blockBelow.isActive()) {
                             return false;
                         }
-                    }
+                    }else {return false;}
                 }
             }
         }
@@ -138,7 +140,7 @@ public abstract class Piece3x3 implements IPiece {
      */
     private void removeFromGrid() {
         updateGrid(null);
-    }
+    }//Achtung wenn was an dem Piece geändert wird muss dieses immer voher vom grid removt werden und wieder geaddet werden, da sonst nicht alle blöcke auktualliesiert werden
     private void updateGrid(IPiece piece){
         for (int i = 0; i <3;i++) {
             for (int k = 0; k < 3; k++) {
@@ -162,22 +164,44 @@ public abstract class Piece3x3 implements IPiece {
     }
 
 
-    public boolean canRotateLeft() {
-        return false;
+    public boolean canRotate(boolean pre[][]){
+        for (int i = 0; i <3;i++){
+            for (int k = 0; k<3;k++){
+                if(pre[i][k]) {
+                    // Unterkante des Spielfelds erreicht?
+                    if (x+i >= 0 && x+i < grid.length
+                            && y+k >=0 && y+k < grid[0].length) {
+                        Block blockBelow = grid[x+i][y+k];
+                        if(blockBelow.isActive()){
+                            return false;
+                        }
+
+                    }else {return false;}
+                }
+            }
+        }
+        return true;
+    }
+    //Quelle: https://stackoverflow.com/questions/2799755/rotate-array-clockwise
+    public void rotatePiece(){
+        removeFromGrid();
+        boolean pre[][]= new boolean[3][3];
+        int count = 0;
+        do {
+            count++;
+            for (int i = 0; i <3;i++){
+                for (int k = 0; k<3;k++){
+                    pre[k][3-1-i]=blocks[i][k];
+                }
+            }
+        }while (!canRotate(pre)&&count<5);
+        if(count<4){ // Wenn Counter 4 ist hat sich an dem zustand von blocks nichts geändert
+            blocks=pre;
+        }
+
+        addToGrid();
     }
 
-
-    public boolean canRotateRight() {
-        return false;
-    }
-
-
-    public void rotateLeft() {
-    }
-
-
-    public void rotateRight() {
-    }
 
     public int getColor() {
         return this.color;

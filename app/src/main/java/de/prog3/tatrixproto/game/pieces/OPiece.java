@@ -19,4 +19,16 @@ public class OPiece extends Piece4x4 {
 
         this.x = -1;
     }
+
+
+
+    @Override
+    public boolean canRotate(boolean[][] pre) {
+        return false;
+    }
+
+    @Override
+    public void rotatePiece() {
+
+    }
 }

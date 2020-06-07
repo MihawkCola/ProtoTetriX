@@ -10,10 +10,8 @@ public interface IPiece {
     public void movePieceRight();
     public boolean movePieceDown();
 
-    public boolean canRotateLeft();
-    public boolean canRotateRight();
-    public void rotateLeft();
-    public void rotateRight();
+    public boolean canRotate(boolean pre[][]);
+    public void rotatePiece();
 
     public boolean addToGrid();
 }
