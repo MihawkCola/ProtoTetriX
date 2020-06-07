@@ -103,7 +103,7 @@ public class Gamefield {
         }
     }
 
-    private void checkLine() {
+    private void checkLine() { //TODO: optimiern kann bei einer leeren reihe abgebrochen werden
         for (int k = HEIGHT-1; k >= 0; k--) {
             int count = 0;
             for (int i = 0; i < grid.length; i++) {

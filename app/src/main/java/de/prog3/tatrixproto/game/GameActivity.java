@@ -48,11 +48,45 @@ public class GameActivity extends AppCompatActivity {
         buttonRot = findViewById(R.id.Button_Rotation);
 
 
+
+        gameview = new GameView(this);
+        LinearLayout layout1 = (LinearLayout) findViewById(R.id.game);
+        layout1.addView(gameview);
+
+        final Runnable nextFrameRunnable = new Runnable() {
+            @Override
+            public void run() {
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        gameview.nextFrame();
+                        score.setText(gameview.onTextScore());
+
+                    }
+                });
+                gameview.postDelayed(this, 1000 / speed);
+            }
+        };
+
+        final Runnable FPS = new Runnable() {
+            @Override
+            public void run() {
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        gameview.invalidate();
+                    }
+                });
+                gameview.postDelayed(this, 1000 / 60);
+            }
+        };
         buttonD.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    gameview.removeCallbacks(nextFrameRunnable);
                     speed = boostetSpeed;
+                    gameview.post(nextFrameRunnable);
                 } else if (event.getAction() == MotionEvent.ACTION_UP) {
                     speed = normalSpeed;
                 }
@@ -78,36 +112,6 @@ public class GameActivity extends AppCompatActivity {
             }
         });
 
-        gameview = new GameView(this);
-        LinearLayout layout1 = (LinearLayout) findViewById(R.id.game);
-        layout1.addView(gameview);
-
-        final Runnable nextFrameRunnable = new Runnable() {
-            @Override
-            public void run() {
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        gameview.nextFrame();
-                        score.setText(gameview.onTextScore());
-                    }
-                });
-                gameview.postDelayed(this, 1000 / speed);
-            }
-        };
-
-        final Runnable FPS = new Runnable() {
-            @Override
-            public void run() {
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        gameview.invalidate();
-                    }
-                });
-                gameview.postDelayed(this, 1000 / 60);
-            }
-        };
 
         gameview.post(nextFrameRunnable);
         gameview.post(FPS);
