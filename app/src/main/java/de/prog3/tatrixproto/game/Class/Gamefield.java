@@ -104,11 +104,41 @@ public class Gamefield {
     }
 
     private void checkLine() {
-        for (int i = 0; i < grid.length; i++) {
-            for (int k = 0; k < grid[i].length; k++) {
-
+        for (int k = HEIGHT-1; k >= 0; k--) {
+            int count = 0;
+            for (int i = 0; i < grid.length; i++) {
+                if(grid[i][k].isActive()){
+                    count++;
+                }
+            }
+            if(count==WIDTH){
+                score= score+100;
+                removeGridLine(k);
+                moveGridDown(k);
             }
         }
+    }
+
+    private void moveGridDown(int y) {
+        y--;
+        for (int k = y;k >= 0; k--){
+            for (int i = 0; i < grid.length; i++) {
+               if(grid[i][k].isActive()){
+                   grid[i][k+1].setPiece(grid[i][k].getPiece());
+                   grid[i][k].setPiece(null);
+               }
+            }
+        }
+    }
+
+    private void removeGridLine(int y) {
+        for (int i = 0; i < grid.length; i++) {
+            grid[i][y].setPiece(null);
+        }
+    }
+
+    public String getScore() {
+        return String.format("%06d",score);
     }
 
     public void draw(Canvas canvas) {

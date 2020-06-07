@@ -52,7 +52,7 @@ public abstract class Piece3x3 implements IPiece {
         }
         return true;
     }
-    public boolean canMoveRight() {
+    public boolean canMoveRight() { // fehler bei der kolision mit anderen blöcken
         for (int i = 0; i <3;i++) {
             for (int k = 0; k < 3; k++) {
                 if(blocks[i][k]){
@@ -60,12 +60,12 @@ public abstract class Piece3x3 implements IPiece {
                         return false;
                     }
 
-                    boolean isSelfLeft = true;
+                    boolean isSelfLeft = false;
                     if (i+1 <3) {
                         isSelfLeft = this.blocks[i+1][k];
                     }
-                    Block blockLeft = grid[x+i+1][y+k];
-                    if(!isSelfLeft && blockLeft.isActive()){
+                    Block blockRight = grid[x+i+1][y+k];
+                    if(!isSelfLeft && blockRight.isActive()){
                         return false;
                     }
                 }

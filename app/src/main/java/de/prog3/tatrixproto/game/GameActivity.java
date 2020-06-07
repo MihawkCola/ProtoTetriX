@@ -89,6 +89,7 @@ public class GameActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         gameview.nextFrame();
+                        score.setText(gameview.onTextScore());
                     }
                 });
                 gameview.postDelayed(this, 1000 / speed);
