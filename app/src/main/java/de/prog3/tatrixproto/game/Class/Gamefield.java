@@ -46,8 +46,6 @@ public class Gamefield {
             }
         }
         createRandomNextPiece();
-
-
         activePiece.addToGrid();
     }
 
@@ -115,6 +113,7 @@ public class Gamefield {
                 score= score+100;
                 removeGridLine(k);
                 moveGridDown(k);
+                k++;
             }
         }
     }

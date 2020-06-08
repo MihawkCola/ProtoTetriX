@@ -30,6 +30,7 @@ public class GameActivity extends AppCompatActivity {
 
 
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,7 +89,9 @@ public class GameActivity extends AppCompatActivity {
                     speed = boostetSpeed;
                     gameview.post(nextFrameRunnable);
                 } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                    gameview.removeCallbacks(nextFrameRunnable);
                     speed = normalSpeed;
+                    gameview.post(nextFrameRunnable);
                 }
                 return false;
             }
