@@ -31,6 +31,7 @@ public class GameView extends View {
      * Calculates the next frame and renders it
      */
     public void nextFrame() {
+        //test
         // calculate next frame
         gamefield.nextFrame();
 
