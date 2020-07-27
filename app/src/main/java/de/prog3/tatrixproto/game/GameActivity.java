@@ -13,6 +13,7 @@ import android.media.MediaPlayer;
 import androidx.appcompat.app.AppCompatActivity;
 
 import de.prog3.tatrixproto.R;
+import de.prog3.tatrixproto.game.Class.Gamefield;
 
 
 public class GameActivity extends AppCompatActivity {
@@ -49,7 +50,6 @@ public class GameActivity extends AppCompatActivity {
         buttonRot = findViewById(R.id.Button_Rotation);
 
 
-
         gameview = new GameView(this);
         LinearLayout layout1 = (LinearLayout) findViewById(R.id.game);
         layout1.addView(gameview);
@@ -60,8 +60,11 @@ public class GameActivity extends AppCompatActivity {
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
-                        gameview.nextFrame();
+                        if(gameview.nextFrame()){
                         score.setText(gameview.onTextScore());
+                        }else {
+                            score.setText("ENDE"); //TODO END Screen DB Score
+                        }
 
                     }
                 });

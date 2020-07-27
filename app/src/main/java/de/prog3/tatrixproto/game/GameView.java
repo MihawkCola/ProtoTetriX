@@ -30,10 +30,10 @@ public class GameView extends View {
     /**
      * Calculates the next frame and renders it
      */
-    public void nextFrame() {
+    public boolean nextFrame() {
         //test
         // calculate next frame
-        gamefield.nextFrame();
+        return gamefield.nextFrame();
 
         // invalidate the view to draw it again
         //this.invalidate();

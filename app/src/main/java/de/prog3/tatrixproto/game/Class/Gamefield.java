@@ -86,8 +86,8 @@ public class Gamefield {
     }
     public void rotate(){ activePiece.rotatePiece();}
 
-    public void nextFrame() {
-        if (isFinished) return;
+    public boolean nextFrame() {
+        if (isFinished) return false;
 
         boolean hasMovedDown = activePiece.movePieceDown();
         if(!hasMovedDown) {
@@ -99,6 +99,7 @@ public class Gamefield {
                 isFinished = true;
             }
         }
+        return true;
     }
 
     private void checkLine() { //TODO: optimiern kann bei einer leeren reihe abgebrochen werden
