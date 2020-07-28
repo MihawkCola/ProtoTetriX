@@ -1,5 +1,6 @@
 package de.prog3.tatrixproto.game.db;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -13,12 +14,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
     public DatabaseHelper(Context context) {
-        super(context, TABLE_NAME, null, 1);
+        super(context, DB_NAME, null, 1);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE " + TABLE_NAME + "(" + COL_1 + "TEXT PRIMARY KEY" + ")");
+        db.execSQL("CREATE TABLE " + TABLE_NAME + " (" + COL_1 + " INT)");
     }
 
     @Override
@@ -41,15 +42,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public String getHighScore(){
+
+    public int getHighScore() {
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor result = db.rawQuery("select MAX(Highscore) " +TABLE_NAME,null);
-        String highscore = result.getString(0);
+
+        Cursor result = db.rawQuery("select max(Highscore) from highscore_t",null);
+        result.moveToFirst();
+        int highscore = result.getInt(0);
         return highscore;
     }
-
-
-
 }
 
 

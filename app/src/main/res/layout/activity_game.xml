@@ -127,6 +127,17 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <TextView
+            android:id="@+id/HighScore"
+            android:layout_width="83dp"
+            android:layout_height="47dp"
+            android:layout_marginTop="82dp"
+            android:text="000000"
+            android:textColor="#FFFFFF"
+            android:gravity="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
