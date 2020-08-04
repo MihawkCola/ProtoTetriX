@@ -1,15 +1,14 @@
 package de.prog3.tatrixproto.game.pieces;
 
+import android.graphics.Bitmap;
 import android.graphics.Color;
 
-import de.prog3.tatrixproto.game.Abstract.Piece3x3;
-import de.prog3.tatrixproto.game.Class.Block;
+import de.prog3.tatrixproto.game.Abstract.AbstractPiece;
 
-public class LPieceLeft extends Piece3x3 {
+public class LPieceLeft extends AbstractPiece {
 
-    public LPieceLeft(Block[][] grid,int x) {
-        super(grid,x);
-        this.color = Color.parseColor("#ffff00");
+    public LPieceLeft(Bitmap image ,boolean colorOn) {
+        super(3, image,Color.parseColor("#ffff00"),colorOn);
 
         this.blocks[0][0] = true;
         this.blocks[0][1] = true;

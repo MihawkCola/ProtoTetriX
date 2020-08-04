@@ -21,7 +21,7 @@ public class GameActivity extends AppCompatActivity {
     public int speed = 1;
     public int boostetSpeed = 20;
     public int normalSpeed = speed;
-    private GameView gameview;
+    private Gamefield gamefield;
     private Handler handler = new Handler();
     private Boolean isPlaying = true;
     private DatabaseHelper mydb;
@@ -55,9 +55,9 @@ public class GameActivity extends AppCompatActivity {
 
         mydb = new DatabaseHelper(this);
         highscore.setText(String.format("%06d",mydb.getHighScore()));
-        gameview = new GameView(this);
+        gamefield = new Gamefield(this);
         LinearLayout layout1 = (LinearLayout) findViewById(R.id.game);
-        layout1.addView(gameview);
+        layout1.addView(gamefield);
 
         final Runnable nextFrameRunnable = new Runnable() {
             @Override
@@ -65,16 +65,16 @@ public class GameActivity extends AppCompatActivity {
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
-                        if(gameview.nextFrame()){
-                        score.setText(gameview.onTextScore());
+                        if(gamefield.nextFrame()){
+                        score.setText(gamefield.getScore());
                         }else {
-                            mydb.insertData(gameview.onTextScore());
+                            mydb.insertData(gamefield.getScore());
                             score.setText("ENDE"); //TODO END Screen DB Score
                         }
 
                     }
                 });
-                gameview.postDelayed(this, 1000 / speed);
+                gamefield.postDelayed(this, 1000 / speed);
             }
         };
 
@@ -84,23 +84,23 @@ public class GameActivity extends AppCompatActivity {
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
-                        gameview.invalidate();
+                        gamefield.invalidate();
                     }
                 });
-                gameview.postDelayed(this, 1000 / 60);
+                gamefield.postDelayed(this, 1000 / 60);
             }
         };
         buttonD.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    gameview.removeCallbacks(nextFrameRunnable);
+                    gamefield.removeCallbacks(nextFrameRunnable);
                     speed = boostetSpeed;
-                    gameview.post(nextFrameRunnable);
+                    gamefield.post(nextFrameRunnable);
                 } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                    gameview.removeCallbacks(nextFrameRunnable);
+                    gamefield.removeCallbacks(nextFrameRunnable);
                     speed = normalSpeed;
-                    gameview.post(nextFrameRunnable);
+                    gamefield.post(nextFrameRunnable);
                 }
                 return false;
             }
@@ -108,25 +108,25 @@ public class GameActivity extends AppCompatActivity {
         buttonRot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                gameview.onButtonRotateClicked();
+                if (!gamefield.isFinished){gamefield.rotate();}
             }
         });
         buttonR.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                gameview.onButtonRightClicked();
+                if (!gamefield.isFinished){gamefield.moveRight();}
             }
         });
         buttonL.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                gameview.onButtonLeftClicked();
+                if (!gamefield.isFinished){gamefield.moveLeft();}
             }
         });
 
 
-        gameview.post(nextFrameRunnable);
-        gameview.post(FPS);
+        gamefield.post(nextFrameRunnable);
+        gamefield.post(FPS);
 
 
         mediaPlayer = MediaPlayer.create(this, R.raw.tetrix_soundtrack);

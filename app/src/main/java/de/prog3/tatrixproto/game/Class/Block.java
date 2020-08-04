@@ -6,23 +6,19 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 
-import de.prog3.tatrixproto.game.interfaces.IPiece;
+import de.prog3.tatrixproto.game.Abstract.AbstractPiece;
 
 
 public class Block {
     protected Bitmap image;
-    protected IPiece piece;
+    protected AbstractPiece piece;
 
     public Block(Bitmap image) {
         this.image = image;
         this.piece = null;
     }
 
-    public Bitmap getImage() {
-        return image;
-    }
-
-    public IPiece getPiece() {
+    public AbstractPiece getPiece() {
         return piece;
     }
 
@@ -30,17 +26,25 @@ public class Block {
         return piece != null;
     }
 
-    public void setPiece(IPiece piece) {
+    public void setPiece(AbstractPiece piece) {
         this.piece = piece;
     }
     public void draw(Canvas canvas, int x , int y, int size){
         if (image.getWidth() != size) {
             image = Bitmap.createScaledBitmap(image, size,size,false);
         }
+
         if(piece != null){
             Paint paint = new Paint();
-            paint.setColorFilter(new PorterDuffColorFilter(piece.getColor(), PorterDuff.Mode.SRC_IN));
-            canvas.drawBitmap(image,x,y,paint);
+            if(piece.colorOn) {
+                paint.setColorFilter(new PorterDuffColorFilter(piece.getColor(), PorterDuff.Mode.SRC_IN));
+                canvas.drawBitmap(image, x, y, paint);
+            }else {
+                if (piece.getImage().getWidth() != size) {
+                    piece.setImage(Bitmap.createScaledBitmap(piece.getImage(), size,size,false));
+                }
+                canvas.drawBitmap(piece.getImage(), x, y, paint);
+            }
         }
     }
 }
