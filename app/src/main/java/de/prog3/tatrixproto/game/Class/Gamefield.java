@@ -25,6 +25,7 @@ public class Gamefield extends View {
     public static final int HEIGHT = 20;
     public int score;
     private ArrayList<AbstractPiece> list;
+    private AbstractPiece nextPiece;
 
     // Tetris Grid 10x21
     Block grid[][] = new Block[WIDTH][HEIGHT];
@@ -56,16 +57,21 @@ public class Gamefield extends View {
         list.add(new ZPieceLeft(BitmapFactory.decodeResource(context.getResources(), R.drawable.spurple),false));
         list.add(new ZPieceRight(BitmapFactory.decodeResource(context.getResources(), R.drawable.sred),false));
         activePiece = new ActivePiece(grid);
+
+        createRandomNextPiece();
+        activePiece.addPiece(nextPiece);
         createRandomNextPiece();
         activePiece.addToGrid();
     }
 
     public void createRandomNextPiece(){
-        activePiece.reset();
         int k = ThreadLocalRandom.current().nextInt(0, list.size());
-        activePiece.addPiece(list.get(k));
+        nextPiece = list.get(k);
     }
 
+    public AbstractPiece getNextPiece() {
+        return nextPiece;
+    }
 
     public void moveLeft(){
       activePiece.movePieceLeft();
@@ -81,6 +87,8 @@ public class Gamefield extends View {
         boolean hasMovedDown = activePiece.movePieceDown();
         if(!hasMovedDown) {
             checkLine();
+            activePiece.reset();
+            activePiece.addPiece(nextPiece);
             createRandomNextPiece();
             boolean addedSuccessfully = activePiece.addToGrid();
             if (!addedSuccessfully) {
