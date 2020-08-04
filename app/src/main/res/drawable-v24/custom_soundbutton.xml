@@ -6,7 +6,7 @@
         android:drawable="@drawable/sound_button_on"/>
     <item
         android:state_pressed="true"
-        android:drawable="@drawable/sound_button_pressed"/>
+        android:drawable="@drawable/sound_button_on"/>
     <item
         android:state_selected="true"
         android:drawable="@drawable/sound_button_off"/>
