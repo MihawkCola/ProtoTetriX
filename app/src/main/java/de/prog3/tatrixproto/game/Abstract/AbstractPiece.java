@@ -34,4 +34,7 @@ public abstract class AbstractPiece {
     }
     public void setImage(Bitmap image) {this.image=image;}
 
+    public int getSizeD2() {
+        return sizeD2;
     }
+}

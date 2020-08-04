@@ -1,6 +1,8 @@
 package de.prog3.tatrixproto.game.Class;
 
 
+import android.util.Log;
+
 import de.prog3.tatrixproto.game.Abstract.AbstractPiece;
 
 
@@ -18,10 +20,21 @@ public class ActivePiece {
         this.x = (grid.length/2)-1;
         this.xAusPunkt = x;
         y = 0;
-
     }
     public void addPiece(AbstractPiece piece){
         this.piece = piece;
+        boolean check = true;
+        this.x = (grid.length/2)-(int)piece.getSizeD2()/2;
+        for (int k = 0; k < piece.getSizeD2();k++) {
+            for (int i = 0; i < piece.getSizeD2(); i++) {
+                check = check && !piece.getBlocks()[i][k];
+            }
+            if (check) {
+                y--;
+            } else {
+                return;
+            }
+        }
     }
     public void reset(){
         y=0;
@@ -110,7 +123,7 @@ public class ActivePiece {
      * Add this piece to the grid
      */
     public boolean addToGrid() {
-
+        boolean end = true;
         for (int i = 0; i <piece.getBlocks().length;i++){
             for (int k = 0; k <piece.getBlocks()[i].length;k++){
                 if(piece.getBlocks()[i][k]) {
@@ -118,15 +131,14 @@ public class ActivePiece {
                             && y+k >=0 && y+k < grid[0].length) {
                         Block blockBelow = grid[x + i][y + k];
                         if (blockBelow.isActive()) {
-                            return false;
+                            end =false;
                         }
                     }else {return false;}
                 }
             }
         }
-
         updateGrid(this.piece);
-        return true;
+        return end;
     }
     /**
      * Remove this piece from the grid

@@ -38,6 +38,7 @@ public class Block {
             Paint paint = new Paint();
             if(piece.colorOn) {
                 paint.setColorFilter(new PorterDuffColorFilter(piece.getColor(), PorterDuff.Mode.SRC_IN));
+                piece.setImage(Bitmap.createScaledBitmap(piece.getImage(), size,size,false));
                 canvas.drawBitmap(image, x, y, paint);
             }else {
                 if (piece.getImage().getWidth() != size) {
