@@ -38,6 +38,7 @@ public class GameView extends View {
         // invalidate the view to draw it again
         //this.invalidate();
     }
+    public int getScore(){return gamefield.score;}
     public String onTextScore(){return gamefield.getScore();}
     public void onButtonLeftClicked(){
         if (!gamefield.isFinished){gamefield.moveLeft();}

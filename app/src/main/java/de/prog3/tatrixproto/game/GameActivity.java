@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import de.prog3.tatrixproto.R;
 import de.prog3.tatrixproto.game.Class.Gamefield;
+import de.prog3.tatrixproto.game.db.DatabaseHelper;
 
 
 public class GameActivity extends AppCompatActivity {
@@ -23,9 +24,11 @@ public class GameActivity extends AppCompatActivity {
     private GameView gameview;
     private Handler handler = new Handler();
     private Boolean isPlaying = true;
+    private DatabaseHelper mydb;
 
     private ImageButton buttonL, buttonR, buttonD, buttonRot, soundButton;
     private TextView score;
+    private TextView highscore;
 
     MediaPlayer mediaPlayer;
 
@@ -48,8 +51,10 @@ public class GameActivity extends AppCompatActivity {
         buttonR = findViewById(R.id.Button_Right);
         buttonD = findViewById(R.id.Button_Down);
         buttonRot = findViewById(R.id.Button_Rotation);
+        highscore = findViewById(R.id.HighScore);
 
-
+        mydb = new DatabaseHelper(this);
+        highscore.setText(String.format("%06d",mydb.getHighScore()));
         gameview = new GameView(this);
         LinearLayout layout1 = (LinearLayout) findViewById(R.id.game);
         layout1.addView(gameview);
@@ -63,6 +68,7 @@ public class GameActivity extends AppCompatActivity {
                         if(gameview.nextFrame()){
                         score.setText(gameview.onTextScore());
                         }else {
+                            mydb.insertData(gameview.onTextScore());
                             score.setText("ENDE"); //TODO END Screen DB Score
                         }
 
