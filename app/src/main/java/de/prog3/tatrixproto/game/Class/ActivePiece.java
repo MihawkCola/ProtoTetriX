@@ -25,6 +25,7 @@ public class ActivePiece {
         this.piece = piece;
         boolean check = true;
         this.x = (grid.length/2)-(int)piece.getSizeD2()/2;
+
         for (int k = 0; k < piece.getSizeD2();k++) {
             for (int i = 0; i < piece.getSizeD2(); i++) {
                 check = check && !piece.getBlocks()[i][k];
@@ -32,7 +33,20 @@ public class ActivePiece {
             if (check) {
                 y--;
             } else {
-                return;
+                break;
+            }
+        }
+
+        check = true;
+        for (int k = piece.getSizeD2()-1; k >=0;k--) {
+            for (int i = 0; i < piece.getSizeD2(); i++) {
+                if (x+i >= 0 && y+k >=0 ) {
+                    if (piece.getBlocks()[i][k] && grid[i+x][k+y].isActive()){
+                        Log.d("Game","hi");
+                        y--;
+                        i=0;
+                    }
+                }
             }
         }
     }
@@ -133,7 +147,7 @@ public class ActivePiece {
                         if (blockBelow.isActive()) {
                             end =false;
                         }
-                    }else {return false;}
+                    }else {end=false;}
                 }
             }
         }
@@ -150,7 +164,10 @@ public class ActivePiece {
         for (int i = 0; i <this.piece.getBlocks().length;i++){
             for (int k = 0; k <this.piece.getBlocks()[i].length;k++){
                 if (this.piece.getBlocks()[i][k]) {
-                    grid[x + i][y + k].setPiece(piece);
+                    if (x+i >= 0 && x+i < grid.length
+                            && y+k >=0 && y+k < grid[0].length) {
+                        grid[x + i][y + k].setPiece(piece);
+                    }
                 }
 
             }
