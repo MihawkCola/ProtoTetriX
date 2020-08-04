@@ -33,6 +33,7 @@
         android:id="@+id/Button_Sound"
         android:layout_width="62dp"
         android:layout_height="62dp"
+        android:layout_marginRight="35dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:background="@drawable/custom_soundbutton"
