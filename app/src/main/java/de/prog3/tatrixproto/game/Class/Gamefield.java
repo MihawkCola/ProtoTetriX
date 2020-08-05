@@ -63,7 +63,7 @@ public class Gamefield extends View {
         activePiece = new ActivePiece(grid);
 
         createRandomNextPiece();
-        activePiece.addPiece(nextPiece);
+        activePiece.addPiece(nextPiece.getPiece());
         createRandomNextPiece();
         activePiece.addToGrid();
     }
@@ -71,7 +71,7 @@ public class Gamefield extends View {
     public void createRandomNextPiece() {
         int k = ThreadLocalRandom.current().nextInt(0, list.size());
         nextPiece = list.get(k);
-        nextField.addPiece(nextPiece);
+        nextField.addPiece(nextPiece.getPiece());
     }
 
 
@@ -98,7 +98,7 @@ public class Gamefield extends View {
                 score = score + scoreCount * bonusPunkte;
             }
             activePiece.resetP();
-            activePiece.addPiece(nextPiece);
+            activePiece.addPiece(nextPiece.getPiece());
             createRandomNextPiece();
             boolean addedSuccessfully = activePiece.addToGrid();
             if (!addedSuccessfully) {
@@ -163,12 +163,12 @@ public class Gamefield extends View {
         }
         this.score = 0;
         this.isFinished = false;
-        nextField.reset();
+        nextField.clear();
         nextPiece = null;
         activePiece.clear();
         activePiece.resetP();
         createRandomNextPiece();
-        activePiece.addPiece(nextPiece);
+        activePiece.addPiece(nextPiece.getPiece());
         createRandomNextPiece();
     }
 
