@@ -222,7 +222,9 @@
             android:layout_marginTop="20dp"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/next"></LinearLayout>
+            app:layout_constraintTop_toTopOf="@+id/next">
+
+        </LinearLayout>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,16 +1,18 @@
 package de.prog3.tatrixproto.game.db;
 
-import android.annotation.SuppressLint;
 import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.content.Context;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static String DB_NAME = "Highscore.db";
     private static String TABLE_NAME = "Highscore_t";
-    private static String COL_1 = "Highscore";
+    private static String COL_0 = "SpielID";
+    private static String COL_1 = "Nick";
+    private static String COL_2 = "Score";
+
 
 
     public DatabaseHelper(Context context) {
@@ -19,7 +21,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE " + TABLE_NAME + " (" + COL_1 + " INT)");
+        db.execSQL("CREATE TABLE " + TABLE_NAME + " ( "
+                + COL_0 + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
+                + COL_1 + " TEXT, "
+                + COL_2 + " INT )"
+
+        );
     }
 
     @Override
@@ -28,10 +35,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public boolean insertData(String highscore) {
+    public boolean insertData(String nick, String score) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(COL_1, highscore);
+        contentValues.put(COL_1, nick);
+        contentValues.put(COL_2, score);
 
         long result = db.insert(TABLE_NAME, null, contentValues);
 
@@ -46,7 +54,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public int getHighScore() {
         SQLiteDatabase db = this.getWritableDatabase();
 
-        Cursor result = db.rawQuery("select max(Highscore) from highscore_t",null);
+        Cursor result = db.rawQuery("select max(Score) from highscore_t",null);
         result.moveToFirst();
         int highscore = result.getInt(0);
         return highscore;
