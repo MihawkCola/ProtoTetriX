@@ -61,7 +61,7 @@ public class NextGamefield extends View {
             blockSize = width / WIDTH;
             // Spielfeld ist höher als breit
         }
-        x = (width - blockSize * WIDTH) / 2; // centrieren
+        x = (width - blockSize * WIDTH) / 2; // zentrieren
 
         // draw blocks
         for (int i = 0; i < grid.length; i++) {

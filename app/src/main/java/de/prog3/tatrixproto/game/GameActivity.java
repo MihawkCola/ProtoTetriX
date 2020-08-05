@@ -6,10 +6,12 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.media.MediaPlayer;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -18,6 +20,7 @@ import java.util.concurrent.locks.Condition;
 import de.prog3.tatrixproto.R;
 import de.prog3.tatrixproto.game.Class.Gamefield;
 import de.prog3.tatrixproto.game.Class.NextGamefield;
+import de.prog3.tatrixproto.game.Class.PopupDialog;
 import de.prog3.tatrixproto.game.db.DatabaseHelper;
 
 
@@ -25,20 +28,21 @@ public class GameActivity extends AppCompatActivity {
     public int speed = 1;
     public int boostetSpeed = 20;
     public int normalSpeed = speed;
+
     private Gamefield gamefield;
     private Handler handler = new Handler();
     private Boolean isPlaying = true;
     private DatabaseHelper mydb;
     NextGamefield nextField;
+    PopupDialog popupDialog;
+    MediaPlayer mediaPlayer;
     boolean stop;
 
     private ImageButton buttonL, buttonR, buttonD, buttonRot, soundButton;
     private TextView score;
     private TextView highscore;
 
-    private boolean start;
 
-    MediaPlayer mediaPlayer;
 
 
 
@@ -49,16 +53,14 @@ public class GameActivity extends AppCompatActivity {
         setContentView(R.layout.activity_game);
 
         score = findViewById(R.id.Score);
-        start=true;
+
 
         nextField = new NextGamefield(this);
         LinearLayout layout2 = (LinearLayout) findViewById(R.id.NextField);
         layout2.addView(nextField);
 
         // Hide the status bar.
-        View decorView = getWindow().getDecorView();
-        int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
-        decorView.setSystemUiVisibility(uiOptions);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         buttonL = findViewById(R.id.Button_Left);
         buttonR = findViewById(R.id.Button_Right);
@@ -67,30 +69,28 @@ public class GameActivity extends AppCompatActivity {
         highscore = findViewById(R.id.HighScore);
 
         mydb = new DatabaseHelper(this);
-        highscore.setText(String.format("%06d",mydb.getHighScore()));
-        gamefield = new Gamefield(this,nextField);
+        highscore.setText(String.format("%06d", mydb.getHighScore()));
+        gamefield = new Gamefield(this, nextField);
         LinearLayout layout1 = (LinearLayout) findViewById(R.id.game);
         layout1.addView(gamefield);
 
         final Runnable nextFrameRunnable = new Runnable() {
             @Override
             public void run() {
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        if(!stop){
-
-                            if(gamefield.nextFrame()){
+                if (!stop) {
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (gamefield.nextFrame()) {
                                 score.setText(gamefield.getScore());
-                            }else {
-                                mydb.insertData(gamefield.getScore());
-                                score.setText("ENDE"); //TODO END Screen DB Score
+                            } else {
+                                stop=true;
+                                endGame();
                             }
-
                         }
-                    }
-                });
-                gamefield.postDelayed(this, 1000 / speed);
+                    });
+                    gamefield.postDelayed(this, 1000 / speed);
+                }
             }
         };
 
@@ -100,7 +100,7 @@ public class GameActivity extends AppCompatActivity {
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
-                        if(!stop) {
+                        if (!stop) {
                             gamefield.invalidate();
                             nextField.invalidate();
                         }
@@ -127,20 +127,26 @@ public class GameActivity extends AppCompatActivity {
         buttonRot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!gamefield.isFinished){gamefield.rotate();}
+                if (!gamefield.isFinished) {
+                    gamefield.rotate();
+                }
             }
         });
         buttonR.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!gamefield.isFinished){gamefield.moveRight();}
+                if (!gamefield.isFinished) {
+                    gamefield.moveRight();
+                }
             }
         });
 
         buttonL.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!gamefield.isFinished){gamefield.moveLeft();}
+                if (!gamefield.isFinished) {
+                    gamefield.moveLeft();
+                }
             }
         });
 
@@ -159,18 +165,13 @@ public class GameActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        stop=true;
-        if (mediaPlayer.isPlaying()) {
-            isPlaying = true;
-        } else {
-            isPlaying = false;
-        }
-        mediaPlayer.pause();
+        stop = true;
+        handleSound();
     }
 
     @Override
     protected void onResume() {
-        stop=false;
+        stop = false;
         super.onResume();
         if (isPlaying) {
             mediaPlayer.start();
@@ -186,6 +187,21 @@ public class GameActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
+
+    }
+
+    //End Game popup
+    //TODO MediaPlayer settings file.
+    private void endGame() {
+        mediaPlayer.stop();
+        popupDialog = new PopupDialog(this,gamefield);
+        popupDialog.showPopup();
+
+        if (mydb.insertData("56tes", gamefield.getScore())) {
+            Toast.makeText(this, "Sucessful", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "NOT Sucessful", Toast.LENGTH_SHORT).show();
+        }
 
     }
 
@@ -206,5 +222,14 @@ public class GameActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void handleSound(){
+        if (mediaPlayer.isPlaying()) {
+            isPlaying = true;
+        } else {
+            isPlaying = false;
+        }
+        mediaPlayer.pause();
     }
 }

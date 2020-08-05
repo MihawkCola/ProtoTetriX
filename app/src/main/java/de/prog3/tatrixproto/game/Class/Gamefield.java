@@ -37,7 +37,7 @@ public class Gamefield extends View {
 
     public boolean isFinished = false;
 
-    public Gamefield(Context context,NextGamefield nextField) {
+    public Gamefield(Context context, NextGamefield nextField) {
         super(context);
 
         this.nextField = nextField;
@@ -45,8 +45,8 @@ public class Gamefield extends View {
         score = 0;
         bonusPunkte = 50;
 
-        for (int i = 0; i < grid.length; i++){
-            for (int k = 0; k < grid[i].length; k++){
+        for (int i = 0; i < grid.length; i++) {
+            for (int k = 0; k < grid[i].length; k++) {
                 grid[i][k] = new Block();
             }
         }
@@ -68,31 +68,34 @@ public class Gamefield extends View {
         activePiece.addToGrid();
     }
 
-    public void createRandomNextPiece(){
+    public void createRandomNextPiece() {
         int k = ThreadLocalRandom.current().nextInt(0, list.size());
         nextPiece = list.get(k);
         nextField.addPiece(nextPiece);
     }
 
 
-
-    public void moveLeft(){
-      activePiece.movePieceLeft();
+    public void moveLeft() {
+        activePiece.movePieceLeft();
     }
-    public void moveRight(){
+
+    public void moveRight() {
         activePiece.movePieceRight();
     }
-    public void rotate(){ activePiece.rotatePiece();}
+
+    public void rotate() {
+        activePiece.rotatePiece();
+    }
 
     public boolean nextFrame() {
         if (isFinished) return false;
 
         boolean hasMovedDown = activePiece.movePieceDown();
-        if(!hasMovedDown) {
-            int scoreCount= checkLine();
-            if (1 < scoreCount){
+        if (!hasMovedDown) {
+            int scoreCount = checkLine();
+            if (1 < scoreCount) {
                 scoreCount--;
-                score=score+scoreCount*bonusPunkte;
+                score = score + scoreCount * bonusPunkte;
             }
             activePiece.resetP();
             activePiece.addPiece(nextPiece);
@@ -107,16 +110,16 @@ public class Gamefield extends View {
     }
 
     private int checkLine() {
-        int scoreCount =0;
-        for (int k = HEIGHT-1; k >= 0; k--) {
+        int scoreCount = 0;
+        for (int k = HEIGHT - 1; k >= 0; k--) {
             int count = 0;
             for (int i = 0; i < grid.length; i++) {
-                if(grid[i][k].isActive()){
+                if (grid[i][k].isActive()) {
                     count++;
                 }
             }
-            if(count==WIDTH){
-                score= score+100;
+            if (count == WIDTH) {
+                score = score + 100;
                 removeGridLine(k);
                 moveGridDown(k);
                 scoreCount++;
@@ -128,12 +131,12 @@ public class Gamefield extends View {
 
     private void moveGridDown(int y) {
         y--;
-        for (int k = y;k >= 0; k--){
+        for (int k = y; k >= 0; k--) {
             for (int i = 0; i < grid.length; i++) {
-               if(grid[i][k].isActive()){
-                   grid[i][k+1].setPiece(grid[i][k].getPiece());
-                   grid[i][k].setPiece(null);
-               }
+                if (grid[i][k].isActive()) {
+                    grid[i][k + 1].setPiece(grid[i][k].getPiece());
+                    grid[i][k].setPiece(null);
+                }
             }
         }
     }
@@ -145,24 +148,30 @@ public class Gamefield extends View {
     }
 
     public String getScore() {
-        return String.format("%06d",score);
+        return String.format("%06d", score);
     }
-    public void reset(){
-        for (int i = 0; i < grid.length; i++){
-            for (int k = 0; k < grid[i].length; k++){
+
+    public int getScoreInt() {
+        return score;
+    }
+
+    public void reset() {
+        for (int i = 0; i < grid.length; i++) {
+            for (int k = 0; k < grid[i].length; k++) {
                 grid[i][k].clear();
             }
         }
         this.score = 0;
-        this.isFinished=false;
+        this.isFinished = false;
         nextField.reset();
-        nextPiece=null;
+        nextPiece = null;
         activePiece.clear();
         activePiece.resetP();
         createRandomNextPiece();
         activePiece.addPiece(nextPiece);
         createRandomNextPiece();
     }
+
     @Override
     public void draw(Canvas canvas) {
         super.draw(canvas);
@@ -196,7 +205,7 @@ public class Gamefield extends View {
         // draw blocks
         for (int i = 0; i < grid.length; i++) {
             for (int k = 0; k < grid[i].length; k++) {
-                grid[i][k].draw(canvas, x + (i * blockSize), y + (k * blockSize), blockSize,null);
+                grid[i][k].draw(canvas, x + (i * blockSize), y + (k * blockSize), blockSize, null);
             }
         }
     }
