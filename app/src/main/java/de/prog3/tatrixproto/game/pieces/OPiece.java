@@ -7,8 +7,8 @@ import de.prog3.tatrixproto.game.Abstract.AbstractPiece;
 
 public class OPiece extends AbstractPiece {
 
-    public OPiece(Bitmap image, boolean colorOn) {
-        super(4, image,Color.parseColor("#00ffff"),colorOn);
+    public OPiece(Bitmap image) {
+        super(4, image);
 
         this.blocks[1][1] = true;
         this.blocks[1][2] = true;

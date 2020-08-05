@@ -6,8 +6,8 @@ import android.graphics.Color;
 import de.prog3.tatrixproto.game.Abstract.AbstractPiece;
 
 public class ZPieceLeft extends AbstractPiece {
-    public ZPieceLeft(Bitmap image, boolean colorOn) {
-        super(3, image,Color.parseColor("#00ff00"),colorOn);
+    public ZPieceLeft(Bitmap image) {
+        super(3, image);
 
         this.blocks[1][0] = true;
         this.blocks[2][0] = true;

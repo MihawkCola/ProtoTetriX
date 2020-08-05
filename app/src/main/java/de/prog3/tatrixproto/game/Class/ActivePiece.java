@@ -50,6 +50,11 @@ public class ActivePiece {
             }
         }
     }
+    public void addPiece(AbstractPiece piece,int x, int y){
+        this.piece = piece;
+        this.x = x;
+        this.y = y;
+    }
     public void reset(){
         y=0;
         x= xAusPunkt;
@@ -157,10 +162,10 @@ public class ActivePiece {
     /**
      * Remove this piece from the grid
      */
-    private void removeFromGrid() {
+    public void removeFromGrid() {
         updateGrid(null);
     }
-    private void updateGrid(AbstractPiece piece){
+    public void updateGrid(AbstractPiece piece){
         for (int i = 0; i <this.piece.getBlocks().length;i++){
             for (int k = 0; k <this.piece.getBlocks()[i].length;k++){
                 if (this.piece.getBlocks()[i][k]) {

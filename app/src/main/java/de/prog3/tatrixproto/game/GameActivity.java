@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import de.prog3.tatrixproto.R;
 import de.prog3.tatrixproto.game.Class.Gamefield;
+import de.prog3.tatrixproto.game.Class.NextGamefield;
 import de.prog3.tatrixproto.game.db.DatabaseHelper;
 
 
@@ -25,10 +26,13 @@ public class GameActivity extends AppCompatActivity {
     private Handler handler = new Handler();
     private Boolean isPlaying = true;
     private DatabaseHelper mydb;
+    NextGamefield nextField;
 
     private ImageButton buttonL, buttonR, buttonD, buttonRot, soundButton;
     private TextView score;
     private TextView highscore;
+
+    private boolean start;
 
     MediaPlayer mediaPlayer;
 
@@ -41,6 +45,11 @@ public class GameActivity extends AppCompatActivity {
         setContentView(R.layout.activity_game);
 
         score = findViewById(R.id.Score);
+        start=true;
+
+        nextField = new NextGamefield(this);
+        LinearLayout layout2 = (LinearLayout) findViewById(R.id.NextField);
+        layout2.addView(nextField);
 
         // Hide the status bar.
         View decorView = getWindow().getDecorView();
@@ -55,7 +64,7 @@ public class GameActivity extends AppCompatActivity {
 
         mydb = new DatabaseHelper(this);
         highscore.setText(String.format("%06d",mydb.getHighScore()));
-        gamefield = new Gamefield(this);
+        gamefield = new Gamefield(this,nextField);
         LinearLayout layout1 = (LinearLayout) findViewById(R.id.game);
         layout1.addView(gamefield);
 
@@ -85,6 +94,7 @@ public class GameActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         gamefield.invalidate();
+                        nextField.invalidate();
                     }
                 });
                 gamefield.postDelayed(this, 1000 / 60);

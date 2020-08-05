@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -27,6 +28,7 @@ public class Gamefield extends View {
     private ArrayList<AbstractPiece> list;
     private AbstractPiece nextPiece;
 
+    NextGamefield nextField;
     // Tetris Grid 10x21
     Block grid[][] = new Block[WIDTH][HEIGHT];
     ActivePiece activePiece;
@@ -35,27 +37,26 @@ public class Gamefield extends View {
 
     public boolean isFinished = false;
 
-    public Gamefield(Context context) {
+    public Gamefield(Context context,NextGamefield nextField) {
         super(context);
+        this.nextField = nextField;
+        Paint paint = new Paint();
         gamefieldBackground = BitmapFactory.decodeResource(context.getResources(), R.drawable.gamefield);
         score =0;
-        Bitmap tmp = BitmapFactory.decodeResource(context.getResources(), R.drawable.square_white);
         for (int i = 0; i < grid.length; i++){
             for (int k = 0; k < grid[i].length; k++){
-                Bitmap form;
-                form = tmp;
-
-                grid[i][k] = new Block(form);
+                grid[i][k] = new Block();
             }
         }
         list = new ArrayList<AbstractPiece>();
-        list.add(new LPieceLeft(BitmapFactory.decodeResource(context.getResources(), R.drawable.syellow),false));
-        list.add(new LongPiece(BitmapFactory.decodeResource(context.getResources(), R.drawable.sblue),false));
-        list.add(new LPieceRight(BitmapFactory.decodeResource(context.getResources(), R.drawable.scyan),false));
-        list.add(new OPiece(BitmapFactory.decodeResource(context.getResources(), R.drawable.sgreen),false));
-        list.add(new TPiece(BitmapFactory.decodeResource(context.getResources(), R.drawable.sorange),false));
-        list.add(new ZPieceLeft(BitmapFactory.decodeResource(context.getResources(), R.drawable.spurple),false));
-        list.add(new ZPieceRight(BitmapFactory.decodeResource(context.getResources(), R.drawable.sred),false));
+        list.add(new LPieceLeft(BitmapFactory.decodeResource(context.getResources(), R.drawable.syellow)));
+        list.add(new LongPiece(BitmapFactory.decodeResource(context.getResources(), R.drawable.sblue)));
+        list.add(new LPieceRight(BitmapFactory.decodeResource(context.getResources(), R.drawable.scyan)));
+        list.add(new OPiece(BitmapFactory.decodeResource(context.getResources(), R.drawable.sgreen)));
+        list.add(new TPiece(BitmapFactory.decodeResource(context.getResources(), R.drawable.sorange)));
+        list.add(new ZPieceLeft(BitmapFactory.decodeResource(context.getResources(), R.drawable.spurple)));
+        list.add(new ZPieceRight(BitmapFactory.decodeResource(context.getResources(), R.drawable.sred)));
+
         activePiece = new ActivePiece(grid);
 
         createRandomNextPiece();
@@ -67,6 +68,7 @@ public class Gamefield extends View {
     public void createRandomNextPiece(){
         int k = ThreadLocalRandom.current().nextInt(0, list.size());
         nextPiece = list.get(k);
+        nextField.addPiece(nextPiece);
     }
 
     public AbstractPiece getNextPiece() {
@@ -170,7 +172,7 @@ public class Gamefield extends View {
         // draw blocks
         for (int i = 0; i < grid.length; i++) {
             for (int k = 0; k < grid[i].length; k++) {
-                grid[i][k].draw(canvas, x + (i * blockSize), y + (k * blockSize), blockSize);
+                grid[i][k].draw(canvas, x + (i * blockSize), y + (k * blockSize), blockSize,null);
             }
         }
     }
