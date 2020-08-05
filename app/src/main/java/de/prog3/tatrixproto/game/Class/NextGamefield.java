@@ -36,6 +36,14 @@ public class NextGamefield extends View {
         activ.addPiece(piece,0,0);
         activ.addToGrid();
     }
+    public void reset(){
+        nextPiece=null;
+        for (int i = 0; i < WIDTH;i++){
+            for (int k = 0; k < HEIGHT;k++){
+                grid[i][k].clear();
+            }
+        }
+    }
     @Override
     public void draw(Canvas canvas) {
         super.draw(canvas);

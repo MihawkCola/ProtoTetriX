@@ -28,7 +28,7 @@ public class Block {
     public void draw(Canvas canvas, int x , int y, int size,Paint paint){
         if(piece != null){
             if (piece.getImage().getWidth() != size) {
-                piece.setImage(Bitmap.createScaledBitmap(piece.getImage(), size,size,false));
+                piece.setImage(Bitmap.createScaledBitmap(piece.getImage(), size,size,false));//TODO Problem
             }
             canvas.drawBitmap(piece.getImage(), x, y, paint);
         }

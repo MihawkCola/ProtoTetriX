@@ -13,6 +13,8 @@ import android.media.MediaPlayer;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.concurrent.locks.Condition;
+
 import de.prog3.tatrixproto.R;
 import de.prog3.tatrixproto.game.Class.Gamefield;
 import de.prog3.tatrixproto.game.Class.NextGamefield;
@@ -28,7 +30,7 @@ public class GameActivity extends AppCompatActivity {
     private Boolean isPlaying = true;
     private DatabaseHelper mydb;
     NextGamefield nextField;
-    Paint p;
+    boolean stop;
 
     private ImageButton buttonL, buttonR, buttonD, buttonRot, soundButton;
     private TextView score;
@@ -76,15 +78,16 @@ public class GameActivity extends AppCompatActivity {
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
-                        p = new Paint();
-                        if(gamefield.nextFrame()){
-                        score.setText(gamefield.getScore());
-                        }else {
-                            mydb.insertData(gamefield.getScore());
-                            score.setText("ENDE"); //TODO END Screen DB Score
+                        if(!stop){
+
+                            if(gamefield.nextFrame()){
+                                score.setText(gamefield.getScore());
+                            }else {
+                                mydb.insertData(gamefield.getScore());
+                                score.setText("ENDE"); //TODO END Screen DB Score
+                            }
+
                         }
-
-
                     }
                 });
                 gamefield.postDelayed(this, 1000 / speed);
@@ -97,8 +100,10 @@ public class GameActivity extends AppCompatActivity {
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
-                        gamefield.invalidate();
-                        nextField.invalidate();
+                        if(!stop) {
+                            gamefield.invalidate();
+                            nextField.invalidate();
+                        }
                     }
                 });
                 gamefield.postDelayed(this, 1000 / 60);
@@ -131,6 +136,7 @@ public class GameActivity extends AppCompatActivity {
                 if (!gamefield.isFinished){gamefield.moveRight();}
             }
         });
+
         buttonL.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -148,13 +154,12 @@ public class GameActivity extends AppCompatActivity {
         mediaPlayer.setLooping(true);
 
         turnSound();
-
-
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+        stop=true;
         if (mediaPlayer.isPlaying()) {
             isPlaying = true;
         } else {
@@ -165,6 +170,7 @@ public class GameActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
+        stop=false;
         super.onResume();
         if (isPlaying) {
             mediaPlayer.start();

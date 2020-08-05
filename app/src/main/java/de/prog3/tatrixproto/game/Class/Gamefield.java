@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Paint;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -25,6 +24,7 @@ public class Gamefield extends View {
     public static final int WIDTH = 10;
     public static final int HEIGHT = 20;
     public int score;
+    private int bonusPunkte;
     private ArrayList<AbstractPiece> list;
     private AbstractPiece nextPiece;
 
@@ -39,15 +39,18 @@ public class Gamefield extends View {
 
     public Gamefield(Context context,NextGamefield nextField) {
         super(context);
+
         this.nextField = nextField;
-        Paint paint = new Paint();
         gamefieldBackground = BitmapFactory.decodeResource(context.getResources(), R.drawable.gamefield);
-        score =0;
+        score = 0;
+        bonusPunkte = 50;
+
         for (int i = 0; i < grid.length; i++){
             for (int k = 0; k < grid[i].length; k++){
                 grid[i][k] = new Block();
             }
         }
+
         list = new ArrayList<AbstractPiece>();
         list.add(new LPieceLeft(BitmapFactory.decodeResource(context.getResources(), R.drawable.syellow)));
         list.add(new LongPiece(BitmapFactory.decodeResource(context.getResources(), R.drawable.sblue)));
@@ -71,9 +74,7 @@ public class Gamefield extends View {
         nextField.addPiece(nextPiece);
     }
 
-    public AbstractPiece getNextPiece() {
-        return nextPiece;
-    }
+
 
     public void moveLeft(){
       activePiece.movePieceLeft();
@@ -88,8 +89,12 @@ public class Gamefield extends View {
 
         boolean hasMovedDown = activePiece.movePieceDown();
         if(!hasMovedDown) {
-            checkLine();
-            activePiece.reset();
+            int scoreCount= checkLine();
+            if (1 < scoreCount){
+                scoreCount--;
+                score=score+scoreCount*bonusPunkte;
+            }
+            activePiece.resetP();
             activePiece.addPiece(nextPiece);
             createRandomNextPiece();
             boolean addedSuccessfully = activePiece.addToGrid();
@@ -101,7 +106,8 @@ public class Gamefield extends View {
         return true;
     }
 
-    private void checkLine() {
+    private int checkLine() {
+        int scoreCount =0;
         for (int k = HEIGHT-1; k >= 0; k--) {
             int count = 0;
             for (int i = 0; i < grid.length; i++) {
@@ -113,9 +119,11 @@ public class Gamefield extends View {
                 score= score+100;
                 removeGridLine(k);
                 moveGridDown(k);
+                scoreCount++;
                 k++;
             }
         }
+        return scoreCount;
     }
 
     private void moveGridDown(int y) {
@@ -138,6 +146,22 @@ public class Gamefield extends View {
 
     public String getScore() {
         return String.format("%06d",score);
+    }
+    public void reset(){
+        for (int i = 0; i < grid.length; i++){
+            for (int k = 0; k < grid[i].length; k++){
+                grid[i][k].clear();
+            }
+        }
+        this.score = 0;
+        this.isFinished=false;
+        nextField.reset();
+        nextPiece=null;
+        activePiece.clear();
+        activePiece.resetP();
+        createRandomNextPiece();
+        activePiece.addPiece(nextPiece);
+        createRandomNextPiece();
     }
     @Override
     public void draw(Canvas canvas) {

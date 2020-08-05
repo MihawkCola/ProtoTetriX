@@ -5,7 +5,7 @@ import android.graphics.Bitmap;
 public abstract class AbstractPiece {
     protected boolean blocks[][];
     protected Bitmap image;
-    protected   boolean pre[][];
+    protected boolean pre[][];
     protected int sizeD2;
     public AbstractPiece(int sizeD2,Bitmap image){
         blocks = new boolean[sizeD2][sizeD2];

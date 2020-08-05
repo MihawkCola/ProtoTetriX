@@ -54,9 +54,12 @@ public class ActivePiece {
         this.x = x;
         this.y = y;
     }
-    public void reset(){
+    public void resetP(){
         y=0;
         x= xAusPunkt;
+    }
+    public void clear(){
+        piece=null;
     }
 
 
