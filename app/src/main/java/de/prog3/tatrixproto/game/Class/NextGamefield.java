@@ -27,7 +27,11 @@ public class NextGamefield extends View {
         activ.addPiece(new EmptyPiece(BitmapFactory.decodeResource(context.getResources(),R.drawable.square_white)));
     }
     public void addPiece(AbstractPiece piece) {
-        this.activ.removeFromGrid();
+        for (int i = 0; i < WIDTH;i++){
+            for (int k = 0; k < HEIGHT;k++){
+                grid[i][k].clear();
+            }
+        }
         this.nextPiece = piece;
         activ.addPiece(piece,0,0);
         activ.addToGrid();

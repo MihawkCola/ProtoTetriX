@@ -34,4 +34,7 @@ public class Block {
         }
 
     }
+    public void clear(){
+        piece = null;
+    };
 }

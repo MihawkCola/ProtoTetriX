@@ -1,6 +1,7 @@
 package de.prog3.tatrixproto.game;
 
 import android.annotation.SuppressLint;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.MotionEvent;
@@ -27,6 +28,7 @@ public class GameActivity extends AppCompatActivity {
     private Boolean isPlaying = true;
     private DatabaseHelper mydb;
     NextGamefield nextField;
+    Paint p;
 
     private ImageButton buttonL, buttonR, buttonD, buttonRot, soundButton;
     private TextView score;
@@ -74,12 +76,14 @@ public class GameActivity extends AppCompatActivity {
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
+                        p = new Paint();
                         if(gamefield.nextFrame()){
                         score.setText(gamefield.getScore());
                         }else {
                             mydb.insertData(gamefield.getScore());
                             score.setText("ENDE"); //TODO END Screen DB Score
                         }
+
 
                     }
                 });

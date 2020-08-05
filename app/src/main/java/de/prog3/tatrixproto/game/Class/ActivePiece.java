@@ -42,7 +42,6 @@ public class ActivePiece {
             for (int i = 0; i < piece.getSizeD2(); i++) {
                 if (x+i >= 0 && y+k >=0 ) {
                     if (piece.getBlocks()[i][k] && grid[i+x][k+y].isActive()){
-                        Log.d("Game","hi");
                         y--;
                         i=0;
                     }
