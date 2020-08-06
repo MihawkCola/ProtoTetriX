@@ -93,8 +93,8 @@ public class GameActivity extends AppCompatActivity {
                             }
                         }
                     });
-                    gamefield.postDelayed(this, 1000 / speed);
                 }
+                gamefield.postDelayed(this, 1000 / speed);
             }
         };
 

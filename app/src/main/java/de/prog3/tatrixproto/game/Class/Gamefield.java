@@ -170,6 +170,7 @@ public class Gamefield extends View {
         createRandomNextPiece();
         activePiece.addPiece(nextPiece.getPiece());
         createRandomNextPiece();
+        activePiece.addToGrid();
     }
 
     @Override
