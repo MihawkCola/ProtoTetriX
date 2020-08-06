@@ -53,11 +53,36 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public int getHighScore() {
         SQLiteDatabase db = this.getWritableDatabase();
-
         Cursor result = db.rawQuery("select max(Score) from highscore_t",null);
         result.moveToFirst();
         int highscore = result.getInt(0);
         return highscore;
+    }
+    public String getName(int n){
+        String name;
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor result = db.rawQuery("select " + COL_1 +" from "+ TABLE_NAME + " Order by "+ COL_2 +" DESC LIMIT 1 OFFSET " + n,null);
+        result.moveToFirst();
+        name = result.getString(0);
+        return name;
+    }
+
+    public String getScore(int n){
+        String score;
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor result = db.rawQuery("select " + COL_2 +" from "+ TABLE_NAME + " Order by "+ COL_2 +" DESC LIMIT 1 OFFSET " + n,null);
+        result.moveToFirst();
+        score = result.getString(0);
+        return score;
+    }
+
+    public String getSecondPlaceName(){
+        String name;
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor result = db.rawQuery("select " + COL_1 +" from "+ TABLE_NAME + " group by "+ COL_1 + " Having max(Score)",null);
+        result.moveToFirst();
+        name = result.getString(0);
+        return name;
     }
 }
 
