@@ -1,3 +1,5 @@
+//Projektarbeit Prog3: Tetris
+//von Nelson Morais (879551) & Marcel Sauer (886022) geschrieben
 package de.prog3.tatrixproto.game.Class;
 
 import android.app.Dialog;
@@ -133,7 +135,7 @@ public class PopupDialog extends Dialog {
 
     @Override
     public void show(){
-        show();
+        super.show();
         score = String.valueOf(gamefield.getScoreInt());
         if(gamefield.getScoreInt()>mydb.getHighScore()){
             yourscore.setText("NEW HIGHSCORE:");
