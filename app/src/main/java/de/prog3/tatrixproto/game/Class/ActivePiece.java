@@ -44,6 +44,7 @@ public class ActivePiece {
                     if (piece.getBlocks()[i][k] && grid[i+x][k+y].isActive()){
                         y--;
                         i=0;
+                        k=piece.getSizeD2()-1;
                     }
                 }
             }
