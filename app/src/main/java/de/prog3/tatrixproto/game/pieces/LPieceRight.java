@@ -14,5 +14,10 @@ public class LPieceRight extends AbstractPiece {
         this.blocks[1][1] = true;
         this.blocks[2][1] = true;
         this.blocks[2][0] = true;
+
+        this.blocksBase[0][1] = true;
+        this.blocksBase[1][1] = true;
+        this.blocksBase[2][1] = true;
+        this.blocksBase[2][0] = true;
     }
 }

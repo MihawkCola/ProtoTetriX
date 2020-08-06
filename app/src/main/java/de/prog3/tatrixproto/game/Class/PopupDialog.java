@@ -112,11 +112,21 @@ public class PopupDialog extends Dialog {
 
 
     }
+    @Override
+    public void show(){
+        super.show();
+        if(gamefield.getScoreInt()>mydb.getHighScore()){
+            yourscore.setText("NEW HIGHSCORE:");
+        }else{
+            yourscore.setText("YOUR SCORE:");
+        }
+        score=gamefield.getScore();
+    }
 
 
 
     private void insetToDb(){
-        boolean isInserted =  mydb.insertData(nicknameInput.getText().toString(),score);
+        boolean isInserted =  mydb.insertData(nicknameInput.getText().toString(),gamefield.getScore());
         if(isInserted){
             Toast.makeText(getContext(), "Score saved", Toast.LENGTH_SHORT).show();
         } else {

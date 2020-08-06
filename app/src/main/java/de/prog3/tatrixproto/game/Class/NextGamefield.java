@@ -36,7 +36,7 @@ public class NextGamefield extends View {
         activ.addPiece(piece,0,0);
         activ.addToGrid();
     }
-    public void reset(){
+    public void clear(){
         nextPiece=null;
         for (int i = 0; i < WIDTH;i++){
             for (int k = 0; k < HEIGHT;k++){
@@ -52,8 +52,8 @@ public class NextGamefield extends View {
         int y = borderoffset;
         int blockSize;
 
-        int width = canvas.getWidth() - borderoffset * 2;
-        int height = canvas.getHeight() - borderoffset * 2;
+        int width = getWidth() - borderoffset * 2;
+        int height = getHeight() - borderoffset * 2;
         if ((width / WIDTH) * HEIGHT > height) {
             blockSize = height / HEIGHT;
             // Spielfeld ist breiter als hoch

@@ -15,5 +15,10 @@ public class OPiece extends AbstractPiece {
         this.blocks[2][1] = true;
         this.blocks[2][2] = true;
 
+        this.blocksBase[1][1] = true;
+        this.blocksBase[1][2] = true;
+        this.blocksBase[2][1] = true;
+        this.blocksBase[2][2] = true;
+
     }
 }
