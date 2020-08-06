@@ -3,6 +3,7 @@
 
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".game.Class.PopupDialog"
     android:layout_width="300dp"
     android:layout_height="475dp"
     android:layout_gravity="center"
@@ -23,7 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="80dp"
-            android:text="@string/your_score"
+            android:text=""
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textColor="#FFFFFF"
             android:textStyle="bold" />
@@ -35,15 +36,16 @@
             android:layout_gravity="center"
             android:padding="5dp"
             android:text="0"
-            android:textColor="#FFFFFF" />
+            android:textColor="#FFFFFF"
+            android:textSize="20sp" />
 
-        <TextView
-            android:id="@+id/newHighscore"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="New Highscore"
-            android:textColor="#FFFFFF" />
+<!--        <TextView-->
+<!--            android:id="@+id/newHighscore"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_gravity="center"-->
+<!--            android:text=""-->
+<!--            android:textColor="#FFFFFF" />-->
 
         <EditText
             android:id="@+id/nicknameInput"
@@ -64,7 +66,7 @@
             android:layout_width="100dp"
             android:layout_height="50dp"
             android:layout_gravity="center"
-            android:background="@drawable/popup_submit" />
+            android:background="@drawable/custom_submit_button" />
 
 
     </LinearLayout>
@@ -196,7 +198,7 @@
                 android:layout_width="100dp"
                 android:layout_height="50dp"
                 android:layout_gravity="center"
-                android:background="@drawable/popup_back"
+                android:background="@drawable/custom_back_button"
                 app:layout_constraintHorizontal_weight="1"
                 tools:ignore="MissingConstraints" />
 
@@ -205,7 +207,7 @@
                 android:layout_width="100dp"
                 android:layout_height="50dp"
                 android:layout_gravity="center"
-                android:background="@drawable/popup_restart"
+                android:background="@drawable/custom_restart_button"
                 app:layout_constraintHorizontal_weight="1"
                 tools:ignore="MissingConstraints" />
 
@@ -214,7 +216,7 @@
                 android:layout_width="100dp"
                 android:layout_height="50dp"
                 android:layout_gravity="center"
-                android:background="@drawable/popup_share"
+                android:background="@drawable/custom_share_button"
                 app:layout_constraintHorizontal_weight="1"
                 tools:ignore="MissingConstraints" />
         </LinearLayout>

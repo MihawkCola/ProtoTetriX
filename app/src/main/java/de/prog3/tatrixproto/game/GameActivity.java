@@ -1,22 +1,21 @@
 package de.prog3.tatrixproto.game;
 
 import android.annotation.SuppressLint;
-import android.graphics.Paint;
+import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.media.MediaPlayer;
-import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
-
-import java.util.concurrent.locks.Condition;
-
 import de.prog3.tatrixproto.R;
 import de.prog3.tatrixproto.game.Class.Gamefield;
 import de.prog3.tatrixproto.game.Class.NextGamefield;
@@ -44,8 +43,6 @@ public class GameActivity extends AppCompatActivity {
 
 
 
-
-
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,11 +65,18 @@ public class GameActivity extends AppCompatActivity {
         buttonRot = findViewById(R.id.Button_Rotation);
         highscore = findViewById(R.id.HighScore);
 
-        mydb = new DatabaseHelper(this);
-        highscore.setText(String.format("%06d", mydb.getHighScore()));
         gamefield = new Gamefield(this, nextField);
+        mydb = new DatabaseHelper(this);
+
+        popupDialog = new PopupDialog(this,gamefield,mydb,this);
+
+        highscore.setText(String.format("%06d", mydb.getHighScore()));
+
         LinearLayout layout1 = (LinearLayout) findViewById(R.id.game);
         layout1.addView(gamefield);
+
+
+
 
         final Runnable nextFrameRunnable = new Runnable() {
             @Override
@@ -112,6 +116,7 @@ public class GameActivity extends AppCompatActivity {
         buttonD.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
+                vibrate();
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     gamefield.removeCallbacks(nextFrameRunnable);
                     speed = boostetSpeed;
@@ -127,6 +132,7 @@ public class GameActivity extends AppCompatActivity {
         buttonRot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                vibrate();
                 if (!gamefield.isFinished) {
                     gamefield.rotate();
                 }
@@ -135,6 +141,7 @@ public class GameActivity extends AppCompatActivity {
         buttonR.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                vibrate();
                 if (!gamefield.isFinished) {
                     gamefield.moveRight();
                 }
@@ -144,6 +151,7 @@ public class GameActivity extends AppCompatActivity {
         buttonL.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                vibrate();
                 if (!gamefield.isFinished) {
                     gamefield.moveLeft();
                 }
@@ -171,6 +179,7 @@ public class GameActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         stop = false;
         super.onResume();
         if (isPlaying) {
@@ -178,10 +187,6 @@ public class GameActivity extends AppCompatActivity {
             soundButton.setSelected(false);
             mediaPlayer.setLooping(true);
         }
-
-        View decorView = getWindow().getDecorView();
-        int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
-        decorView.setSystemUiVisibility(uiOptions);
     }
 
     @Override
@@ -193,16 +198,13 @@ public class GameActivity extends AppCompatActivity {
     //End Game popup
     //TODO MediaPlayer settings file.
     private void endGame() {
-        mediaPlayer.stop();
-        popupDialog = new PopupDialog(this,gamefield);
-        popupDialog.showPopup();
+        handleSound();
+        popupDialog.show();
 
-        if (mydb.insertData("56tes", gamefield.getScore())) {
-            Toast.makeText(this, "Sucessful", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(this, "NOT Sucessful", Toast.LENGTH_SHORT).show();
-        }
+    }
 
+    public void restart(){
+        onResume();
     }
 
 
@@ -232,4 +234,18 @@ public class GameActivity extends AppCompatActivity {
         }
         mediaPlayer.pause();
     }
+
+    //Handle Vibration with SDK < 26 and SDK >= 26
+
+    private void vibrate(){
+        if (Build.VERSION.SDK_INT >= 26) {
+            ((Vibrator) getSystemService(VIBRATOR_SERVICE)).vibrate(VibrationEffect.createOneShot(5, VibrationEffect.DEFAULT_AMPLITUDE));
+        } else {
+            ((Vibrator) getSystemService(VIBRATOR_SERVICE)).vibrate(5);
+        }
+    }
+
+
 }
+
+
