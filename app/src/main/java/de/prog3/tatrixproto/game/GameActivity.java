@@ -199,7 +199,7 @@ public class GameActivity extends AppCompatActivity {
     //TODO MediaPlayer settings file.
     private void endGame() {
         handleSound();
-        popupDialog.show();
+        popupDialog.showPopuo();
 
     }
 
