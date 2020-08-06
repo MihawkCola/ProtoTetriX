@@ -63,7 +63,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor result = db.rawQuery("select " + COL_1 +" from "+ TABLE_NAME + " Order by "+ COL_2 +" DESC LIMIT 1 OFFSET " + n,null);
         result.moveToFirst();
-        name = result.getString(0);
+        if (result.getCount()!=0) {
+            name = result.getString(0);
+        }else {
+            name="";
+        }
         return name;
     }
 
@@ -72,7 +76,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor result = db.rawQuery("select " + COL_2 +" from "+ TABLE_NAME + " Order by "+ COL_2 +" DESC LIMIT 1 OFFSET " + n,null);
         result.moveToFirst();
-        score = result.getString(0);
+        if (result.getCount()!=0) {
+            score = result.getString(0);
+        }else {
+            score="0";
+        }
         return score;
     }
 
@@ -81,7 +89,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor result = db.rawQuery("select " + COL_1 +" from "+ TABLE_NAME + " group by "+ COL_1 + " Having max(Score)",null);
         result.moveToFirst();
-        name = result.getString(0);
+        if (result.getCount()!=0) {
+            name = result.getString(0);
+        }else {
+            name="";
+        }
         return name;
     }
 }
