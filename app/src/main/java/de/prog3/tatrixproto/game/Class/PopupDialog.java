@@ -43,7 +43,7 @@ public class PopupDialog extends Dialog {
         setContentView(R.layout.activity_popup);
         setCancelable(false);
         setCanceledOnTouchOutside(false);
-        score = String.valueOf(gamefield.getScoreInt());
+
 
         //Buttons
         submitButton = findViewById(R.id.popup_submit);
@@ -58,17 +58,7 @@ public class PopupDialog extends Dialog {
         thirdplacename = findViewById(R.id.thirdplacename);
         thirdplacescore = findViewById(R.id.thirdplacescore);
         yourscore = findViewById(R.id.yourScore);
-
-        if(gamefield.getScoreInt()>mydb.getHighScore()){
-            yourscore.setText("NEW HIGHSCORE:");
-        }else{
-            yourscore.setText("YOUR SCORE:");
-        }
-
         finalscore = findViewById(R.id.finalScore);
-        finalscore.setText(score);
-
-        getTop3();
 
 
         //SHARE BUTTON
@@ -119,6 +109,8 @@ public class PopupDialog extends Dialog {
                 dismiss();
             }
         });
+
+
     }
 
 
@@ -140,6 +132,20 @@ public class PopupDialog extends Dialog {
         thirdplacescore.setText(mydb.getScore(2));
         thirdplacename.setText(mydb.getName(2));
     }
+
+    public void showPopuo(){
+        show();
+        score = String.valueOf(gamefield.getScoreInt());
+        if(gamefield.getScoreInt()>mydb.getHighScore()){
+            yourscore.setText("NEW HIGHSCORE:");
+        }else{
+            yourscore.setText("YOUR SCORE:");
+        }
+        finalscore.setText(score);
+        getTop3();
+    }
+
+
 
     //Hide Keyboard on touch outside its scope.
     //Source: https://stackoverflow.com/a/54308582/1375582 by sumit sonawane
