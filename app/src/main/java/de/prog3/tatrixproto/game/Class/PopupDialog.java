@@ -112,18 +112,6 @@ public class PopupDialog extends Dialog {
 
 
     }
-    @Override
-    public void show(){
-        super.show();
-        if(gamefield.getScoreInt()>mydb.getHighScore()){
-            yourscore.setText("NEW HIGHSCORE:");
-        }else{
-            yourscore.setText("YOUR SCORE:");
-        }
-        score=gamefield.getScore();
-    }
-
-
 
     private void insetToDb(){
         boolean isInserted =  mydb.insertData(nicknameInput.getText().toString(),gamefield.getScore());
@@ -143,7 +131,8 @@ public class PopupDialog extends Dialog {
         thirdplacename.setText(mydb.getName(2));
     }
 
-    public void showPopuo(){
+    @Override
+    public void show(){
         show();
         score = String.valueOf(gamefield.getScoreInt());
         if(gamefield.getScoreInt()>mydb.getHighScore()){
@@ -154,8 +143,6 @@ public class PopupDialog extends Dialog {
         finalscore.setText(score);
         getTop3();
     }
-
-
 
     //Hide Keyboard on touch outside its scope.
     //Source: https://stackoverflow.com/a/54308582/1375582 by sumit sonawane

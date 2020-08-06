@@ -76,8 +76,6 @@ public class GameActivity extends AppCompatActivity {
         layout1.addView(gamefield);
 
 
-
-
         final Runnable nextFrameRunnable = new Runnable() {
             @Override
             public void run() {
@@ -192,15 +190,13 @@ public class GameActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-
     }
 
     //End Game popup
     //TODO MediaPlayer settings file.
     private void endGame() {
         handleSound();
-        popupDialog.showPopuo();
-
+        popupDialog.show();
     }
 
     public void restart(){
@@ -235,8 +231,8 @@ public class GameActivity extends AppCompatActivity {
         mediaPlayer.pause();
     }
 
-    //Handle Vibration with SDK < 26 and SDK >= 26
 
+    //Handle Vibration with SDK < 26 and SDK >= 26
     private void vibrate(){
         if (Build.VERSION.SDK_INT >= 26) {
             ((Vibrator) getSystemService(VIBRATOR_SERVICE)).vibrate(VibrationEffect.createOneShot(5, VibrationEffect.DEFAULT_AMPLITUDE));

@@ -25,7 +25,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + COL_0 + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
                 + COL_1 + " TEXT, "
                 + COL_2 + " INT )"
-
         );
     }
 
@@ -59,7 +58,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return highscore;
     }
     public String getName(int n){
-        String name = null;
+        String name;
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor result = db.rawQuery("select " + COL_1 +" from "+ TABLE_NAME + " Order by "+ COL_2 +" DESC LIMIT 1 OFFSET " + n,null);
         result.moveToFirst();
@@ -67,13 +66,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if (result.getCount()!=0) {
             name = result.getString(0);
         }else {
-            name="";
+            name="---";
         }
         return name;
     }
 
     public String getScore(int n){
-        String score = null;
+        String score;
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor result = db.rawQuery("select " + COL_2 +" from "+ TABLE_NAME + " Order by "+ COL_2 +" DESC LIMIT 1 OFFSET " + n,null);
         result.moveToFirst();
