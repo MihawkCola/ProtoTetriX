@@ -101,6 +101,7 @@ public class GameActivity extends AppCompatActivity {
                                 levelUP = 0;
                                 speed = 1;
                                 normalSpeed=1;
+                                mediaPlayer.seekTo(0);
                                 endGame();
                             }
                         }
