@@ -23,6 +23,7 @@ import de.prog3.tatrixproto.game.db.DatabaseHelper;
 public class PopupDialog extends Dialog {
 
     private Gamefield gamefield;
+    private PopupDialog himself;
     private GameActivity gameactivity;
     private DatabaseHelper mydb;
     private Button submitButton, shareButton, restartButton, backButton;
@@ -79,6 +80,7 @@ public class PopupDialog extends Dialog {
             public void onClick(View v){
                 Intent i=new Intent(getContext(), MainActivity.class);
                 i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                himself.dismiss();
                 gameactivity.startActivity(i);
 
             }
@@ -111,7 +113,7 @@ public class PopupDialog extends Dialog {
             }
         });
 
-
+        himself =this;
     }
 
     private void insetToDb(){
