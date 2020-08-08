@@ -5,16 +5,15 @@
 package de.prog3.tatrixproto.game;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -31,6 +30,8 @@ public class GameActivity extends AppCompatActivity {
     public int speed = 1;
     public int boostetSpeed = 20;
     public int normalSpeed = speed;
+    public int speedFactor;
+    public int levelPoint;
 
     private Gamefield gamefield;
     private Handler handler = new Handler();
@@ -40,6 +41,7 @@ public class GameActivity extends AppCompatActivity {
     PopupDialog popupDialog;
     MediaPlayer mediaPlayer;
     boolean stop;
+    int levelUP;
 
     private ImageButton buttonL, buttonR, buttonD, buttonRot, soundButton;
     private TextView score;
@@ -53,6 +55,9 @@ public class GameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
+        this.levelUP = 0;
+        speedFactor = 2;
+        levelPoint = 500;
         score = findViewById(R.id.Score);
 
 
@@ -88,9 +93,14 @@ public class GameActivity extends AppCompatActivity {
                         @Override
                         public void run() {
                             if (gamefield.nextFrame()) {
+                                levelCheck();
                                 score.setText(gamefield.getScore());
+                                Log.d("Game","Speed: "+speed);
                             } else {
                                 stop=true;
+                                levelUP = 0;
+                                speed = 1;
+                                normalSpeed=1;
                                 endGame();
                             }
                         }
@@ -122,10 +132,12 @@ public class GameActivity extends AppCompatActivity {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     gamefield.removeCallbacks(nextFrameRunnable);
                     speed = boostetSpeed;
+                    levelCheck();
                     gamefield.post(nextFrameRunnable);
                 } else if (event.getAction() == MotionEvent.ACTION_UP) {
                     gamefield.removeCallbacks(nextFrameRunnable);
                     speed = normalSpeed;
+                    levelCheck();
                     gamefield.post(nextFrameRunnable);
                 }
                 return false;
@@ -170,6 +182,14 @@ public class GameActivity extends AppCompatActivity {
         mediaPlayer.setLooping(true);
 
         turnSound();
+    }
+    public void levelCheck(){
+        int tmp = levelUP;
+        levelUP= gamefield.getScoreInt()/levelPoint;
+        if(tmp<levelUP){
+            speed= speedFactor*levelUP;
+            normalSpeed = speed;
+        }
     }
 
     @Override
