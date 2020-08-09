@@ -22,7 +22,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import de.prog3.tatrixproto.R;
 import de.prog3.tatrixproto.game.Class.Gamefield;
 import de.prog3.tatrixproto.game.Class.NextGamefield;
-import de.prog3.tatrixproto.game.Class.PopupDialog;
 import de.prog3.tatrixproto.game.db.DatabaseHelper;
 
 
@@ -32,16 +31,20 @@ public class GameActivity extends AppCompatActivity {
     public int normalSpeed = speed;
     public int speedFactor;
     public int levelPoint;
+    private int levelUP;
 
     private Gamefield gamefield;
     private Handler handler = new Handler();
-    private Boolean isPlaying = true;
+    private PausedDialog pausedDialog;
     private DatabaseHelper mydb;
-    NextGamefield nextField;
-    PopupDialog popupDialog;
-    MediaPlayer mediaPlayer;
-    boolean stop;
-    int levelUP;
+    private NextGamefield nextField;
+    private PopupDialog popupDialog;
+
+
+    private MediaPlayer mediaPlayer;
+
+    private boolean stop;
+    private Boolean isPlaying = true;
 
     private ImageButton buttonL, buttonR, buttonD, buttonRot, soundButton;
     private TextView score;
@@ -76,7 +79,7 @@ public class GameActivity extends AppCompatActivity {
 
         gamefield = new Gamefield(this, nextField);
         mydb = new DatabaseHelper(this);
-
+        pausedDialog = new PausedDialog(this,mediaPlayer,gamefield,this);
         popupDialog = new PopupDialog(this,gamefield,mydb,this);
 
         highscore.setText(String.format("%06d", mydb.getHighScore()));
@@ -182,7 +185,17 @@ public class GameActivity extends AppCompatActivity {
         mediaPlayer.start();
         mediaPlayer.setLooping(true);
 
-        turnSound();
+        soundButton = findViewById(R.id.Button_Sound);
+
+        soundButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onPause();
+                pausedDialog.show();
+            }
+        });
+
+//        turnSound();
     }
     public void levelCheck(){
         int tmp = levelUP;
@@ -230,22 +243,22 @@ public class GameActivity extends AppCompatActivity {
 
 
     //Sound Handler Function
-    private void turnSound() {
-        soundButton = findViewById(R.id.Button_Sound);
-        soundButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                if (mediaPlayer.isPlaying()) {
-                    mediaPlayer.pause();
-                    soundButton.setSelected(true);
-                } else {
-                    mediaPlayer.start();
-                    soundButton.setSelected(false);
-                }
-            }
-        });
-    }
+//    private void turnSound() {
+//        soundButton = findViewById(R.id.Button_Sound);
+//        soundButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                if (mediaPlayer.isPlaying()) {
+//                    mediaPlayer.pause();
+//                    soundButton.setSelected(true);
+//                } else {
+//                    mediaPlayer.start();
+//                    soundButton.setSelected(false);
+//                }
+//            }
+//        });
+//    }
 
     private void handleSound(){
         if (mediaPlayer.isPlaying()) {
