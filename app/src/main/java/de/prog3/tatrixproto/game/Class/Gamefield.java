@@ -32,7 +32,7 @@ public class Gamefield extends View {
     private int bonusPunkte;
     private ArrayList<AbstractPiece> list;
     private AbstractPiece nextPiece;
-    private AbstractPiece emptyPiece;
+    private AbstractPiece OnePiece;
 
     NextGamefield nextField;
     // Tetris Grid 10x21
@@ -58,7 +58,7 @@ public class Gamefield extends View {
             }
         }
         Bitmap prediktion = BitmapFactory.decodeResource(context.getResources(), R.drawable.square_white);
-        emptyPiece = new OnePiece(BitmapFactory.decodeResource(context.getResources(), R.drawable.square_white),prediktion);
+        OnePiece = new OnePiece(BitmapFactory.decodeResource(context.getResources(), R.drawable.square_white),prediktion);
         list = new ArrayList<AbstractPiece>();
         list.add(new LPieceLeft(BitmapFactory.decodeResource(context.getResources(), R.drawable.syellow),prediktion));
         list.add(new LongPiece(BitmapFactory.decodeResource(context.getResources(), R.drawable.sblue),prediktion));
@@ -112,6 +112,11 @@ public class Gamefield extends View {
                 isFinished = true;
             }
         }
+        for (int k = HEIGHT - 1; k >= 0; k--) {
+            if (numberInLine(k) == WIDTH) {
+                setLine(k);
+            }
+        }
         return true;
     }
 
@@ -139,7 +144,7 @@ public class Gamefield extends View {
     }
     private void setLine(int y) {
         for (Block[] blocks : grid) {
-            blocks[y].setPiece(emptyPiece, true);
+            blocks[y].setAnimation(OnePiece, true);
         }
     }
 
