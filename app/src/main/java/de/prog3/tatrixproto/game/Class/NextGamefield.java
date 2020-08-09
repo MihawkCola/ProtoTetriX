@@ -3,6 +3,7 @@
 package de.prog3.tatrixproto.game.Class;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.view.View;
@@ -26,7 +27,8 @@ public class NextGamefield extends View {
             }
         }
         activ = new ActivePiece(grid);
-        activ.addPiece(new EmptyPiece(BitmapFactory.decodeResource(context.getResources(),R.drawable.square_white)));
+        Bitmap prediktion = BitmapFactory.decodeResource(context.getResources(), R.drawable.square_white1);
+        activ.addPiece(new EmptyPiece(BitmapFactory.decodeResource(context.getResources(),R.drawable.square_white),prediktion));
     }
     public void addPiece(AbstractPiece piece) {
         for (int i = 0; i < WIDTH;i++){
@@ -36,7 +38,7 @@ public class NextGamefield extends View {
         }
         this.nextPiece = piece;
         activ.addPiece(piece,0,0);
-        activ.addToGrid();
+        activ.updateGrid(piece,0,0,false);
     }
     public void clear(){
         nextPiece=null;
@@ -68,7 +70,7 @@ public class NextGamefield extends View {
         // draw blocks
         for (int i = 0; i < grid.length; i++) {
             for (int k = 0; k < grid[i].length; k++) {
-                grid[i][k].draw(canvas, x + (i * blockSize), y + (k * blockSize), blockSize,null);
+                grid[i][k].draw(canvas, x + (i * blockSize), y + (k * blockSize), blockSize);
             }
         }
     }

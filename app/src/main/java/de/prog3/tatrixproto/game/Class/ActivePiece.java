@@ -3,6 +3,10 @@
 package de.prog3.tatrixproto.game.Class;
 
 
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
 import android.util.Log;
 
 import de.prog3.tatrixproto.game.Abstract.AbstractPiece;
@@ -11,6 +15,7 @@ import de.prog3.tatrixproto.game.Abstract.AbstractPiece;
 public class ActivePiece {
     private int x;
     private int y;
+    private int yPre;
     private int xAusPunkt;
     protected AbstractPiece piece;
 
@@ -22,6 +27,7 @@ public class ActivePiece {
         this.x = (grid.length/2)-1;
         this.xAusPunkt = x;
         y = 0;
+        yPre = 0;
     }
     public void addPiece(AbstractPiece piece){
         this.piece = piece;
@@ -109,20 +115,20 @@ public class ActivePiece {
     public boolean canMoveDown() {//L
         y++;
         for (int i = 0; i <piece.getBlocks().length;i++){
-            for (int k = 0; k <piece.getBlocks()[i].length;k++){
-                if(piece.getBlocks()[i][k]) {
-                    // Unterkante des Spielfelds erreicht?
-                    if (y+k >= grid[0].length) {
-                        y--;
-                        return false;
-                    }
-                    // kolision mit einem anderen block
-                    if(grid[i+x][k+y].isActive()){
-                        y--;
-                        return false;
+                for (int k = 0; k <piece.getBlocks()[i].length;k++){
+                    if(piece.getBlocks()[i][k]) {
+                        // Unterkante des Spielfelds erreicht?
+                        if (y+k >= grid[0].length) {
+                            y--;
+                            return false;
+                        }
+                        // kolision mit einem anderen block
+                        if(grid[i+x][k+y].isActive()){
+                            y--;
+                            return false;
+                        }
                     }
                 }
-            }
         }
         return true;
     }
@@ -161,25 +167,43 @@ public class ActivePiece {
                 }
             }
         }
-        updateGrid(this.piece);
+        if(end){
+           instantDownPre();
+            //updateGrid(this.piece,x ,tmp);
+        }
+        updateGrid(this.piece,this.x ,this.y,false);
         return end;
     }
     /**
      * Remove this piece from the grid
      */
     public void removeFromGrid() {
-        updateGrid(null);
+        updateGrid(null,this.x ,this.yPre,false);
+        updateGrid(null,this.x,this.y,false);
     }
-    public void updateGrid(AbstractPiece piece){
+    private void instantDownPre(){
+        int tmp = y;
+        instantDown();
+        updateGrid(this.piece,x ,y,true);
+        yPre = y;
+        y = tmp;
+    }
+    private void instantDown(){
+        for (int i = y;i <grid[0].length;i++){
+            if (!canMoveDown()){
+                break;
+            }
+        }
+    }
+    public void updateGrid(AbstractPiece piece, int x, int y, boolean p){
         for (int i = 0; i <this.piece.getBlocks().length;i++){
             for (int k = 0; k <this.piece.getBlocks()[i].length;k++){
                 if (this.piece.getBlocks()[i][k]) {
                     if (x+i >= 0 && x+i < grid.length
                             && y+k >=0 && y+k < grid[0].length) {
-                        grid[x + i][y + k].setPiece(piece);
+                        grid[x + i][y + k].setPiece(piece,p);
                     }
                 }
-
             }
         }
     }
@@ -232,7 +256,7 @@ public class ActivePiece {
 
         addToGrid();
     }
-    public void tiefeCopyArray2(boolean a[][]){
+    private void tiefeCopyArray2(boolean a[][]){
         for (int i = 0; i < a.length;i++){
             for (int k = 0; k < a[0].length; k++){
                 this.piece.getBlocks()[i][k] = a[i][k];
@@ -240,8 +264,4 @@ public class ActivePiece {
         }
     }
 
-
-    public int getColor() {
-        return this.getColor();
-    }
 }

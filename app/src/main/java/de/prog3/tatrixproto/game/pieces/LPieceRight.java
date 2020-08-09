@@ -9,8 +9,8 @@ import de.prog3.tatrixproto.game.Abstract.AbstractPiece;
 
 public class LPieceRight extends AbstractPiece {
 
-    public LPieceRight(Bitmap image) {
-        super(3, image);
+    public LPieceRight(Bitmap image,Bitmap imagePre) {
+        super(3, image,imagePre);
 
         this.blocks[0][1] = true;
         this.blocks[1][1] = true;

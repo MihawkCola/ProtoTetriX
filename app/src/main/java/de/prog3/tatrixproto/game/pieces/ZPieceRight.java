@@ -8,8 +8,8 @@ import android.graphics.Color;
 import de.prog3.tatrixproto.game.Abstract.AbstractPiece;
 
 public class ZPieceRight extends AbstractPiece {
-    public ZPieceRight(Bitmap image) {
-        super(3, image);
+    public ZPieceRight(Bitmap image,Bitmap imagePre) {
+        super(3, image,imagePre);
 
         this.blocks[0][0] = true;
         this.blocks[1][0] = true;

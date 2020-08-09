@@ -46,6 +46,7 @@ public class GameActivity extends AppCompatActivity {
     private ImageButton buttonL, buttonR, buttonD, buttonRot, soundButton;
     private TextView score;
     private TextView highscore;
+    private TextView level;
 
 
 
@@ -56,9 +57,10 @@ public class GameActivity extends AppCompatActivity {
         setContentView(R.layout.activity_game);
 
         this.levelUP = 0;
-        speedFactor = 2;
+        speedFactor = 1;
         levelPoint = 500;
         score = findViewById(R.id.Score);
+        level = findViewById(R.id.Level);
 
 
         nextField = new NextGamefield(this);
@@ -95,7 +97,6 @@ public class GameActivity extends AppCompatActivity {
                             if (gamefield.nextFrame()) {
                                 levelCheck();
                                 score.setText(gamefield.getScore());
-                                Log.d("Game","Speed: "+speed);
                             } else {
                                 stop=true;
                                 levelUP = 0;
@@ -191,6 +192,8 @@ public class GameActivity extends AppCompatActivity {
             speed= speedFactor*levelUP;
             normalSpeed = speed;
         }
+        level.setText(String.valueOf(levelUP));
+
     }
 
     @Override
@@ -225,6 +228,8 @@ public class GameActivity extends AppCompatActivity {
     }
 
     public void restart(){
+        mediaPlayer.seekTo(0);
+        highscore.setText(String.format("%06d", mydb.getHighScore()));
         onResume();
     }
 

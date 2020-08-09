@@ -9,8 +9,8 @@ import de.prog3.tatrixproto.game.Abstract.AbstractPiece;
 
 public class OPiece extends AbstractPiece {
 
-    public OPiece(Bitmap image) {
-        super(4, image);
+    public OPiece(Bitmap image,Bitmap imagePre) {
+        super(4, image,imagePre);
 
         this.blocks[1][1] = true;
         this.blocks[1][2] = true;

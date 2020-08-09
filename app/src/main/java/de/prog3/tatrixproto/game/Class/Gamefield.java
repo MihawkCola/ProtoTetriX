@@ -52,15 +52,16 @@ public class Gamefield extends View {
                 grid[i][k] = new Block();
             }
         }
+        Bitmap prediktion = BitmapFactory.decodeResource(context.getResources(), R.drawable.square_white);
 
         list = new ArrayList<AbstractPiece>();
-        list.add(new LPieceLeft(BitmapFactory.decodeResource(context.getResources(), R.drawable.syellow)));
-        list.add(new LongPiece(BitmapFactory.decodeResource(context.getResources(), R.drawable.sblue)));
-        list.add(new LPieceRight(BitmapFactory.decodeResource(context.getResources(), R.drawable.scyan)));
-        list.add(new OPiece(BitmapFactory.decodeResource(context.getResources(), R.drawable.sgreen)));
-        list.add(new TPiece(BitmapFactory.decodeResource(context.getResources(), R.drawable.sorange)));
-        list.add(new ZPieceLeft(BitmapFactory.decodeResource(context.getResources(), R.drawable.spurple)));
-        list.add(new ZPieceRight(BitmapFactory.decodeResource(context.getResources(), R.drawable.sred)));
+        list.add(new LPieceLeft(BitmapFactory.decodeResource(context.getResources(), R.drawable.syellow),prediktion));
+        list.add(new LongPiece(BitmapFactory.decodeResource(context.getResources(), R.drawable.sblue),prediktion));
+        list.add(new LPieceRight(BitmapFactory.decodeResource(context.getResources(), R.drawable.scyan),prediktion));
+        list.add(new OPiece(BitmapFactory.decodeResource(context.getResources(), R.drawable.sgreen),prediktion));
+        list.add(new TPiece(BitmapFactory.decodeResource(context.getResources(), R.drawable.sorange),prediktion));
+        list.add(new ZPieceLeft(BitmapFactory.decodeResource(context.getResources(), R.drawable.spurple),prediktion));
+        list.add(new ZPieceRight(BitmapFactory.decodeResource(context.getResources(), R.drawable.sred),prediktion));
 
         activePiece = new ActivePiece(grid);
 
@@ -136,8 +137,8 @@ public class Gamefield extends View {
         for (int k = y; k >= 0; k--) {
             for (int i = 0; i < grid.length; i++) {
                 if (grid[i][k].isActive()) {
-                    grid[i][k + 1].setPiece(grid[i][k].getPiece());
-                    grid[i][k].setPiece(null);
+                    grid[i][k + 1].setPiece(grid[i][k].getPiece(),false);
+                    grid[i][k].clear();
                 }
             }
         }
@@ -145,7 +146,7 @@ public class Gamefield extends View {
 
     private void removeGridLine(int y) {
         for (int i = 0; i < grid.length; i++) {
-            grid[i][y].setPiece(null);
+            grid[i][y].clear();
         }
     }
 
@@ -208,7 +209,7 @@ public class Gamefield extends View {
         // draw blocks
         for (int i = 0; i < grid.length; i++) {
             for (int k = 0; k < grid[i].length; k++) {
-                grid[i][k].draw(canvas, x + (i * blockSize), y + (k * blockSize), blockSize, null);
+                grid[i][k].draw(canvas, x + (i * blockSize), y + (k * blockSize), blockSize);
             }
         }
     }

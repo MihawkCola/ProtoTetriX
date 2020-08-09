@@ -8,18 +8,25 @@ public abstract class AbstractPiece {
     protected boolean blocksBase[][];
     protected boolean blocks[][];
     protected Bitmap image;
+    protected Bitmap imagePre;
     protected boolean pre[][];
     protected int sizeD2;
-    public AbstractPiece(int sizeD2,Bitmap image){
+    public AbstractPiece(int sizeD2,Bitmap image,Bitmap imagePre){
         blocks = new boolean[sizeD2][sizeD2];
         pre = new boolean[sizeD2][sizeD2];
         blocksBase = new boolean[sizeD2][sizeD2];
         this.sizeD2 =sizeD2;
         this.image = image;
+        this.imagePre=imagePre;
     }
 
     public boolean[][] getBlocks() {
         return blocks;
+    }
+    public Bitmap getImagePre(){return imagePre;}
+
+    public void setImagePre(Bitmap imagePre) {
+        this.imagePre = imagePre;
     }
 
     public boolean[][] getPre() {

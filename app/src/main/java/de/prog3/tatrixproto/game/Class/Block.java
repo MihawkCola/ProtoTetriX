@@ -11,6 +11,7 @@ import de.prog3.tatrixproto.game.Abstract.AbstractPiece;
 
 public class Block {
     protected AbstractPiece piece;
+    protected boolean isPrediction;
 
     public Block() {
         this.piece = null;
@@ -24,19 +25,28 @@ public class Block {
         return piece != null;
     }
 
-    public void setPiece(AbstractPiece piece) {
+    public void setPiece(AbstractPiece piece,boolean p) {
         this.piece = piece;
+        this.isPrediction= p;
     }
-    public void draw(Canvas canvas, int x , int y, int size,Paint paint){
+    public void draw(Canvas canvas, int x , int y, int size){
         if(piece != null){
             if (piece.getImage().getWidth() != size) {
-                piece.setImage(Bitmap.createScaledBitmap(piece.getImage(), size,size,false));//TODO Problem
+                piece.setImage(Bitmap.createScaledBitmap(piece.getImage(), size,size,false));
             }
-            canvas.drawBitmap(piece.getImage(), x, y, paint);
+            if (piece.getImagePre().getWidth() != size) {
+                piece.setImagePre(Bitmap.createScaledBitmap(piece.getImagePre(), size,size,false));
+            }
+            if (!isPrediction){
+                canvas.drawBitmap(piece.getImage(), x, y, null);
+            }else {
+                canvas.drawBitmap(piece.getImagePre(), x, y, null);
+            }
         }
 
     }
     public void clear(){
         piece = null;
+        this.isPrediction = false;
     };
 }

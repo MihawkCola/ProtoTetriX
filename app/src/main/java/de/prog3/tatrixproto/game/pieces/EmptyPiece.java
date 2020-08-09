@@ -8,7 +8,7 @@ import de.prog3.tatrixproto.game.Abstract.AbstractPiece;
 
 public class EmptyPiece extends AbstractPiece {
 
-    public EmptyPiece(Bitmap image) {
-            super(4, image);
+    public EmptyPiece(Bitmap image,Bitmap imagePre) {
+            super(4, image,imagePre);
     }
 }
