@@ -127,10 +127,12 @@ public class ActivePiece {
         return true;
     }
     public boolean canNextFrameDown(){
+        removeFromGrid();
         boolean tmp = canMoveDown();
         if(tmp){
             y--;
         }
+        addToGrid();
         return tmp;
     }
     public void movePieceLeft() {//L

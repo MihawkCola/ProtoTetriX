@@ -113,11 +113,13 @@ public class Gamefield extends View {
                 isFinished = true;
             }
         }
-        for (int k = HEIGHT - 1; k >= 0; k--) {
+        if(!activePiece.canNextFrameDown()){
+            for (int k = HEIGHT - 1; k >= 0; k--) {
             if (numberInLine(k) == WIDTH) {
                 setLine(k);
             }
-        }
+        }}
+
         return true;
     }
 
