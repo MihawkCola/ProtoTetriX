@@ -2,6 +2,7 @@
 //von Nelson Morais (879551) & Marcel Sauer (886022) geschrieben
 package de.prog3.tatrixproto.game.Class;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;

@@ -3,7 +3,7 @@
 package de.prog3.tatrixproto.game.pieces;
 
 import android.graphics.Bitmap;
-import android.graphics.Color;
+
 
 import de.prog3.tatrixproto.game.Abstract.AbstractPiece;
 

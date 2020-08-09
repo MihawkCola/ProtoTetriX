@@ -4,7 +4,6 @@ package de.prog3.tatrixproto.game.Class;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Paint;
 
 import de.prog3.tatrixproto.game.Abstract.AbstractPiece;
 

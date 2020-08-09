@@ -6,6 +6,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+
 import android.view.View;
 
 import java.util.ArrayList;
@@ -13,10 +14,12 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import de.prog3.tatrixproto.R;
 import de.prog3.tatrixproto.game.Abstract.AbstractPiece;
+
 import de.prog3.tatrixproto.game.pieces.LPieceLeft;
 import de.prog3.tatrixproto.game.pieces.LPieceRight;
 import de.prog3.tatrixproto.game.pieces.LongPiece;
 import de.prog3.tatrixproto.game.pieces.OPiece;
+import de.prog3.tatrixproto.game.pieces.OnePiece;
 import de.prog3.tatrixproto.game.pieces.TPiece;
 import de.prog3.tatrixproto.game.pieces.ZPieceLeft;
 import de.prog3.tatrixproto.game.pieces.ZPieceRight;
@@ -29,6 +32,7 @@ public class Gamefield extends View {
     private int bonusPunkte;
     private ArrayList<AbstractPiece> list;
     private AbstractPiece nextPiece;
+    private AbstractPiece emptyPiece;
 
     NextGamefield nextField;
     // Tetris Grid 10x21
@@ -38,6 +42,7 @@ public class Gamefield extends View {
     Bitmap gamefieldBackground;
 
     public boolean isFinished = false;
+
 
     public Gamefield(Context context, NextGamefield nextField) {
         super(context);
@@ -53,7 +58,7 @@ public class Gamefield extends View {
             }
         }
         Bitmap prediktion = BitmapFactory.decodeResource(context.getResources(), R.drawable.square_white);
-
+        emptyPiece = new OnePiece(BitmapFactory.decodeResource(context.getResources(), R.drawable.square_white),prediktion);
         list = new ArrayList<AbstractPiece>();
         list.add(new LPieceLeft(BitmapFactory.decodeResource(context.getResources(), R.drawable.syellow),prediktion));
         list.add(new LongPiece(BitmapFactory.decodeResource(context.getResources(), R.drawable.sblue),prediktion));
@@ -64,7 +69,6 @@ public class Gamefield extends View {
         list.add(new ZPieceRight(BitmapFactory.decodeResource(context.getResources(), R.drawable.sred),prediktion));
 
         activePiece = new ActivePiece(grid);
-
         createRandomNextPiece();
         activePiece.addPiece(nextPiece.getPiece());
         createRandomNextPiece();
@@ -105,23 +109,16 @@ public class Gamefield extends View {
             createRandomNextPiece();
             boolean addedSuccessfully = activePiece.addToGrid();
             if (!addedSuccessfully) {
-                //TODO: SPIEL ABBRUCH
                 isFinished = true;
             }
         }
         return true;
     }
 
-    private int checkLine() {
+    public int checkLine() {
         int scoreCount = 0;
         for (int k = HEIGHT - 1; k >= 0; k--) {
-            int count = 0;
-            for (int i = 0; i < grid.length; i++) {
-                if (grid[i][k].isActive()) {
-                    count++;
-                }
-            }
-            if (count == WIDTH) {
+            if (numberInLine(k) == WIDTH) {
                 score = score + 100;
                 removeGridLine(k);
                 moveGridDown(k);
@@ -131,22 +128,36 @@ public class Gamefield extends View {
         }
         return scoreCount;
     }
+    private int numberInLine(int y) {
+        int count =0;
+        for (Block[] blocks : grid) {
+            if (blocks[y].isActive()) {
+                count++;
+            }
+        }
+        return count;
+    }
+    private void setLine(int y) {
+        for (Block[] blocks : grid) {
+            blocks[y].setPiece(emptyPiece, true);
+        }
+    }
 
     private void moveGridDown(int y) {
         y--;
         for (int k = y; k >= 0; k--) {
-            for (int i = 0; i < grid.length; i++) {
-                if (grid[i][k].isActive()) {
-                    grid[i][k + 1].setPiece(grid[i][k].getPiece(),false);
-                    grid[i][k].clear();
+            for (Block[] blocks : grid) {
+                if (blocks[k].isActive()) {
+                    blocks[k + 1].setPiece(blocks[k].getPiece(), false);
+                    blocks[k].clear();
                 }
             }
         }
     }
 
     private void removeGridLine(int y) {
-        for (int i = 0; i < grid.length; i++) {
-            grid[i][y].clear();
+        for (Block[] blocks : grid) {
+            blocks[y].clear();
         }
     }
 
@@ -159,9 +170,9 @@ public class Gamefield extends View {
     }
 
     public void reset() {
-        for (int i = 0; i < grid.length; i++) {
-            for (int k = 0; k < grid[i].length; k++) {
-                grid[i][k].clear();
+        for (Block[] blocks : grid) {
+            for (Block block : blocks) {
+                block.clear();
             }
         }
         this.score = 0;
@@ -181,11 +192,10 @@ public class Gamefield extends View {
         super.draw(canvas);
         int borderoffset = 4;
         int x = borderoffset;
-        int y = borderoffset;
         int blockSize;
 
-        int width = canvas.getWidth() - borderoffset * 2;
-        int height = canvas.getHeight() - borderoffset * 2;
+        int width = getWidth() - borderoffset * 2;
+        int height = getHeight() - borderoffset * 2;
         if ((width / WIDTH) * HEIGHT > height) {
             blockSize = height / HEIGHT;
             // Spielfeld ist breiter als hoch
@@ -204,12 +214,12 @@ public class Gamefield extends View {
                     false
             );
         }
-        canvas.drawBitmap(gamefieldBackground, x - borderoffset, y - borderoffset, null);
+        canvas.drawBitmap(gamefieldBackground, x - borderoffset, 0, null);
 
         // draw blocks
         for (int i = 0; i < grid.length; i++) {
             for (int k = 0; k < grid[i].length; k++) {
-                grid[i][k].draw(canvas, x + (i * blockSize), y + (k * blockSize), blockSize);
+                grid[i][k].draw(canvas, x + (i * blockSize), borderoffset + (k * blockSize), blockSize);
             }
         }
     }

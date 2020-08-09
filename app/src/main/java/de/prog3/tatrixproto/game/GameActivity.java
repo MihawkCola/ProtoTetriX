@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -19,6 +18,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.media.MediaPlayer;
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.util.Objects;
+
 import de.prog3.tatrixproto.R;
 import de.prog3.tatrixproto.game.Class.Gamefield;
 import de.prog3.tatrixproto.game.Class.NextGamefield;
@@ -43,7 +45,10 @@ public class GameActivity extends AppCompatActivity {
     boolean stop;
     int levelUP;
 
-    private ImageButton buttonL, buttonR, buttonD, buttonRot, soundButton;
+    private ImageButton buttonR;
+    private ImageButton buttonD;
+    private ImageButton buttonRot;
+    private ImageButton soundButton;
     private TextView score;
     private TextView highscore;
     private TextView level;
@@ -64,13 +69,13 @@ public class GameActivity extends AppCompatActivity {
 
 
         nextField = new NextGamefield(this);
-        LinearLayout layout2 = (LinearLayout) findViewById(R.id.NextField);
+        LinearLayout layout2 = findViewById(R.id.NextField);
         layout2.addView(nextField);
 
         // Hide the status bar.
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        buttonL = findViewById(R.id.Button_Left);
+        ImageButton buttonL = findViewById(R.id.Button_Left);
         buttonR = findViewById(R.id.Button_Right);
         buttonD = findViewById(R.id.Button_Down);
         buttonRot = findViewById(R.id.Button_Rotation);
@@ -253,11 +258,7 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void handleSound(){
-        if (mediaPlayer.isPlaying()) {
-            isPlaying = true;
-        } else {
-            isPlaying = false;
-        }
+        isPlaying = mediaPlayer.isPlaying();
         mediaPlayer.pause();
     }
 
@@ -265,9 +266,9 @@ public class GameActivity extends AppCompatActivity {
     //Handle Vibration with SDK < 26 and SDK >= 26
     private void vibrate(){
         if (Build.VERSION.SDK_INT >= 26) {
-            ((Vibrator) getSystemService(VIBRATOR_SERVICE)).vibrate(VibrationEffect.createOneShot(5, VibrationEffect.DEFAULT_AMPLITUDE));
+            ((Vibrator) Objects.requireNonNull(getSystemService(VIBRATOR_SERVICE))).vibrate(VibrationEffect.createOneShot(5, VibrationEffect.DEFAULT_AMPLITUDE));
         } else {
-            ((Vibrator) getSystemService(VIBRATOR_SERVICE)).vibrate(5);
+            ((Vibrator) Objects.requireNonNull(getSystemService(VIBRATOR_SERVICE))).vibrate(5);
         }
     }
 

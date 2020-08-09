@@ -220,7 +220,7 @@ public class ActivePiece {
     }
 
 
-    public boolean canRotate(boolean pre[][]){
+    public boolean canRotate(boolean[][] pre){
         for (int i = 0; i <piece.getBlocks().length;i++){
             for (int k = 0; k <piece.getBlocks()[i].length;k++){
                 if(pre[i][k]) {
@@ -256,7 +256,7 @@ public class ActivePiece {
 
         addToGrid();
     }
-    private void tiefeCopyArray2(boolean a[][]){
+    private void tiefeCopyArray2(boolean[][] a){
         for (int i = 0; i < a.length;i++){
             for (int k = 0; k < a[0].length; k++){
                 this.piece.getBlocks()[i][k] = a[i][k];

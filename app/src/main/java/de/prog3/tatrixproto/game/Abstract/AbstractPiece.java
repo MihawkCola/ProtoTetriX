@@ -43,9 +43,7 @@ public abstract class AbstractPiece {
     }
     private void reset() {
         for (int i = 0; i < blocksBase.length;i++){
-            for (int k = 0; k < blocksBase[i].length; k++){
-                blocks[i][k] = blocksBase[i][k];
-            }
+            System.arraycopy(blocksBase[i], 0, blocks[i], 0, blocksBase[i].length);
         }
     }
     public AbstractPiece getPiece(){reset(); return this; }
