@@ -58,7 +58,8 @@ public class Gamefield extends View {
             }
         }
         Bitmap prediktion = BitmapFactory.decodeResource(context.getResources(), R.drawable.square_white);
-        OnePiece = new OnePiece(BitmapFactory.decodeResource(context.getResources(), R.drawable.square_white),prediktion);
+
+        OnePiece = new OnePiece(prediktion,prediktion);
         list = new ArrayList<AbstractPiece>();
         list.add(new LPieceLeft(BitmapFactory.decodeResource(context.getResources(), R.drawable.syellow),prediktion));
         list.add(new LongPiece(BitmapFactory.decodeResource(context.getResources(), R.drawable.sblue),prediktion));
@@ -144,7 +145,7 @@ public class Gamefield extends View {
     }
     private void setLine(int y) {
         for (Block[] blocks : grid) {
-            blocks[y].setAnimation(OnePiece, true);
+            blocks[y].setPiece(OnePiece, false);
         }
     }
 
