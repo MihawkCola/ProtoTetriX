@@ -1,8 +1,7 @@
 //Projektarbeit Prog3: Tetris
 //von Nelson Morais (879551) & Marcel Sauer (886022) geschrieben
-package de.prog3.tatrixproto.game.Class;
+package de.prog3.tatrixproto.game;
 
-import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -17,13 +16,14 @@ import android.widget.Toast;
 
 import de.prog3.tatrixproto.MainActivity;
 import de.prog3.tatrixproto.R;
-import de.prog3.tatrixproto.game.GameActivity;
+import de.prog3.tatrixproto.game.Class.Gamefield;
 import de.prog3.tatrixproto.game.db.DatabaseHelper;
 
 
 public class PopupDialog extends Dialog {
 
     private Gamefield gamefield;
+    private PopupDialog himself;
     private GameActivity gameactivity;
     private DatabaseHelper mydb;
     private Button submitButton, shareButton, restartButton, backButton;
@@ -45,7 +45,7 @@ public class PopupDialog extends Dialog {
         setContentView(R.layout.activity_popup);
         setCancelable(false);
         setCanceledOnTouchOutside(false);
-
+        himself =this;
 
         //Buttons
         submitButton = findViewById(R.id.popup_submit);
@@ -80,7 +80,7 @@ public class PopupDialog extends Dialog {
             public void onClick(View v){
                 Intent i=new Intent(getContext(), MainActivity.class);
                 i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                dismiss();
+                himself.dismiss();
                 gameactivity.startActivity(i);
 
             }
@@ -112,6 +112,8 @@ public class PopupDialog extends Dialog {
                 dismiss();
             }
         });
+
+
     }
 
     private void insetToDb(){
