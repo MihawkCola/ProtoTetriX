@@ -3,12 +3,6 @@
 package de.prog3.tatrixproto.game.Class;
 
 
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffXfermode;
-import android.util.Log;
-
 import de.prog3.tatrixproto.game.Abstract.AbstractPiece;
 
 
@@ -132,6 +126,13 @@ public class ActivePiece {
         }
         return true;
     }
+    public boolean canNextFrameDown(){
+        boolean tmp = canMoveDown();
+        if(tmp){
+            y--;
+        }
+        return tmp;
+    }
     public void movePieceLeft() {//L
         removeFromGrid();
         if (!canMoveLeft()){
@@ -246,12 +247,12 @@ public class ActivePiece {
             count++;
             for (int i = 0; i <piece.getBlocks().length;i++){
                 for (int k = 0; k <piece.getBlocks()[i].length;k++){
-                    piece.getPre()[k][piece.getBlocks().length-1-i]=piece.getBlocks()[i][k];
+                    piece.getBlockRot()[k][piece.getBlocks().length-1-i]=piece.getBlocks()[i][k];
                 }
             }
-        }while (!canRotate(piece.getPre())&&count<5);
+        }while (!canRotate(piece.getBlockRot())&&count<5);
         if(count<4){ // Wenn Counter 4 ist hat sich an dem zustand vom Pieces nichts geändert
-            this.tiefeCopyArray2(piece.getPre());
+            this.tiefeCopyArray2(piece.getBlockRot());
         }
 
         addToGrid();

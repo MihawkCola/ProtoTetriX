@@ -10,7 +10,7 @@ public class OnePiece extends AbstractPiece {
 
     public OnePiece(Bitmap image, Bitmap imagePre) {
             super(1, image,imagePre);
-            this.blocks[0][0]=true;
             this.blocksBase[0][0]=true;
+            copyInblockBase();
     }
 }

@@ -12,15 +12,10 @@ public class OPiece extends AbstractPiece {
     public OPiece(Bitmap image,Bitmap imagePre) {
         super(4, image,imagePre);
 
-        this.blocks[1][1] = true;
-        this.blocks[1][2] = true;
-        this.blocks[2][1] = true;
-        this.blocks[2][2] = true;
-
         this.blocksBase[1][1] = true;
         this.blocksBase[1][2] = true;
         this.blocksBase[2][1] = true;
         this.blocksBase[2][2] = true;
-
+        copyInblockBase();
     }
 }

@@ -29,7 +29,7 @@ public class Block {
     }
     public void draw(Canvas canvas, int x , int y, int size){
         if(piece != null){
-            if (piece.getImage().getWidth() != size) {
+            if (piece.getImage().getWidth() != size) { // falls der bitmap nicht die größe hat die es eigenlich haben sollte
                 piece.setImage(Bitmap.createScaledBitmap(piece.getImage(), size,size,false));
             }
             if (piece.getImagePre().getWidth() != size) {
@@ -41,7 +41,6 @@ public class Block {
                 canvas.drawBitmap(piece.getImage(), x, y, null);
             }
         }
-
     }
     public void clear(){
         piece = null;

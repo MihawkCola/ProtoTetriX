@@ -9,11 +9,11 @@ public abstract class AbstractPiece {
     protected boolean blocks[][];
     protected Bitmap image;
     protected Bitmap imagePre;
-    protected boolean pre[][];
+    protected boolean blockRot[][];
     protected int sizeD2;
     public AbstractPiece(int sizeD2,Bitmap image,Bitmap imagePre){
         blocks = new boolean[sizeD2][sizeD2];
-        pre = new boolean[sizeD2][sizeD2];
+        blockRot = new boolean[sizeD2][sizeD2];
         blocksBase = new boolean[sizeD2][sizeD2];
         this.sizeD2 =sizeD2;
         this.image = image;
@@ -29,8 +29,8 @@ public abstract class AbstractPiece {
         this.imagePre = imagePre;
     }
 
-    public boolean[][] getPre() {
-        return pre;
+    public boolean[][] getBlockRot() {
+        return blockRot;
     }
 
     public Bitmap getImage() {
@@ -42,6 +42,9 @@ public abstract class AbstractPiece {
         return sizeD2;
     }
     private void reset() {
+        copyInblockBase();
+    }
+    protected void copyInblockBase() {
         for (int i = 0; i < blocksBase.length;i++){
             System.arraycopy(blocksBase[i], 0, blocks[i], 0, blocksBase[i].length);
         }
