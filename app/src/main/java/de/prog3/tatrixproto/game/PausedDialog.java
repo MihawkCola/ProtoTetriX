@@ -4,7 +4,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -12,6 +11,7 @@ import android.widget.Switch;
 
 import de.prog3.tatrixproto.R;
 import de.prog3.tatrixproto.game.Class.Gamefield;
+import de.prog3.tatrixproto.game.Class.SettingsHandler;
 
 public class PausedDialog extends Dialog {
 
@@ -22,12 +22,12 @@ public class PausedDialog extends Dialog {
     private Button restartButton, resumeButton;
     private Switch audioSwitch;
 
-    private MediaPlayer mp;
 
 
-    PausedDialog(Context context, MediaPlayer mp, Gamefield gamefield, GameActivity gameActivity){
+
+
+    PausedDialog(Context context, Gamefield gamefield, GameActivity gameActivity){
         super(context);
-        this.mp = mp;
         this.gameActivity = gameActivity;
         this.gamefield = gamefield;
     }
@@ -47,12 +47,25 @@ public class PausedDialog extends Dialog {
         resumeButton = findViewById(R.id.popup_resume);
         audioSwitch = findViewById(R.id.switch_sound);
 
+        if(SettingsHandler.isSoundON()){
+            audioSwitch.setChecked(true);
+        }else{
+            audioSwitch.setChecked(false);
+        }
+
         //Resume Button
         resumeButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                gameActivity.restart();
+
+                if(audioSwitch.isChecked()){
+                    SettingsHandler.setSoundON();
+                }else{
+                    SettingsHandler.setSoundOFF();
+                }
+
                 himself.dismiss();
+                gameActivity.resume();
             }
         });
 
@@ -60,10 +73,12 @@ public class PausedDialog extends Dialog {
             @Override
             public void onClick(View v) {
                 gamefield.reset();
-                gameActivity.restart();
+                gameActivity.resume();
                 dismiss();
             }
         });
+
+
 
 
     }
