@@ -5,6 +5,7 @@ package de.prog3.tatrixproto;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -16,6 +17,8 @@ import de.prog3.tatrixproto.game.GameActivity;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static SharedPreferences sharedPref;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,6 +28,8 @@ public class MainActivity extends AppCompatActivity {
 
         // Hide the status bar.
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+       sharedPref = getSharedPreferences("gameSettings",MODE_PRIVATE);
 
         buttonStart.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -45,9 +50,24 @@ public class MainActivity extends AppCompatActivity {
         overridePendingTransition(0, 0);
     }
 
-    public void openGame(){
+    private void openGame(){
         Intent intent = new Intent(this, GameActivity.class);
         startActivity(intent);
         overridePendingTransition(0, 0);
+    }
+
+    private void checkSettings(){
+
+        SharedPreferences.Editor editor;
+        if(!sharedPref.contains("initialized")){
+            editor = sharedPref.edit();
+            //Init Settings XML and Flag
+            editor.putBoolean("initialized",true);
+            //Settings
+            editor.putBoolean("vibration",true);
+            editor.putBoolean("sound",true);
+            editor.commit();
+
+        }
     }
 }

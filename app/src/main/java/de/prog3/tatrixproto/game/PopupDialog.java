@@ -104,7 +104,7 @@ public class PopupDialog extends Dialog {
             @Override
             public void onClick(View v) {
                 gamefield.reset();
-                gameactivity.restart();
+                gameactivity.resume();
                 submitButton.setEnabled(true);
                 nicknameInput.setText(null);
                 nicknameInput.setEnabled(true);
