@@ -1,6 +1,9 @@
+//Projektarbeit Prog3: Tetris
+//Autor: Nelson Morais (879551) & Marcel Sauer (886022)
 package de.prog3.tatrixproto.game.Class;
 
 import android.app.Activity;
+import android.media.MediaExtractor;
 import android.media.MediaPlayer;
 
 import java.io.IOException;
@@ -9,43 +12,62 @@ import java.io.IOException;
 public class MediaPlayerHandler {
 
     private MediaPlayer mp;
+    private String flag;
     private boolean active;
+    private int uri;
+    private Activity activity;
 
 
-    public MediaPlayerHandler(Activity activity, int uri) {
-        this.mp = MediaPlayer.create(activity, uri);
-
+    public MediaPlayerHandler(Activity activity, int uri, String flag) {
+        this.uri = uri;
+        this.activity = activity;
+        this.flag = flag;
 
     }
 
+    public void playMusic() {
 
-    public void play() {
-        if (SettingsHandler.isSoundON()) {
-            mp.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-                public void onPrepared(MediaPlayer player) {
-                player.start();
-                }
-            });
+        if (flag == "music") {
+            if (mp == null) {
+                mp = MediaPlayer.create(activity, uri);
+            }
+            if (SettingsHandler.isSoundON()) {
+                mp.seekTo(0);
+                mp.start();
+                mp.setLooping(true);
+            }
+        }
+        if(flag == "effect"){
+            if(mp == null){
+                mp = MediaPlayer.create(activity,uri);
+            }
+            if (SettingsHandler.isEffectON()){
+                mp.seekTo(0);
+                mp.start();
+
+            }
         }
     }
 
-    public void resume() {
-        if (SettingsHandler.isSoundON()) {
-            this.mp.start();
-            this.mp.setLooping(true);
 
+
+    public void resumeMusic() {
+        if (SettingsHandler.isSoundON()) {
+            mp.start();
+            mp.setLooping(true);
         }
     }
 
     public void stop() {
-        mp.stop();
+        if (mp.isPlaying()) {
+            mp.stop();
+        }
     }
 
     public void pause() {
-
-        mp.pause();
+        if (mp.isPlaying()) {
+            mp.pause();
+        }
     }
 }
-//        mediaPlayer = MediaPlayer.create(this, R.raw.tetrix_soundtrack);
-//                mediaPlayer.start();
-//                mediaPlayer.setLooping(true);
+

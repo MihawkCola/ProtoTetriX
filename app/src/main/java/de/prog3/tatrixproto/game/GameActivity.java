@@ -1,5 +1,5 @@
 //Projektarbeit Prog3: Tetris
-//von Nelson Morais (879551) & Marcel Sauer (886022) geschrieben
+//Autor: Nelson Morais (879551) & Marcel Sauer (886022)
 
 
 package de.prog3.tatrixproto.game;
@@ -21,6 +21,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.IOException;
+import java.util.Objects;
 
 import de.prog3.tatrixproto.R;
 import de.prog3.tatrixproto.game.Class.Gamefield;
@@ -49,7 +50,6 @@ public class GameActivity extends AppCompatActivity {
     private PopupDialog popupDialog;
 
 
-
     private MediaPlayerHandler musicMp;
     private MediaPlayerHandler effectMp;
 
@@ -61,8 +61,7 @@ public class GameActivity extends AppCompatActivity {
     private TextView highscore;
 
 
-
-    @SuppressLint("ClickableViewAccessibility")
+    @SuppressLint({"ClickableViewAccessibility", "DefaultLocale"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,18 +86,15 @@ public class GameActivity extends AppCompatActivity {
         buttonRot = findViewById(R.id.Button_Rotation);
         highscore = findViewById(R.id.HighScore);
 
-        musicMp = new MediaPlayerHandler(this,musicUri);
-        effectMp = new MediaPlayerHandler(this,effectUri);
+        musicMp = new MediaPlayerHandler(this, musicUri, "music");
+        effectMp = new MediaPlayerHandler(this, effectUri, "effect");
 
-
-        musicMp.play();
-
-
+        musicMp.playMusic();
 
         gamefield = new Gamefield(this, nextField);
         mydb = new DatabaseHelper(this);
-        pausedDialog = new PausedDialog(this,gamefield,this);
-        popupDialog = new PopupDialog(this,gamefield,mydb,this);
+        pausedDialog = new PausedDialog(this, gamefield, this);
+        popupDialog = new PopupDialog(this, gamefield, mydb, this);
 
         highscore.setText(String.format("%06d", mydb.getHighScore()));
 
@@ -116,19 +112,23 @@ public class GameActivity extends AppCompatActivity {
                             if (gamefield.nextFrame()) {
                                 levelCheck();
                                 score.setText(gamefield.getScore());
-                                Log.d("Game","Speed: "+speed);
+                                if (gamefield.getLineCleared()) {
+                                    effectMp.playMusic();
+                                    vibrate(150);
+                                    gamefield.resetLineCleared();
+                                }
+                                Log.d("Game", "Speed: " + speed);
                             } else {
-                                stop=true;
+                                stop = true;
                                 levelUP = 0;
                                 speed = 1;
-                                normalSpeed=1;
-//                                mediaPlayer.seekTo(0);
+                                normalSpeed = 1;
                                 endGame();
                             }
                         }
                     });
                 }
-                gamefield.postDelayed(this, 1000 / (long)speed);
+                gamefield.postDelayed(this, 1000 / (long) speed);
             }
         };
 
@@ -150,7 +150,7 @@ public class GameActivity extends AppCompatActivity {
         buttonD.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                vibrate();
+                vibrate(10);
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     gamefield.removeCallbacks(nextFrameRunnable);
                     speed = boostetSpeed;
@@ -168,7 +168,7 @@ public class GameActivity extends AppCompatActivity {
         buttonRot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                vibrate();
+                vibrate(10);
                 if (!gamefield.isFinished) {
                     gamefield.rotate();
                 }
@@ -177,7 +177,7 @@ public class GameActivity extends AppCompatActivity {
         buttonR.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                vibrate();
+                vibrate(10);
                 if (!gamefield.isFinished) {
                     gamefield.moveRight();
                 }
@@ -187,7 +187,7 @@ public class GameActivity extends AppCompatActivity {
         buttonL.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                vibrate();
+                vibrate(10);
                 if (!gamefield.isFinished) {
                     gamefield.moveLeft();
                 }
@@ -204,23 +204,20 @@ public class GameActivity extends AppCompatActivity {
         soundButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                SettingsHandler.setSoundON();
-//                musicMp.resume();
                 onPause();
                 pausedDialog.show();
             }
         });
 
 
-
     }
 
 
-    public void levelCheck(){
+    public void levelCheck() {
         int tmp = levelUP;
-        levelUP= gamefield.getScoreInt()/levelPoint;
-        if(tmp<levelUP){
-            speed= speedFactor*levelUP;
+        levelUP = gamefield.getScoreInt() / levelPoint;
+        if (tmp < levelUP) {
+            speed = speedFactor * levelUP;
             normalSpeed = speed;
         }
     }
@@ -230,13 +227,14 @@ public class GameActivity extends AppCompatActivity {
         super.onPause();
         stop = true;
         musicMp.pause();
+
     }
 
     @Override
     protected void onResume() {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         stop = false;
-        musicMp.resume();
+        musicMp.resumeMusic();
         super.onResume();
     }
 
@@ -248,50 +246,32 @@ public class GameActivity extends AppCompatActivity {
     //End Game popup
     //TODO MediaPlayer settings file.
     private void endGame() {
-//        handleSound();
+        musicMp.pause();
         popupDialog.show();
     }
 
-    public void resume(){
+    @SuppressLint("DefaultLocale")
+    public void restart() {
         highscore.setText(String.format("%06d", mydb.getHighScore()));
+        musicMp.playMusic();
         onResume();
     }
 
+    public void resume() {
 
-    //Sound Handler Function
-//    private void turnSound() {
-//        soundButton = findViewById(R.id.Button_Sound);
-//        soundButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//                if (mediaPlayer.isPlaying()) {
-//                    mediaPlayer.pause();
-//                    soundButton.setSelected(true);
-//                } else {
-//                    mediaPlayer.start();
-//                    soundButton.setSelected(false);
-//                }
-//            }
-//        });
-//    }
+        onResume();
+    }
 
-//    private void handleSound(){
-//        if (mediaPlayer.isPlaying()) {
-//            isPlaying = true;
-//        } else {
-//            isPlaying = false;
-//        }
-//        mediaPlayer.pause();
-//    }
+    //Handle Vibration with SDK < 26 (Deprecated API) and SDK >= 26
+    private void vibrate(int n) {
 
-
-    //Handle Vibration with SDK < 26 and SDK >= 26
-    private void vibrate(){
-        if (Build.VERSION.SDK_INT >= 26) {
-            ((Vibrator) getSystemService(VIBRATOR_SERVICE)).vibrate(VibrationEffect.createOneShot(5, VibrationEffect.DEFAULT_AMPLITUDE));
-        } else {
-            ((Vibrator) getSystemService(VIBRATOR_SERVICE)).vibrate(5);
+        if (SettingsHandler.isVibrationON()) {
+            if (Build.VERSION.SDK_INT >= 26) {
+                ((Vibrator) Objects.requireNonNull(getSystemService(VIBRATOR_SERVICE))).vibrate(VibrationEffect.createOneShot(n, VibrationEffect.DEFAULT_AMPLITUDE));
+            } else {
+                //Deprecated API.
+                ((Vibrator) Objects.requireNonNull(getSystemService(VIBRATOR_SERVICE))).vibrate(n);
+            }
         }
     }
 

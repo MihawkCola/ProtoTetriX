@@ -1,3 +1,5 @@
+//Projektarbeit Prog3: Tetris
+//Autor: Nelson Morais (879551) & Marcel Sauer (886022)
 package de.prog3.tatrixproto.game;
 
 import android.app.Dialog;
@@ -20,13 +22,10 @@ public class PausedDialog extends Dialog {
     private Gamefield gamefield;
 
     private Button restartButton, resumeButton;
-    private Switch audioSwitch;
+    private Switch musicSwitch, effectSwitch, vibrationSwitch;
 
 
-
-
-
-    PausedDialog(Context context, Gamefield gamefield, GameActivity gameActivity){
+    PausedDialog(Context context, Gamefield gamefield, GameActivity gameActivity) {
         super(context);
         this.gameActivity = gameActivity;
         this.gamefield = gamefield;
@@ -39,49 +38,78 @@ public class PausedDialog extends Dialog {
         setContentView(R.layout.activity_paused);
         setCancelable(false);
         setCanceledOnTouchOutside(false);
-        himself =this;
+        himself = this;
 
 
         himself.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         restartButton = findViewById(R.id.popup_restart);
         resumeButton = findViewById(R.id.popup_resume);
-        audioSwitch = findViewById(R.id.switch_sound);
+        musicSwitch = findViewById(R.id.switch_sound);
+        effectSwitch = findViewById(R.id.switch_effect);
+        vibrationSwitch = findViewById(R.id.switch_vibration);
 
-        if(SettingsHandler.isSoundON()){
-            audioSwitch.setChecked(true);
-        }else{
-            audioSwitch.setChecked(false);
-        }
+        checkState();
+
 
         //Resume Button
-        resumeButton.setOnClickListener(new View.OnClickListener(){
+        resumeButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v){
-
-                if(audioSwitch.isChecked()){
-                    SettingsHandler.setSoundON();
-                }else{
-                    SettingsHandler.setSoundOFF();
-                }
-
+            public void onClick(View v) {
+                checkSettings();
                 himself.dismiss();
                 gameActivity.resume();
             }
         });
 
+        //Restart Button
         restartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                checkSettings();
                 gamefield.reset();
-                gameActivity.resume();
+                gameActivity.restart();
                 dismiss();
             }
         });
 
-
-
-
     }
 
+    private void checkSettings() {
+        if (musicSwitch.isChecked()) {
+            SettingsHandler.setMusicON();
+        } else {
+            SettingsHandler.setMusicOFF();
+        }
+        if (effectSwitch.isChecked()) {
+            SettingsHandler.setEffectON();
+        } else {
+            SettingsHandler.setEffectOFF();
+        }
+        if (vibrationSwitch.isChecked()) {
+            SettingsHandler.setVibrationON();
+        } else {
+            SettingsHandler.setVibrationOFF();
+        }
     }
+
+    private void checkState() {
+        if (SettingsHandler.isSoundON()) {
+            musicSwitch.setChecked(true);
+        } else {
+            musicSwitch.setChecked(false);
+        }
+
+        if (SettingsHandler.isEffectON()) {
+            effectSwitch.setChecked(true);
+        } else {
+            effectSwitch.setChecked(false);
+        }
+        if (SettingsHandler.isVibrationON()) {
+            vibrationSwitch.setChecked(true);
+        } else {
+            vibrationSwitch.setChecked(false);
+        }
+    }
+
+}
 

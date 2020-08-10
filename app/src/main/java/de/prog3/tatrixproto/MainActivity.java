@@ -1,5 +1,5 @@
 //Projektarbeit Prog3: Tetris
-//von Nelson Morais (879551) & Marcel Sauer (886022) geschrieben
+//Autor: Nelson Morais (879551) & Marcel Sauer (886022)
 package de.prog3.tatrixproto;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,7 +22,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_main);
         Button buttonStart = findViewById(R.id.buttonStart);
 
@@ -37,6 +36,8 @@ public class MainActivity extends AppCompatActivity {
                 openGame();
             }
         });
+
+        checkSettings();
     }
 
     @Override
@@ -65,8 +66,9 @@ public class MainActivity extends AppCompatActivity {
             editor.putBoolean("initialized",true);
             //Settings
             editor.putBoolean("vibration",true);
-            editor.putBoolean("sound",true);
-            editor.commit();
+            editor.putBoolean("music",true);
+            editor.putBoolean("effect",true);
+            editor.apply();
 
         }
     }
