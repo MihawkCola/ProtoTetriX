@@ -115,11 +115,11 @@ public class Gamefield extends View {
         }
         if(!activePiece.canNextFrameDown()){
             for (int k = HEIGHT - 1; k >= 0; k--) {
-            if (numberInLine(k) == WIDTH) {
-                setLine(k);
+                if (numberInLine(k) == WIDTH) {
+                    setLine(k);
+                }
             }
-        }}
-
+        }
         return true;
     }
 

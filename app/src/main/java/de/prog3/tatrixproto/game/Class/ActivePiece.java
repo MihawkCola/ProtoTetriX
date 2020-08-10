@@ -3,6 +3,8 @@
 package de.prog3.tatrixproto.game.Class;
 
 
+import android.util.Log;
+
 import de.prog3.tatrixproto.game.Abstract.AbstractPiece;
 
 
@@ -12,7 +14,6 @@ public class ActivePiece {
     private int yPre;
     private int xAusPunkt;
     protected AbstractPiece piece;
-
     /** reference t the parent grid */
     private Block[][] grid;
 
@@ -112,7 +113,7 @@ public class ActivePiece {
                 for (int k = 0; k <piece.getBlocks()[i].length;k++){
                     if(piece.getBlocks()[i][k]) {
                         // Unterkante des Spielfelds erreicht?
-                        if (y+k >= grid[0].length) {
+                        if (k+y >= grid[0].length) {
                             y--;
                             return false;
                         }
@@ -127,6 +128,9 @@ public class ActivePiece {
         return true;
     }
     public boolean canNextFrameDown(){
+        if(y< 0){
+            return true;
+        }
         removeFromGrid();
         boolean tmp = canMoveDown();
         if(tmp){
