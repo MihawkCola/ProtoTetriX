@@ -1,5 +1,5 @@
 //Projektarbeit Prog3: Tetris
-//von Nelson Morais (879551) & Marcel Sauer (886022) geschrieben
+//Autor: Nelson Morais (879551) & Marcel Sauer (886022)
 package de.prog3.tatrixproto.game.Class;
 
 import android.content.Context;

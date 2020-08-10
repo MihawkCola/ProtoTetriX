@@ -1,5 +1,5 @@
 //Projektarbeit Prog3: Tetris
-//von Nelson Morais (879551) & Marcel Sauer (886022) geschrieben
+//Autor: Nelson Morais (879551) & Marcel Sauer (886022)
 package de.prog3.tatrixproto.game.Class;
 
 import android.content.Context;
@@ -42,6 +42,7 @@ public class Gamefield extends View {
     Bitmap gamefieldBackground;
 
     public boolean isFinished = false;
+    private boolean lineCleared = false;
 
 
     public Gamefield(Context context, NextGamefield nextField) {
@@ -58,8 +59,9 @@ public class Gamefield extends View {
             }
         }
         Bitmap prediktion = BitmapFactory.decodeResource(context.getResources(), R.drawable.square_white);
+        Bitmap animation = BitmapFactory.decodeResource(context.getResources(), R.drawable.square_white);
 
-        OnePiece = new OnePiece(prediktion,prediktion);
+        OnePiece = new OnePiece(animation,animation);
         list = new ArrayList<AbstractPiece>();
         list.add(new LPieceLeft(BitmapFactory.decodeResource(context.getResources(), R.drawable.syellow),prediktion));
         list.add(new LongPiece(BitmapFactory.decodeResource(context.getResources(), R.drawable.sblue),prediktion));
@@ -117,6 +119,7 @@ public class Gamefield extends View {
             for (int k = HEIGHT - 1; k >= 0; k--) {
                 if (numberInLine(k) == WIDTH) {
                     setLine(k);
+                    lineCleared = true;
                 }
             }
         }
@@ -134,6 +137,7 @@ public class Gamefield extends View {
                 k++;
             }
         }
+
         return scoreCount;
     }
     private int numberInLine(int y) {
@@ -175,6 +179,13 @@ public class Gamefield extends View {
 
     public int getScoreInt() {
         return score;
+    }
+
+    public boolean getLineCleared(){
+        return lineCleared;
+    }
+    public void resetLineCleared(){
+        lineCleared = false;
     }
 
     public void reset() {

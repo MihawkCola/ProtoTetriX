@@ -14,7 +14,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="30dp"
         android:layout_gravity="center"
         android:orientation="vertical"
 
@@ -43,9 +43,20 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="5dp"
             android:paddingHorizontal="50dp"
-            android:text="Audio OFF/ON"
+            android:text="Music"
+            android:textColor="@android:color/background_light"
+            android:theme="@style/SwitchTheme" />
+
+        <Switch
+            android:id="@+id/switch_effect"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="5dp"
+            android:paddingHorizontal="50dp"
+            android:text="Sound Effect"
             android:textColor="@android:color/background_light"
             android:theme="@style/SwitchTheme" />
         <Switch
@@ -54,8 +65,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:paddingHorizontal="50dp"
-            android:layout_marginTop="15dp"
-            android:text="Vibration OFF/ON"
+            android:layout_marginTop="5dp"
+            android:text="Vibration"
             android:textColor="@android:color/background_light"
             android:theme="@style/SwitchTheme"
             />

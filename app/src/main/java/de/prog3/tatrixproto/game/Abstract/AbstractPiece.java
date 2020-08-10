@@ -11,6 +11,7 @@ public abstract class AbstractPiece {
     protected Bitmap imagePre;
     protected boolean blockRot[][];
     protected int sizeD2;
+
     public AbstractPiece(int sizeD2,Bitmap image,Bitmap imagePre){
         blocks = new boolean[sizeD2][sizeD2];
         blockRot = new boolean[sizeD2][sizeD2];
