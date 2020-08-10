@@ -253,7 +253,7 @@ public class GameActivity extends AppCompatActivity {
     }
 
     public void resume(){
-
+        highscore.setText(String.format("%06d", mydb.getHighScore()));
         onResume();
     }
 
