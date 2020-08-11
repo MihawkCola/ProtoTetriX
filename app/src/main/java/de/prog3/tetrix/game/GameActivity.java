@@ -52,6 +52,7 @@ public class GameActivity extends AppCompatActivity {
     private int levelUP;
     private long lastTouch = -1;
     private boolean stop;
+    public boolean isPauseDialog;
 
 
 
@@ -157,7 +158,6 @@ public class GameActivity extends AppCompatActivity {
 
                     long currentTouch = System.currentTimeMillis();
                     if (currentTouch - lastTouch <150) {
-                    //TODO: INSTANT DOWN !
                     gamefield.moveInstantDown();
                     levelCheck();
                     } else {
@@ -250,6 +250,10 @@ public class GameActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
+        if (isPauseDialog){
+            onPause();
+            return;
+        }
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         stop = false;
         musicMp.resumeMusic();

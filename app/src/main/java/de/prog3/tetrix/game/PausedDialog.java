@@ -73,6 +73,16 @@ public class PausedDialog extends Dialog {
         });
 
     }
+    @Override
+    public void dismiss(){
+        super.dismiss();
+        gameActivity.isPauseDialog=false;
+    }
+    @Override
+    public void show(){
+        super.show();
+        gameActivity.isPauseDialog=true;
+    }
 
     private void checkSettings() {
         if (musicSwitch.isChecked()) {
