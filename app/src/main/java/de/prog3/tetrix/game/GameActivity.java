@@ -116,7 +116,6 @@ public class GameActivity extends AppCompatActivity {
                                     vibrate(150);
                                     gamefield.resetLineCleared();
                                 }
-                                Log.d("Game", "Speed: " + speed);
                             } else {
                                 stop = true;
                                 levelUP = 0;
