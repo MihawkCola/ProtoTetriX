@@ -8,8 +8,8 @@ import de.prog3.tetrix.game.Abstract.AbstractPiece;
 
 public class OnePiece extends AbstractPiece {
 
-    public OnePiece(Bitmap image, Bitmap imagePre) {
-            super(1, image,imagePre);
+    public OnePiece(Bitmap image, Bitmap imagePre, Bitmap nextPicture) {
+            super(1, image,imagePre,nextPicture);
             this.blocksBase[0][0]=true;
             copyInblockBase();
     }

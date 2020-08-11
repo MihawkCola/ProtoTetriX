@@ -9,8 +9,8 @@ import de.prog3.tetrix.game.Abstract.AbstractPiece;
 
 public class TPiece extends AbstractPiece {
 
-    public TPiece(Bitmap image,Bitmap imagePre) {
-        super(3, image,imagePre);
+    public TPiece(Bitmap image,Bitmap imagePre, Bitmap nextPicture) {
+        super(3, image,imagePre,nextPicture);
 
         this.blocksBase[1][0] = true;
         this.blocksBase[0][1] = true;

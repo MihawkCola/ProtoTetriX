@@ -8,18 +8,19 @@ public abstract class AbstractPiece {
     protected boolean blocksBase[][];
     protected boolean blocks[][];
     protected Bitmap image;
-    protected Bitmap imageScaled;
+    protected Bitmap nextPicture;
     protected Bitmap imagePre;
     protected boolean blockRot[][];
     protected int sizeD2;
 
-    public AbstractPiece(int sizeD2,Bitmap image,Bitmap imagePre){
+    public AbstractPiece(int sizeD2,Bitmap image,Bitmap imagePre, Bitmap nextPicture){
         blocks = new boolean[sizeD2][sizeD2];
         blockRot = new boolean[sizeD2][sizeD2];
         blocksBase = new boolean[sizeD2][sizeD2];
         this.sizeD2 =sizeD2;
         this.image = image;
         this.imagePre=imagePre;
+        this.nextPicture = nextPicture;
     }
 
     public boolean[][] getBlocks() {
@@ -38,8 +39,16 @@ public abstract class AbstractPiece {
     public Bitmap getImage() {
         return image;
     }
+
+    public Bitmap getNextPicture() {
+        return nextPicture;
+    }
+
+    public void setNextPicture(Bitmap nextPicture) {
+        this.nextPicture = nextPicture;
+    }
+
     public void setImage(Bitmap image) {this.image=image;}
-    public void setImageScaled(Bitmap image) {this.imageScaled=image;}
 
     public int getSizeD2() {
         return sizeD2;
