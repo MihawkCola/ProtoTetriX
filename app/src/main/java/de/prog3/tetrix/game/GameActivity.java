@@ -31,33 +31,28 @@ import de.prog3.tetrix.game.db.DatabaseHandler;
 
 
 public class GameActivity extends AppCompatActivity {
-    public double speed = 1;
-    public double normalSpeed = speed;
-    public double speedFactor;
-    public int boostedSpeed = 20;
-    public int levelPoint;
-    private int levelUP;
-    private long lastTouch = -1;
-
-    private int musicUri = R.raw.tetrix_soundtrack;
-    private int effectUri = R.raw.tetrix_effect;
-
     private Gamefield gamefield;
     private Handler handler = new Handler();
     private PausedDialog pausedDialog;
     private DatabaseHandler mydb;
     private NextGamefield nextField;
     private GameoverDialog gameoverDialog;
-
-
     private MediaPlayerHandler musicMp;
     private MediaPlayerHandler effectMp;
-
-    private boolean stop;
-
-    private ImageButton buttonL, buttonR, buttonD, buttonRot, pauseButton;
     private TextView score;
     private TextView highscore;
+    private TextView level;
+
+    public double speed = 1;
+    public double andfansSpeed = 1;
+    public double normalSpeed = speed;
+    public double speedFactor;
+    public int boostedSpeed = 20;
+    public int levelLine;
+    private int levelUP;
+    private long lastTouch = -1;
+    private boolean stop;
+
 
 
     @SuppressLint({"ClickableViewAccessibility", "DefaultLocale"})
@@ -68,8 +63,7 @@ public class GameActivity extends AppCompatActivity {
 
         this.levelUP = 0;
         speedFactor = 1;
-        levelPoint = 1000;
-
+        levelLine = 10;
 
 
         nextField = new NextGamefield(this);
@@ -79,16 +73,18 @@ public class GameActivity extends AppCompatActivity {
         // Hide the status bar.
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-
         //Buttons, Textviews & MediaPlayers
-        buttonL = findViewById(R.id.Button_Left);
-        buttonR = findViewById(R.id.Button_Right);
-        buttonD = findViewById(R.id.Button_Down);
-        buttonRot = findViewById(R.id.Button_Rotation);
-        pauseButton = findViewById(R.id.Button_Pause);
+        ImageButton buttonL = findViewById(R.id.Button_Left);
+        ImageButton buttonR = findViewById(R.id.Button_Right);
+        ImageButton buttonD = findViewById(R.id.Button_Down);
+        ImageButton buttonRot = findViewById(R.id.Button_Rotation);
+        ImageButton pauseButton = findViewById(R.id.Button_Pause);
         highscore = findViewById(R.id.HighScore);
         score = findViewById(R.id.Score);
+        level = findViewById(R.id.Level);
+        int musicUri = R.raw.tetrix_soundtrack;
         musicMp = new MediaPlayerHandler(this, musicUri, "music");
+        int effectUri = R.raw.tetrix_effect;
         effectMp = new MediaPlayerHandler(this, effectUri, "effect");
 
 
@@ -162,7 +158,8 @@ public class GameActivity extends AppCompatActivity {
                     long currentTouch = System.currentTimeMillis();
                     if (currentTouch - lastTouch <150) {
                     //TODO: INSTANT DOWN !
-
+                    gamefield.moveInstantDown();
+                    levelCheck();
                     } else {
                         gamefield.removeCallbacks(nextFrameRunnable);
                         speed = boostedSpeed;
@@ -234,10 +231,12 @@ public class GameActivity extends AppCompatActivity {
 
     public void levelCheck() {
         int tmp = levelUP;
-        levelUP = gamefield.getScoreInt() / levelPoint;
+        levelUP = gamefield.getlineScore()/ levelLine;
         if (tmp < levelUP) {
-            speed = speedFactor * levelUP;
+            speed = speedFactor * levelUP+andfansSpeed;
             normalSpeed = speed;
+            level.setText(String.valueOf(levelUP));
+
         }
     }
 

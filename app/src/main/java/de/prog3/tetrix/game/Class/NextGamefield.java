@@ -52,13 +52,11 @@ public class NextGamefield extends View {
     @Override
     public void draw(Canvas canvas) {
         super.draw(canvas);
-        int borderoffset = 0;
         int x;
-        int y = borderoffset;
         int blockSize;
 
-        int width = getWidth() - borderoffset * 2;
-        int height = getHeight() - borderoffset * 2;
+        int width = getWidth();
+        int height = getHeight();
         if ((width / WIDTH) * HEIGHT > height) {
             blockSize = height / HEIGHT;
             // Spielfeld ist breiter als hoch
@@ -71,7 +69,7 @@ public class NextGamefield extends View {
         // draw blocks
         for (int i = 0; i < grid.length; i++) {
             for (int k = 0; k < grid[i].length; k++) {
-                grid[i][k].draw(canvas, x + (i * blockSize), y + (k * blockSize), blockSize);
+                grid[i][k].draw(canvas, x + (i * blockSize),(k * blockSize), blockSize);
             }
         }
     }

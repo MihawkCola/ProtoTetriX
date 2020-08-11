@@ -26,7 +26,7 @@ public class GameoverDialog extends Dialog {
     private GameoverDialog himself;
     private GameActivity gameactivity;
     private DatabaseHandler mydb;
-    private Button submitButton, shareButton, restartButton, backButton;
+    private Button submitButton;
     private TextView nicknameInput, firstplacename, firstplacescore,secondplacename, secondplacescore,thirdplacename,thirdplacescore, yourscore;
     private String score;
     private TextView finalscore;
@@ -49,9 +49,9 @@ public class GameoverDialog extends Dialog {
 
         //Buttons
         submitButton = findViewById(R.id.popup_submit);
-        shareButton = findViewById(R.id.popup_share);
-        restartButton = findViewById(R.id.popup_restart);
-        backButton = findViewById(R.id.popup_back);
+        Button shareButton = findViewById(R.id.popup_share);
+        Button restartButton = findViewById(R.id.popup_restart);
+        Button backButton = findViewById(R.id.popup_back);
         nicknameInput = findViewById(R.id.nicknameInput);
         firstplacename = findViewById(R.id.firstplacename);
         firstplacescore = findViewById(R.id.firstplacescore);

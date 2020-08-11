@@ -201,6 +201,11 @@ public class ActivePiece {
             }
         }
     }
+    public void moveInstantDown(){
+        removeFromGrid();
+        instantDown();
+        addToGrid();
+    }
     public void updateGrid(AbstractPiece piece, int x, int y, boolean p){
         for (int i = 0; i <this.piece.getBlocks().length;i++){
             for (int k = 0; k <this.piece.getBlocks()[i].length;k++){

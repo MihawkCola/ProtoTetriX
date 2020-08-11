@@ -27,9 +27,10 @@ import de.prog3.tetrix.game.pieces.ZPieceRight;
 
 public class Gamefield extends View {
     public static final int WIDTH = 10;
-    public static final int HEIGHT = 20;
+    public static final int HEIGHT = 21;
     public int score;
     private int bonusPunkte;
+    private int lineScore;
     private ArrayList<AbstractPiece> list;
     private AbstractPiece nextPiece;
     private AbstractPiece OnePiece;
@@ -51,6 +52,7 @@ public class Gamefield extends View {
         this.nextField = nextField;
         gamefieldBackground = BitmapFactory.decodeResource(context.getResources(), R.drawable.gamefield);
         score = 0;
+        lineScore= 0;
         bonusPunkte = 50;
 
         for (int i = 0; i < grid.length; i++) {
@@ -92,6 +94,9 @@ public class Gamefield extends View {
     public void moveRight() {
         activePiece.movePieceRight();
     }
+    public void moveInstantDown() { activePiece.moveInstantDown();
+
+    }
 
     public void rotate() {
         activePiece.rotatePiece();
@@ -130,6 +135,7 @@ public class Gamefield extends View {
         int scoreCount = 0;
         for (int k = HEIGHT - 1; k >= 0; k--) {
             if (numberInLine(k) == WIDTH) {
+                lineScore++;
                 score = score + 100;
                 removeGridLine(k);
                 moveGridDown(k);
@@ -179,6 +185,9 @@ public class Gamefield extends View {
 
     public int getScoreInt() {
         return score;
+    }
+    public int getlineScore() {
+        return lineScore;
     }
 
     public boolean getLineCleared(){
