@@ -66,9 +66,9 @@ public class PausedDialog extends Dialog {
             @Override
             public void onClick(View v) {
                 checkSettings();
+                dismiss();
                 gamefield.reset();
                 gameActivity.restart();
-                dismiss();
             }
         });
 
