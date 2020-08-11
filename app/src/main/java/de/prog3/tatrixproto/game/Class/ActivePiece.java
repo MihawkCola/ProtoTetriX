@@ -195,6 +195,7 @@ public class ActivePiece {
         yPre = y;
         y = tmp;
     }
+
     private void instantDown(){
         for (int i = y;i <grid[0].length;i++){
             if (!canMoveDown()){

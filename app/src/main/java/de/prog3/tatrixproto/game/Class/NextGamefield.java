@@ -15,10 +15,10 @@ import de.prog3.tatrixproto.game.pieces.EmptyPiece;
 public class NextGamefield extends View {
     public static final int WIDTH = 4;
     public static final int HEIGHT = 4;
-    private AbstractPiece nextPiece;
-    private ActivePiece activ;
+    private ActivePiece active;
 
     Block grid[][] = new Block[WIDTH][HEIGHT];
+
     public NextGamefield(Context context) {
         super(context);
         for (int i = 0; i < grid.length; i++){
@@ -26,33 +26,34 @@ public class NextGamefield extends View {
                 grid[i][k] = new Block();
             }
         }
-        activ = new ActivePiece(grid);
+        active = new ActivePiece(grid);
         Bitmap prediktion = BitmapFactory.decodeResource(context.getResources(), R.drawable.square_white1);
-        activ.addPiece(new EmptyPiece(BitmapFactory.decodeResource(context.getResources(),R.drawable.square_white),prediktion));
+        active.addPiece(new EmptyPiece(BitmapFactory.decodeResource(context.getResources(),R.drawable.square_white),prediktion));
     }
+
     public void addPiece(AbstractPiece piece) {
         for (int i = 0; i < WIDTH;i++){
             for (int k = 0; k < HEIGHT;k++){
                 grid[i][k].clear();
             }
         }
-        this.nextPiece = piece;
-        activ.addPiece(piece,0,0);
-        activ.updateGrid(piece,0,0,false);
+        active.addPiece(piece,0,0);
+        active.updateGrid(piece,0,0,false);
     }
+
     public void clear(){
-        nextPiece=null;
         for (int i = 0; i < WIDTH;i++){
             for (int k = 0; k < HEIGHT;k++){
                 grid[i][k].clear();
             }
         }
     }
+
     @Override
     public void draw(Canvas canvas) {
         super.draw(canvas);
         int borderoffset = 0;
-        int x = borderoffset;
+        int x;
         int y = borderoffset;
         int blockSize;
 

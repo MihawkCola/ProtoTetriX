@@ -8,7 +8,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-public class DatabaseHelper extends SQLiteOpenHelper {
+public class DatabaseHandler extends SQLiteOpenHelper {
     private static String DB_NAME = "Highscore.db";
     private static String TABLE_NAME = "Highscore_t";
     private static String COL_0 = "SpielID";
@@ -17,7 +17,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
 
-    public DatabaseHelper(Context context) {
+    public DatabaseHandler(Context context) {
         super(context, DB_NAME, null, 1);
     }
 

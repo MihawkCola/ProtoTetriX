@@ -9,6 +9,7 @@ import de.prog3.tatrixproto.game.Abstract.AbstractPiece;
 
 
 public class Block {
+
     protected AbstractPiece piece;
     protected boolean isPrediction;
 

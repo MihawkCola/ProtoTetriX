@@ -20,7 +20,6 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.io.IOException;
 import java.util.Objects;
 
 import de.prog3.tatrixproto.R;
@@ -28,16 +27,17 @@ import de.prog3.tatrixproto.game.Class.Gamefield;
 import de.prog3.tatrixproto.game.Class.MediaPlayerHandler;
 import de.prog3.tatrixproto.game.Class.NextGamefield;
 import de.prog3.tatrixproto.game.Class.SettingsHandler;
-import de.prog3.tatrixproto.game.db.DatabaseHelper;
+import de.prog3.tatrixproto.game.db.DatabaseHandler;
 
 
 public class GameActivity extends AppCompatActivity {
     public double speed = 1;
     public double normalSpeed = speed;
     public double speedFactor;
-    public int boostetSpeed = 20;
+    public int boostedSpeed = 20;
     public int levelPoint;
     private int levelUP;
+    private long lastTouch = -1;
 
     private int musicUri = R.raw.tetrix_soundtrack;
     private int effectUri = R.raw.tetrix_effect;
@@ -45,18 +45,17 @@ public class GameActivity extends AppCompatActivity {
     private Gamefield gamefield;
     private Handler handler = new Handler();
     private PausedDialog pausedDialog;
-    private DatabaseHelper mydb;
+    private DatabaseHandler mydb;
     private NextGamefield nextField;
-    private PopupDialog popupDialog;
+    private GameoverDialog gameoverDialog;
 
 
     private MediaPlayerHandler musicMp;
     private MediaPlayerHandler effectMp;
 
     private boolean stop;
-    private Boolean isPlaying = true;
 
-    private ImageButton buttonL, buttonR, buttonD, buttonRot, soundButton;
+    private ImageButton buttonL, buttonR, buttonD, buttonRot, pauseButton;
     private TextView score;
     private TextView highscore;
 
@@ -69,8 +68,8 @@ public class GameActivity extends AppCompatActivity {
 
         this.levelUP = 0;
         speedFactor = 1;
-        levelPoint = 500;
-        score = findViewById(R.id.Score);
+        levelPoint = 1000;
+
 
 
         nextField = new NextGamefield(this);
@@ -80,28 +79,31 @@ public class GameActivity extends AppCompatActivity {
         // Hide the status bar.
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
+
+        //Buttons, Textviews & MediaPlayers
         buttonL = findViewById(R.id.Button_Left);
         buttonR = findViewById(R.id.Button_Right);
         buttonD = findViewById(R.id.Button_Down);
         buttonRot = findViewById(R.id.Button_Rotation);
+        pauseButton = findViewById(R.id.Button_Pause);
         highscore = findViewById(R.id.HighScore);
-
+        score = findViewById(R.id.Score);
         musicMp = new MediaPlayerHandler(this, musicUri, "music");
         effectMp = new MediaPlayerHandler(this, effectUri, "effect");
 
-        musicMp.playMusic();
 
+        //Classes
         gamefield = new Gamefield(this, nextField);
-        mydb = new DatabaseHelper(this);
+        mydb = new DatabaseHandler(this);
         pausedDialog = new PausedDialog(this, gamefield, this);
-        popupDialog = new PopupDialog(this, gamefield, mydb, this);
+        gameoverDialog = new GameoverDialog(this, gamefield, mydb, this);
 
         highscore.setText(String.format("%06d", mydb.getHighScore()));
 
         LinearLayout layout1 = (LinearLayout) findViewById(R.id.game);
         layout1.addView(gamefield);
 
-
+        //Logik Thread
         final Runnable nextFrameRunnable = new Runnable() {
             @Override
             public void run() {
@@ -113,7 +115,7 @@ public class GameActivity extends AppCompatActivity {
                                 levelCheck();
                                 score.setText(gamefield.getScore());
                                 if (gamefield.getLineCleared()) {
-                                    effectMp.playMusic();
+                                    effectMp.play();
                                     vibrate(150);
                                     gamefield.resetLineCleared();
                                 }
@@ -132,6 +134,7 @@ public class GameActivity extends AppCompatActivity {
             }
         };
 
+        //Refresh Rate Thread
         final Runnable FPS = new Runnable() {
             @Override
             public void run() {
@@ -147,24 +150,39 @@ public class GameActivity extends AppCompatActivity {
                 gamefield.postDelayed(this, 1000 / 60);
             }
         };
+
+        //Button Down
         buttonD.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
+
                 vibrate(10);
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    gamefield.removeCallbacks(nextFrameRunnable);
-                    speed = boostetSpeed;
-                    levelCheck();
-                    gamefield.post(nextFrameRunnable);
+
+                    long currentTouch = System.currentTimeMillis();
+                    if (currentTouch - lastTouch <150) {
+                    //TODO: INSTANT DOWN !
+
+                    } else {
+                        gamefield.removeCallbacks(nextFrameRunnable);
+                        speed = boostedSpeed;
+                        levelCheck();
+                        gamefield.post(nextFrameRunnable);
+                        lastTouch = currentTouch;
+                    }
+
                 } else if (event.getAction() == MotionEvent.ACTION_UP) {
                     gamefield.removeCallbacks(nextFrameRunnable);
                     speed = normalSpeed;
                     levelCheck();
                     gamefield.post(nextFrameRunnable);
+
                 }
                 return false;
             }
         });
+
+        //Button Rotate
         buttonRot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -174,6 +192,8 @@ public class GameActivity extends AppCompatActivity {
                 }
             }
         });
+
+        //Button Right
         buttonR.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -184,6 +204,7 @@ public class GameActivity extends AppCompatActivity {
             }
         });
 
+        //Button Left
         buttonL.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -194,14 +215,8 @@ public class GameActivity extends AppCompatActivity {
             }
         });
 
-
-        gamefield.post(nextFrameRunnable);
-        gamefield.post(FPS);
-
-
-        soundButton = findViewById(R.id.Button_Sound);
-
-        soundButton.setOnClickListener(new View.OnClickListener() {
+        //Pause Button
+        pauseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onPause();
@@ -209,6 +224,10 @@ public class GameActivity extends AppCompatActivity {
             }
         });
 
+        gamefield.post(nextFrameRunnable);
+        gamefield.post(FPS);
+
+        musicMp.play();
 
     }
 
@@ -247,13 +266,13 @@ public class GameActivity extends AppCompatActivity {
     //TODO MediaPlayer settings file.
     private void endGame() {
         musicMp.pause();
-        popupDialog.show();
+        gameoverDialog.show();
     }
 
     @SuppressLint("DefaultLocale")
     public void restart() {
         highscore.setText(String.format("%06d", mydb.getHighScore()));
-        musicMp.playMusic();
+        musicMp.play();
         onResume();
     }
 

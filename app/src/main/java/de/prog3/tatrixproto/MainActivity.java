@@ -58,7 +58,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void checkSettings(){
-
         SharedPreferences.Editor editor;
         if(!sharedPref.contains("initialized")){
             editor = sharedPref.edit();
@@ -69,7 +68,6 @@ public class MainActivity extends AppCompatActivity {
             editor.putBoolean("music",true);
             editor.putBoolean("effect",true);
             editor.apply();
-
         }
     }
 }

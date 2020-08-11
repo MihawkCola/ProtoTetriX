@@ -98,7 +98,6 @@ public class PausedDialog extends Dialog {
         } else {
             musicSwitch.setChecked(false);
         }
-
         if (SettingsHandler.isEffectON()) {
             effectSwitch.setChecked(true);
         } else {

@@ -239,6 +239,7 @@ public class Gamefield extends View {
         for (int i = 0; i < grid.length; i++) {
             for (int k = 0; k < grid[i].length; k++) {
                 grid[i][k].draw(canvas, x + (i * blockSize), borderoffset + (k * blockSize), blockSize);
+
             }
         }
     }

@@ -13,7 +13,6 @@ public class MediaPlayerHandler {
 
     private MediaPlayer mp;
     private String flag;
-    private boolean active;
     private int uri;
     private Activity activity;
 
@@ -25,7 +24,7 @@ public class MediaPlayerHandler {
 
     }
 
-    public void playMusic() {
+    public void play() {
 
         if (flag == "music") {
             if (mp == null) {
@@ -48,8 +47,6 @@ public class MediaPlayerHandler {
             }
         }
     }
-
-
 
     public void resumeMusic() {
         if (SettingsHandler.isSoundON()) {

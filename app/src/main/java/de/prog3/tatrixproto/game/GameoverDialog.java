@@ -17,21 +17,21 @@ import android.widget.Toast;
 import de.prog3.tatrixproto.MainActivity;
 import de.prog3.tatrixproto.R;
 import de.prog3.tatrixproto.game.Class.Gamefield;
-import de.prog3.tatrixproto.game.db.DatabaseHelper;
+import de.prog3.tatrixproto.game.db.DatabaseHandler;
 
 
-public class PopupDialog extends Dialog {
+public class GameoverDialog extends Dialog {
 
     private Gamefield gamefield;
-    private PopupDialog himself;
+    private GameoverDialog himself;
     private GameActivity gameactivity;
-    private DatabaseHelper mydb;
+    private DatabaseHandler mydb;
     private Button submitButton, shareButton, restartButton, backButton;
     private TextView nicknameInput, firstplacename, firstplacescore,secondplacename, secondplacescore,thirdplacename,thirdplacescore, yourscore;
     private String score;
     private TextView finalscore;
 
-    public PopupDialog(Context context, Gamefield gamefield, DatabaseHelper mydb, GameActivity gameActivity) {
+    public GameoverDialog(Context context, Gamefield gamefield, DatabaseHandler mydb, GameActivity gameActivity) {
         super(context);
         this.gameactivity = gameActivity;
         this.gamefield = gamefield;

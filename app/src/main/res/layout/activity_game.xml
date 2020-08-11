@@ -30,14 +30,15 @@
 
 
     <ImageButton
-        android:id="@+id/Button_Sound"
-        android:layout_width="62dp"
-        android:layout_height="62dp"
-        android:layout_marginRight="35dp"
+        android:id="@+id/Button_Pause"
+        android:layout_width="28dp"
+        android:layout_height="30dp"
+
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:background="@drawable/custom_soundbutton"
-        android:state_selected="true"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="57dp"
+        android:background="@drawable/custom_pausebutton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
