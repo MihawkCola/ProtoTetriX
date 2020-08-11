@@ -8,8 +8,8 @@ import de.prog3.tetrix.game.Abstract.AbstractPiece;
 
 public class LongPiece extends AbstractPiece {
 
-    public LongPiece(Bitmap image,Bitmap imagePre) {
-        super(4, image,imagePre);
+    public LongPiece(Bitmap image,Bitmap imagePre, Bitmap nextPicture) {
+        super(4, image,imagePre,nextPicture);
 
         this.blocksBase[0][1] = true;
         this.blocksBase[1][1] = true;

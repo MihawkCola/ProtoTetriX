@@ -65,17 +65,17 @@ public class Gamefield extends View {
         Bitmap prediktion = BitmapFactory.decodeResource(context.getResources(), R.drawable.square_white);
         Bitmap vorschau = BitmapFactory.decodeResource(context.getResources(), R.drawable.square_white);
         Bitmap animation = BitmapFactory.decodeResource(context.getResources(), R.drawable.square_white);
-        test = new OnePiece(animation,animation);
-        OnePiece = new OnePiece(animation,animation);
+        test = new OnePiece(animation,animation,animation);
+        OnePiece = new OnePiece(animation,animation,animation);
 
         list = new ArrayList<AbstractPiece>();
-        list.add(new LPieceLeft(prediktion,prediktion));
-        list.add(new LongPiece(prediktion,prediktion));
-        list.add(new LPieceRight(prediktion,prediktion));
-        list.add(new OPiece(prediktion,prediktion));
-        list.add(new TPiece(prediktion,prediktion));
-        list.add(new ZPieceLeft(prediktion,prediktion));
-        list.add(new ZPieceRight(prediktion,prediktion));
+        list.add(new LPieceLeft(prediktion,prediktion,prediktion));
+        list.add(new LongPiece(prediktion,prediktion,prediktion));
+        list.add(new LPieceRight(prediktion,prediktion,prediktion));
+        list.add(new OPiece(prediktion,prediktion,prediktion));
+        list.add(new TPiece(prediktion,prediktion,prediktion));
+        list.add(new ZPieceLeft(prediktion,prediktion,prediktion));
+        list.add(new ZPieceRight(prediktion,prediktion,prediktion));
 
         activePiece = new ActivePiece(grid);
         createRandomNextPiece();

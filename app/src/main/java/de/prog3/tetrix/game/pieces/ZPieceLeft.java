@@ -7,8 +7,8 @@ import android.graphics.Bitmap;
 import de.prog3.tetrix.game.Abstract.AbstractPiece;
 
 public class ZPieceLeft extends AbstractPiece {
-    public ZPieceLeft(Bitmap image,Bitmap imagePre) {
-        super(3, image,imagePre);
+    public ZPieceLeft(Bitmap image,Bitmap imagePre, Bitmap nextPicture) {
+        super(3, image,imagePre,nextPicture);
 
         this.blocksBase[1][0] = true;
         this.blocksBase[2][0] = true;
