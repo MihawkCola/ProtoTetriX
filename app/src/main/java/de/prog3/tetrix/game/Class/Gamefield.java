@@ -64,17 +64,17 @@ public class Gamefield extends View {
         }
         Bitmap prediktion = BitmapFactory.decodeResource(context.getResources(), R.drawable.square_prediction);
         Bitmap animation = BitmapFactory.decodeResource(context.getResources(), R.drawable.square_line);
-        test = new OnePiece(animation,animation);
-        OnePiece = new OnePiece(animation,animation);
+        test = new OnePiece(animation,animation,animation);
+        OnePiece = new OnePiece(animation,animation,animation);
 
         list = new ArrayList<AbstractPiece>();
-        list.add(new LPieceLeft(BitmapFactory.decodeResource(context.getResources(), R.drawable.syellow),prediktion));
-        list.add(new LongPiece(BitmapFactory.decodeResource(context.getResources(), R.drawable.sblue),prediktion));
-        list.add(new LPieceRight(BitmapFactory.decodeResource(context.getResources(), R.drawable.scyan),prediktion));
-        list.add(new OPiece(BitmapFactory.decodeResource(context.getResources(), R.drawable.sgreen),prediktion));
-        list.add(new TPiece(BitmapFactory.decodeResource(context.getResources(), R.drawable.sorange),prediktion));
-        list.add(new ZPieceLeft(BitmapFactory.decodeResource(context.getResources(), R.drawable.sred),prediktion));
-        list.add(new ZPieceRight(BitmapFactory.decodeResource(context.getResources(), R.drawable.spurple),prediktion));
+        list.add(new LPieceLeft(BitmapFactory.decodeResource(context.getResources(), R.drawable.syellow),prediktion,prediktion));
+        list.add(new LongPiece(BitmapFactory.decodeResource(context.getResources(), R.drawable.sblue),prediktion,prediktion));
+        list.add(new LPieceRight(BitmapFactory.decodeResource(context.getResources(), R.drawable.scyan),prediktion,prediktion));
+        list.add(new OPiece(BitmapFactory.decodeResource(context.getResources(), R.drawable.sgreen),prediktion,prediktion));
+        list.add(new TPiece(BitmapFactory.decodeResource(context.getResources(), R.drawable.sorange),prediktion,prediktion));
+        list.add(new ZPieceLeft(BitmapFactory.decodeResource(context.getResources(), R.drawable.sred),prediktion,prediktion));
+        list.add(new ZPieceRight(BitmapFactory.decodeResource(context.getResources(), R.drawable.spurple),prediktion,prediktion));
 
         activePiece = new ActivePiece(grid);
         createRandomNextPiece();
