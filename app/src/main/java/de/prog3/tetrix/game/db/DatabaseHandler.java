@@ -1,6 +1,6 @@
 //Projektarbeit Prog3: Tetris
 //Autor: Nelson Morais (879551) & Marcel Sauer (886022)
-package de.prog3.tatrixproto.game.db;
+package de.prog3.tetrix.game.db;
 
 import android.content.ContentValues;
 import android.content.Context;

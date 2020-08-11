@@ -1,6 +1,6 @@
 //Projektarbeit Prog3: Tetris
 //Autor: Nelson Morais (879551) & Marcel Sauer (886022)
-package de.prog3.tatrixproto.game.Class;
+package de.prog3.tetrix.game.Class;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -8,9 +8,9 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.view.View;
 
-import de.prog3.tatrixproto.R;
-import de.prog3.tatrixproto.game.Abstract.AbstractPiece;
-import de.prog3.tatrixproto.game.pieces.EmptyPiece;
+import de.prog3.tetrix.R;
+import de.prog3.tetrix.game.Abstract.AbstractPiece;
+import de.prog3.tetrix.game.pieces.EmptyPiece;
 
 public class NextGamefield extends View {
     public static final int WIDTH = 4;

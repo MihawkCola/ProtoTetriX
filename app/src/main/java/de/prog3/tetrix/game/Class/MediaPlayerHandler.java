@@ -1,12 +1,9 @@
 //Projektarbeit Prog3: Tetris
 //Autor: Nelson Morais (879551) & Marcel Sauer (886022)
-package de.prog3.tatrixproto.game.Class;
+package de.prog3.tetrix.game.Class;
 
 import android.app.Activity;
-import android.media.MediaExtractor;
 import android.media.MediaPlayer;
-
-import java.io.IOException;
 
 
 public class MediaPlayerHandler {

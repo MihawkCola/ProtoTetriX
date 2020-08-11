@@ -1,6 +1,6 @@
 //Projektarbeit Prog3: Tetris
 //Autor: Nelson Morais (879551) & Marcel Sauer (886022)
-package de.prog3.tatrixproto.game.Class;
+package de.prog3.tetrix.game.Class;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -12,17 +12,17 @@ import android.view.View;
 import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
-import de.prog3.tatrixproto.R;
-import de.prog3.tatrixproto.game.Abstract.AbstractPiece;
+import de.prog3.tetrix.R;
+import de.prog3.tetrix.game.Abstract.AbstractPiece;
 
-import de.prog3.tatrixproto.game.pieces.LPieceLeft;
-import de.prog3.tatrixproto.game.pieces.LPieceRight;
-import de.prog3.tatrixproto.game.pieces.LongPiece;
-import de.prog3.tatrixproto.game.pieces.OPiece;
-import de.prog3.tatrixproto.game.pieces.OnePiece;
-import de.prog3.tatrixproto.game.pieces.TPiece;
-import de.prog3.tatrixproto.game.pieces.ZPieceLeft;
-import de.prog3.tatrixproto.game.pieces.ZPieceRight;
+import de.prog3.tetrix.game.pieces.LPieceLeft;
+import de.prog3.tetrix.game.pieces.LPieceRight;
+import de.prog3.tetrix.game.pieces.LongPiece;
+import de.prog3.tetrix.game.pieces.OPiece;
+import de.prog3.tetrix.game.pieces.OnePiece;
+import de.prog3.tetrix.game.pieces.TPiece;
+import de.prog3.tetrix.game.pieces.ZPieceLeft;
+import de.prog3.tetrix.game.pieces.ZPieceRight;
 
 
 public class Gamefield extends View {

@@ -1,6 +1,6 @@
 //Projektarbeit Prog3: Tetris
 //von Nelson Morais (879551) & Marcel Sauer (886022) geschrieben
-package de.prog3.tatrixproto.game.Abstract;
+package de.prog3.tetrix.game.Abstract;
 
 import android.graphics.Bitmap;
 

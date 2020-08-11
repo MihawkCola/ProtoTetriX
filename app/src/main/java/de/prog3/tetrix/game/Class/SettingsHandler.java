@@ -1,8 +1,8 @@
 //Projektarbeit Prog3: Tetris
 //Autor: Nelson Morais (879551) & Marcel Sauer (886022)
-package de.prog3.tatrixproto.game.Class;
+package de.prog3.tetrix.game.Class;
 
-import de.prog3.tatrixproto.MainActivity;
+import de.prog3.tetrix.MainActivity;
 
 public class SettingsHandler {
 

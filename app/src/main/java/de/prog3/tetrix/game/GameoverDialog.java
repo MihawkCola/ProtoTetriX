@@ -1,6 +1,6 @@
 //Projektarbeit Prog3: Tetris
 //Autor: Nelson Morais (879551) & Marcel Sauer (886022)
-package de.prog3.tatrixproto.game;
+package de.prog3.tetrix.game;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -14,10 +14,10 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import de.prog3.tatrixproto.MainActivity;
-import de.prog3.tatrixproto.R;
-import de.prog3.tatrixproto.game.Class.Gamefield;
-import de.prog3.tatrixproto.game.db.DatabaseHandler;
+import de.prog3.tetrix.MainActivity;
+import de.prog3.tetrix.R;
+import de.prog3.tetrix.game.Class.Gamefield;
+import de.prog3.tetrix.game.db.DatabaseHandler;
 
 
 public class GameoverDialog extends Dialog {

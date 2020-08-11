@@ -2,7 +2,7 @@
 //Autor: Nelson Morais (879551) & Marcel Sauer (886022)
 
 
-package de.prog3.tatrixproto.game;
+package de.prog3.tetrix.game;
 
 import android.annotation.SuppressLint;
 import android.os.Build;
@@ -22,12 +22,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Objects;
 
-import de.prog3.tatrixproto.R;
-import de.prog3.tatrixproto.game.Class.Gamefield;
-import de.prog3.tatrixproto.game.Class.MediaPlayerHandler;
-import de.prog3.tatrixproto.game.Class.NextGamefield;
-import de.prog3.tatrixproto.game.Class.SettingsHandler;
-import de.prog3.tatrixproto.game.db.DatabaseHandler;
+import de.prog3.tetrix.R;
+import de.prog3.tetrix.game.Class.Gamefield;
+import de.prog3.tetrix.game.Class.MediaPlayerHandler;
+import de.prog3.tetrix.game.Class.NextGamefield;
+import de.prog3.tetrix.game.Class.SettingsHandler;
+import de.prog3.tetrix.game.db.DatabaseHandler;
 
 
 public class GameActivity extends AppCompatActivity {

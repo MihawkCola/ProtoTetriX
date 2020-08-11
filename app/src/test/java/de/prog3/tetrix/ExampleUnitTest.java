@@ -1,4 +1,4 @@
-package de.prog3.tatrixproto;
+package de.prog3.tetrix;
 
 import org.junit.Test;
 

@@ -1,6 +1,6 @@
 //Projektarbeit Prog3: Tetris
 //Autor: Nelson Morais (879551) & Marcel Sauer (886022)
-package de.prog3.tatrixproto.game;
+package de.prog3.tetrix.game;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -11,9 +11,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Switch;
 
-import de.prog3.tatrixproto.R;
-import de.prog3.tatrixproto.game.Class.Gamefield;
-import de.prog3.tatrixproto.game.Class.SettingsHandler;
+import de.prog3.tetrix.R;
+import de.prog3.tetrix.game.Class.Gamefield;
+import de.prog3.tetrix.game.Class.SettingsHandler;
 
 public class PausedDialog extends Dialog {
 

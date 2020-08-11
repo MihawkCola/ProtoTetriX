@@ -1,18 +1,17 @@
 //Projektarbeit Prog3: Tetris
 //Autor: Nelson Morais (879551) & Marcel Sauer (886022)
-package de.prog3.tatrixproto;
+package de.prog3.tetrix;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 
-import de.prog3.tatrixproto.game.GameActivity;
+import de.prog3.tetrix.game.GameActivity;
 
 
 public class MainActivity extends AppCompatActivity {

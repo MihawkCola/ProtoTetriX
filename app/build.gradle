@@ -5,7 +5,7 @@ android {
     buildToolsVersion "29.0.3"
 
     defaultConfig {
-        applicationId "de.prog3.tatrixproto"
+        applicationId "de.prog3.tetrix"
         minSdkVersion 21
         targetSdkVersion 29
         versionCode 1

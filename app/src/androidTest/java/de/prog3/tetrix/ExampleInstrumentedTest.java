@@ -1,4 +1,4 @@
-package de.prog3.tatrixproto;
+package de.prog3.tetrix;
 
 import android.content.Context;
 
@@ -22,6 +22,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
 
-        assertEquals("de.prog3.tatrixproto", appContext.getPackageName());
+        assertEquals("de.prog3.tetrix", appContext.getPackageName());
     }
 }
