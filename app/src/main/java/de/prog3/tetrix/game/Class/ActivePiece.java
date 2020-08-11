@@ -158,6 +158,10 @@ public class ActivePiece {
      * Add this piece to the grid
      */
     public boolean addToGrid() {
+        return addToGrid(true);
+
+    }
+    public boolean addToGrid(boolean renderPreview) {
         boolean end = true;
         for (int i = 0; i <piece.getBlocks().length;i++){
             for (int k = 0; k <piece.getBlocks()[i].length;k++){
@@ -172,9 +176,8 @@ public class ActivePiece {
                 }
             }
         }
-        if(end){
+        if(end && renderPreview){
            instantDownPre();
-            //updateGrid(this.piece,x ,tmp);
         }
         updateGrid(this.piece,this.x ,this.y,false);
         return end;

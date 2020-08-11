@@ -8,6 +8,7 @@ public abstract class AbstractPiece {
     protected boolean blocksBase[][];
     protected boolean blocks[][];
     protected Bitmap image;
+    protected Bitmap imageScaled;
     protected Bitmap imagePre;
     protected boolean blockRot[][];
     protected int sizeD2;
@@ -38,6 +39,7 @@ public abstract class AbstractPiece {
         return image;
     }
     public void setImage(Bitmap image) {this.image=image;}
+    public void setImageScaled(Bitmap image) {this.imageScaled=image;}
 
     public int getSizeD2() {
         return sizeD2;

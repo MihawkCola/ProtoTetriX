@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -44,7 +43,7 @@ public class GameActivity extends AppCompatActivity {
     private TextView level;
 
     public double speed = 1;
-    public double andfansSpeed = 1;
+    public double anfangsSpeed = speed;
     public double normalSpeed = speed;
     public double speedFactor;
     public int boostedSpeed = 20;
@@ -118,9 +117,7 @@ public class GameActivity extends AppCompatActivity {
                                 }
                             } else {
                                 stop = true;
-                                levelUP = 0;
-                                speed = 1;
-                                normalSpeed = 1;
+                                statusReset();
                                 endGame();
                             }
                         }
@@ -232,13 +229,17 @@ public class GameActivity extends AppCompatActivity {
         int tmp = levelUP;
         levelUP = gamefield.getlineScore()/ levelLine;
         if (tmp < levelUP) {
-            speed = speedFactor * levelUP+andfansSpeed;
+            speed = speedFactor * levelUP+ anfangsSpeed;
             normalSpeed = speed;
             level.setText(String.valueOf(levelUP));
 
         }
     }
-
+    private  void statusReset(){
+        levelUP = 0;
+        speed = 1;
+        normalSpeed = 1;
+    }
     @Override
     protected void onPause() {
         super.onPause();

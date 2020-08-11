@@ -17,6 +17,8 @@ public class NextGamefield extends View {
     public static final int HEIGHT = 4;
     private ActivePiece active;
 
+
+
     Block grid[][] = new Block[WIDTH][HEIGHT];
 
     public NextGamefield(Context context) {
@@ -27,8 +29,8 @@ public class NextGamefield extends View {
             }
         }
         active = new ActivePiece(grid);
-        Bitmap prediktion = BitmapFactory.decodeResource(context.getResources(), R.drawable.square_white1);
-        active.addPiece(new EmptyPiece(BitmapFactory.decodeResource(context.getResources(),R.drawable.square_white),prediktion));
+        //Bitmap prediktion = BitmapFactory.decodeResource(context.getResources(), R.drawable.square_white);
+        //active.addPiece(new EmptyPiece(BitmapFactory.decodeResource(context.getResources(),R.drawable.square_white),prediktion));
     }
 
     public void addPiece(AbstractPiece piece) {
@@ -38,7 +40,8 @@ public class NextGamefield extends View {
             }
         }
         active.addPiece(piece,0,0);
-        active.updateGrid(piece,0,0,false);
+        active.addToGrid(false);
+        //active.updateGrid(piece,0,0,false);
     }
 
     public void clear(){
@@ -67,10 +70,10 @@ public class NextGamefield extends View {
         x = (width - blockSize * WIDTH) / 2; // zentrieren
 
         // draw blocks
-        for (int i = 0; i < grid.length; i++) {
+        /*for (int i = 0; i < grid.length; i++) {
             for (int k = 0; k < grid[i].length; k++) {
                 grid[i][k].draw(canvas, x + (i * blockSize),(k * blockSize), blockSize);
             }
-        }
+        }*/
     }
 }

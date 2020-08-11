@@ -32,8 +32,10 @@ public class Gamefield extends View {
     private int bonusPunkte;
     private int lineScore;
     private ArrayList<AbstractPiece> list;
+    private ArrayList<AbstractPiece> listNextPiece;
     private AbstractPiece nextPiece;
     private AbstractPiece OnePiece;
+    private AbstractPiece test;
 
     NextGamefield nextField;
     // Tetris Grid 10x21
@@ -61,17 +63,19 @@ public class Gamefield extends View {
             }
         }
         Bitmap prediktion = BitmapFactory.decodeResource(context.getResources(), R.drawable.square_white);
+        Bitmap vorschau = BitmapFactory.decodeResource(context.getResources(), R.drawable.square_white);
         Bitmap animation = BitmapFactory.decodeResource(context.getResources(), R.drawable.square_white);
-
+        test = new OnePiece(animation,animation);
         OnePiece = new OnePiece(animation,animation);
+
         list = new ArrayList<AbstractPiece>();
-        list.add(new LPieceLeft(BitmapFactory.decodeResource(context.getResources(), R.drawable.syellow),prediktion));
-        list.add(new LongPiece(BitmapFactory.decodeResource(context.getResources(), R.drawable.sblue),prediktion));
-        list.add(new LPieceRight(BitmapFactory.decodeResource(context.getResources(), R.drawable.scyan),prediktion));
-        list.add(new OPiece(BitmapFactory.decodeResource(context.getResources(), R.drawable.sgreen),prediktion));
-        list.add(new TPiece(BitmapFactory.decodeResource(context.getResources(), R.drawable.sorange),prediktion));
-        list.add(new ZPieceLeft(BitmapFactory.decodeResource(context.getResources(), R.drawable.spurple),prediktion));
-        list.add(new ZPieceRight(BitmapFactory.decodeResource(context.getResources(), R.drawable.sred),prediktion));
+        list.add(new LPieceLeft(prediktion,prediktion));
+        list.add(new LongPiece(prediktion,prediktion));
+        list.add(new LPieceRight(prediktion,prediktion));
+        list.add(new OPiece(prediktion,prediktion));
+        list.add(new TPiece(prediktion,prediktion));
+        list.add(new ZPieceLeft(prediktion,prediktion));
+        list.add(new ZPieceRight(prediktion,prediktion));
 
         activePiece = new ActivePiece(grid);
         createRandomNextPiece();
@@ -83,7 +87,7 @@ public class Gamefield extends View {
     public void createRandomNextPiece() {
         int k = ThreadLocalRandom.current().nextInt(0, list.size());
         nextPiece = list.get(k);
-        nextField.addPiece(nextPiece.getPiece());
+        nextField.addPiece(list.get(k));
     }
 
 
