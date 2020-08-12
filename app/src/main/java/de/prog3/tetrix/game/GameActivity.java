@@ -149,9 +149,9 @@ public class GameActivity extends AppCompatActivity {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
 
-                vibrate(10);
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
 
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    vibrate(10);
                     long currentTouch = System.currentTimeMillis();
                     if (currentTouch - lastTouch <150) {
                     gamefield.moveInstantDown();

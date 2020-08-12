@@ -64,17 +64,30 @@ public class Gamefield extends View {
         }
         Bitmap prediktion = BitmapFactory.decodeResource(context.getResources(), R.drawable.square_prediction);
         Bitmap animation = BitmapFactory.decodeResource(context.getResources(), R.drawable.square_line);
+
+        //Next Piece Bitmaps
+        Bitmap zpieceright = BitmapFactory.decodeResource(context.getResources(),R.drawable.zpieceright);
+        Bitmap zpieceleft = BitmapFactory.decodeResource(context.getResources(),R.drawable.zpieceleft);
+        Bitmap longpiece = BitmapFactory.decodeResource(context.getResources(),R.drawable.longpiece);
+        Bitmap tpiece = BitmapFactory.decodeResource(context.getResources(),R.drawable.tpiece);
+        Bitmap lpiecerechts = BitmapFactory.decodeResource(context.getResources(),R.drawable.lpiecerechts);
+        Bitmap lpiecelinks = BitmapFactory.decodeResource(context.getResources(),R.drawable.lpiecelinks);
+        Bitmap opiece = BitmapFactory.decodeResource(context.getResources(),R.drawable.opiece);
+
+
         test = new OnePiece(animation,animation,animation);
+
+
         OnePiece = new OnePiece(animation,animation,animation);
 
         list = new ArrayList<AbstractPiece>();
-        list.add(new LPieceLeft(BitmapFactory.decodeResource(context.getResources(), R.drawable.syellow),prediktion,prediktion));
-        list.add(new LongPiece(BitmapFactory.decodeResource(context.getResources(), R.drawable.sblue),prediktion,prediktion));
-        list.add(new LPieceRight(BitmapFactory.decodeResource(context.getResources(), R.drawable.scyan),prediktion,prediktion));
-        list.add(new OPiece(BitmapFactory.decodeResource(context.getResources(), R.drawable.sgreen),prediktion,prediktion));
-        list.add(new TPiece(BitmapFactory.decodeResource(context.getResources(), R.drawable.sorange),prediktion,prediktion));
-        list.add(new ZPieceLeft(BitmapFactory.decodeResource(context.getResources(), R.drawable.sred),prediktion,prediktion));
-        list.add(new ZPieceRight(BitmapFactory.decodeResource(context.getResources(), R.drawable.spurple),prediktion,prediktion));
+        list.add(new LPieceLeft(BitmapFactory.decodeResource(context.getResources(), R.drawable.syellow),prediktion,lpiecerechts));
+        list.add(new LongPiece(BitmapFactory.decodeResource(context.getResources(), R.drawable.sblue),prediktion,longpiece));
+        list.add(new LPieceRight(BitmapFactory.decodeResource(context.getResources(), R.drawable.scyan),prediktion,lpiecelinks));
+        list.add(new OPiece(BitmapFactory.decodeResource(context.getResources(), R.drawable.sgreen),prediktion,opiece));
+        list.add(new TPiece(BitmapFactory.decodeResource(context.getResources(), R.drawable.sorange),prediktion,tpiece));
+        list.add(new ZPieceLeft(BitmapFactory.decodeResource(context.getResources(), R.drawable.sred),prediktion,zpieceright));
+        list.add(new ZPieceRight(BitmapFactory.decodeResource(context.getResources(), R.drawable.spurple),prediktion,zpieceleft));
 
         activePiece = new ActivePiece(grid);
         createRandomNextPiece();
