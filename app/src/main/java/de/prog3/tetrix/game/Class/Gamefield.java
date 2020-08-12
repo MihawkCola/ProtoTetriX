@@ -10,6 +10,7 @@ import android.graphics.Canvas;
 import android.view.View;
 
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 import de.prog3.tetrix.R;
@@ -36,6 +37,7 @@ public class Gamefield extends View {
     private AbstractPiece nextPiece;
     private AbstractPiece OnePiece;
     private AbstractPiece test;
+    Random generator;
 
     NextGamefield nextField;
     // Tetris Grid 10x21
@@ -50,7 +52,7 @@ public class Gamefield extends View {
 
     public Gamefield(Context context, NextGamefield nextField) {
         super(context);
-
+        generator = new Random(System.currentTimeMillis());
         this.nextField = nextField;
         gamefieldBackground = BitmapFactory.decodeResource(context.getResources(), R.drawable.gamefield);
         score = 0;
@@ -97,7 +99,7 @@ public class Gamefield extends View {
     }
 
     public void createRandomNextPiece() {
-        int k = ThreadLocalRandom.current().nextInt(0, list.size());
+        int k = (int)(generator.nextDouble()*list.size());
         nextPiece = list.get(k);
         nextField.addPiece(list.get(k));
     }
