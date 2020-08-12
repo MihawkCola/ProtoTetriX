@@ -63,7 +63,7 @@ public class GameActivity extends AppCompatActivity {
 
         this.levelUP = 0;
         speedFactor = 1;
-        levelLine = 1;
+        levelLine = 10;
 
 
         nextField = new NextGamefield(this);
