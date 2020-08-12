@@ -63,7 +63,7 @@ public class GameActivity extends AppCompatActivity {
 
         this.levelUP = 0;
         speedFactor = 1;
-        levelLine = 10;
+        levelLine = 1;
 
 
         nextField = new NextGamefield(this);
@@ -275,6 +275,10 @@ public class GameActivity extends AppCompatActivity {
     @SuppressLint("DefaultLocale")
     public void restart() {
         highscore.setText(String.format("%06d", mydb.getHighScore()));
+        level.setText("0");
+        speed=anfangsSpeed;
+        normalSpeed=anfangsSpeed;
+        gamefield.reset();
         musicMp.play();
         onResume();
     }

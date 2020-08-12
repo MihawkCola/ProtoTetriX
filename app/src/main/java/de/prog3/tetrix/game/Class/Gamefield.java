@@ -221,6 +221,7 @@ public class Gamefield extends View {
                 block.clear();
             }
         }
+        this.lineScore=0;
         this.score = 0;
         this.isFinished = false;
         nextField.clear();

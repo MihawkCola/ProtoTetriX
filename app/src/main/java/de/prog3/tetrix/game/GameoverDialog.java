@@ -103,7 +103,6 @@ public class GameoverDialog extends Dialog {
         restartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                gamefield.reset();
                 gameactivity.restart();
                 submitButton.setEnabled(true);
                 nicknameInput.setText(null);
