@@ -88,39 +88,23 @@ public class Gamefield extends View {
         list.add(new ZPieceRight(BitmapFactory.decodeResource(context.getResources(), R.drawable.spurple),prediktion,zpieceleft));
 
         activePiece = new ActivePiece(grid);
-        initialSatrtPiece();
+        initialStartPiece();
+    }
+    public String getScore() {
+        return String.format("%06d", score);
+    }
+    public int getScoreInt() {
+        return score;
+    }
+    public int getlineScore() {
+        return lineScore;
     }
 
-    public void createRandomNextPiece() { // das aus der liste gezogene Piece wird in nextPiece gespeichert
-        int k = (int)(generator.nextDouble()*list.size());
-        nextPiece = list.get(k);
-        nextField.addPiece(list.get(k));
+    public boolean getLineCleared(){
+        return lineCleared;
     }
-    private void initialSatrtPiece(){
-        createRandomNextPiece();
-        activePiece.spawnPiece(nextPiece.getPiece());
-        createRandomNextPiece();
-        activePiece.addToGrid();
-    }
-    private void getNewPiece(){
-        activePiece.spawnPiece(nextPiece.getPiece());
-        createRandomNextPiece();
-    }
-
-
-    public void moveLeft() {
-        activePiece.movePieceLeft();
-    }
-
-    public void moveRight() {
-        activePiece.movePieceRight();
-    }
-    public void moveInstantDown() { activePiece.moveInstantDown();
-
-    }
-
-    public void rotate() {
-        activePiece.rotatePiece();
+    public void resetLineCleared(){
+        lineCleared = false;
     }
 
     public boolean nextFrame() {
@@ -140,17 +124,35 @@ public class Gamefield extends View {
             }
         }
         if(!activePiece.canNextFrameDown()){
-            for (int k = HEIGHT - 1; k >= 0; k--) {
-                if (numberInLine(k) == WIDTH) {
-                    setLine(k);
-                    lineCleared = true;
-                }
-            }
+            fullLineAnimation();
         }
         return true;
     }
 
-    public int checkLine() { // prüft ob eine Line Voll und setzt die jeweiligeen werte
+    public void createRandomNextPiece() { // das aus der liste gezogene Piece wird in nextPiece gespeichert
+        int k = (int)(generator.nextDouble()*list.size());
+        nextPiece = list.get(k);
+        nextField.addPiece(list.get(k));
+    }
+    private void initialStartPiece(){
+        createRandomNextPiece();
+        activePiece.spawnPiece(nextPiece.getPiece());
+        createRandomNextPiece();
+        activePiece.addToGrid();
+    }
+    private void getNewPiece(){
+        activePiece.spawnPiece(nextPiece.getPiece());
+        createRandomNextPiece();
+    }
+    private void fullLineAnimation(){
+        for (int k = HEIGHT - 1; k >= 0; k--) {
+            if (numberInLine(k) == WIDTH) {
+                setLine(k);
+                lineCleared = true;
+            }
+        }
+    }
+    private int checkLine() { // prüft ob eine Line Voll und setzt die jeweiligeen werte
         int scoreCount = 0;
         for (int k = HEIGHT - 1; k >= 0; k--) {
             if (numberInLine(k) == WIDTH) {
@@ -198,23 +200,21 @@ public class Gamefield extends View {
         }
     }
 
-    public String getScore() {
-        return String.format("%06d", score);
+    //Steuerung des aktiven Pieces
+    public void moveLeft() {
+        activePiece.movePieceLeft();
+    }
+    public void moveRight() {
+        activePiece.movePieceRight();
+    }
+    public void moveInstantDown() {
+        activePiece.moveInstantDown();
+        fullLineAnimation();
+    }
+    public void rotate() {
+        activePiece.rotatePiece();
     }
 
-    public int getScoreInt() {
-        return score;
-    }
-    public int getlineScore() {
-        return lineScore;
-    }
-
-    public boolean getLineCleared(){
-        return lineCleared;
-    }
-    public void resetLineCleared(){
-        lineCleared = false;
-    }
 
     public void reset() {
         for (Block[] blocks : grid) {
@@ -229,7 +229,7 @@ public class Gamefield extends View {
         nextPiece = null;
         activePiece.reset();
 
-        initialSatrtPiece();
+        initialStartPiece();
     }
 
     @Override
