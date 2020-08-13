@@ -75,12 +75,12 @@ public class PausedDialog extends Dialog {
     @Override
     public void dismiss(){
         super.dismiss();
-        gameActivity.isPauseDialog=false;
+        gameActivity.isDialog =false;
     }
     @Override
     public void show(){
         super.show();
-        gameActivity.isPauseDialog=true;
+        gameActivity.isDialog =true;
     }
 
     private void checkSettings() {

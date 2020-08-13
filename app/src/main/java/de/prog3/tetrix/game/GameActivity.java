@@ -36,8 +36,8 @@ public class GameActivity extends AppCompatActivity {
     private DatabaseHandler mydb;
     private NextGamefield nextField;
     private GameoverDialog gameoverDialog;
-    private MediaPlayerHandler musicMp;
-    private MediaPlayerHandler effectMp;
+    private MediaPlayerHandler musicMediaPlayer;
+    private MediaPlayerHandler effectMediaPlayer;
     private TextView score;
     private TextView highscore;
     private TextView level;
@@ -51,7 +51,7 @@ public class GameActivity extends AppCompatActivity {
     private int levelUP;
     private long lastTouch = -1;
     private boolean stop;
-    public boolean isPauseDialog;
+    public boolean isDialog;
 
 
 
@@ -65,13 +65,16 @@ public class GameActivity extends AppCompatActivity {
         speedFactor = 1;
         levelLine = 10;
 
-
-        nextField = new NextGamefield(this);
-        LinearLayout layout2 = (LinearLayout) findViewById(R.id.NextField);
-        layout2.addView(nextField);
-
         // Hide the status bar.
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+        //Classes
+        nextField = new NextGamefield(this);
+        gamefield = new Gamefield(this, nextField);
+        mydb = new DatabaseHandler(this);
+        pausedDialog = new PausedDialog(this, gamefield, this);
+        gameoverDialog = new GameoverDialog(this, gamefield, mydb, this);
+
 
         //Buttons, Textviews & MediaPlayers
         ImageButton buttonL = findViewById(R.id.Button_Left);
@@ -82,22 +85,16 @@ public class GameActivity extends AppCompatActivity {
         highscore = findViewById(R.id.HighScore);
         score = findViewById(R.id.Score);
         level = findViewById(R.id.Level);
-        int musicUri = R.raw.tetrix_soundtrack;
-        musicMp = new MediaPlayerHandler(this, musicUri, "music");
-        int effectUri = R.raw.tetrix_effect;
-        effectMp = new MediaPlayerHandler(this, effectUri, "effect");
-
-
-        //Classes
-        gamefield = new Gamefield(this, nextField);
-        mydb = new DatabaseHandler(this);
-        pausedDialog = new PausedDialog(this, gamefield, this);
-        gameoverDialog = new GameoverDialog(this, gamefield, mydb, this);
-
         highscore.setText(String.format("%06d", mydb.getHighScore()));
+        musicMediaPlayer = new MediaPlayerHandler(this, R.raw.tetrix_soundtrack, "music");
+        effectMediaPlayer = new MediaPlayerHandler(this, R.raw.tetrix_effect, "effect");
+        musicMediaPlayer.play();
 
-        LinearLayout layout1 = (LinearLayout) findViewById(R.id.game);
-        layout1.addView(gamefield);
+        //Layouts
+        LinearLayout gameLayout = (LinearLayout) findViewById(R.id.game);
+        gameLayout.addView(gamefield);
+        LinearLayout nextFieldLayout = (LinearLayout) findViewById(R.id.NextField);
+        nextFieldLayout.addView(nextField);
 
         //Logik Thread
         final Runnable nextFrameRunnable = new Runnable() {
@@ -111,7 +108,7 @@ public class GameActivity extends AppCompatActivity {
                                 levelCheck();
                                 score.setText(gamefield.getScore());
                                 if (gamefield.getLineCleared()) {
-                                    effectMp.play();
+                                    effectMediaPlayer.play();
                                     vibrate(150);
                                     gamefield.resetLineCleared();
                                 }
@@ -148,8 +145,6 @@ public class GameActivity extends AppCompatActivity {
         buttonD.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-
-
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     vibrate(10);
                     long currentTouch = System.currentTimeMillis();
@@ -163,13 +158,11 @@ public class GameActivity extends AppCompatActivity {
                         gamefield.post(nextFrameRunnable);
                         lastTouch = currentTouch;
                     }
-
                 } else if (event.getAction() == MotionEvent.ACTION_UP) {
                     gamefield.removeCallbacks(nextFrameRunnable);
                     speed = normalSpeed;
                     levelCheck();
                     gamefield.post(nextFrameRunnable);
-
                 }
                 return false;
             }
@@ -217,11 +210,9 @@ public class GameActivity extends AppCompatActivity {
             }
         });
 
+
         gamefield.post(nextFrameRunnable);
         gamefield.post(FPS);
-
-        musicMp.play();
-
     }
 
 
@@ -244,19 +235,19 @@ public class GameActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         stop = true;
-        musicMp.pause();
+        musicMediaPlayer.pause();
 
     }
 
     @Override
     protected void onResume() {
-        if (isPauseDialog){
+        if (isDialog){
             onPause();
             return;
         }
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         stop = false;
-        musicMp.resumeMusic();
+        musicMediaPlayer.resumeMusic();
         super.onResume();
     }
 
@@ -268,7 +259,7 @@ public class GameActivity extends AppCompatActivity {
     //End Game popup
     //TODO MediaPlayer settings file.
     private void endGame() {
-        musicMp.pause();
+        musicMediaPlayer.pause();
         gameoverDialog.show();
     }
 
@@ -279,7 +270,7 @@ public class GameActivity extends AppCompatActivity {
         speed=anfangsSpeed;
         normalSpeed=anfangsSpeed;
         gamefield.reset();
-        musicMp.play();
+        musicMediaPlayer.play();
         onResume();
     }
 

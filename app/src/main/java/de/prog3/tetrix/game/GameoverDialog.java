@@ -103,12 +103,13 @@ public class GameoverDialog extends Dialog {
         restartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                dismiss();
                 gameactivity.restart();
                 submitButton.setEnabled(true);
                 nicknameInput.setText(null);
                 nicknameInput.setEnabled(true);
                 nicknameInput.clearFocus();
-                dismiss();
+
             }
         });
 
@@ -144,6 +145,13 @@ public class GameoverDialog extends Dialog {
         }
         finalscore.setText(score);
         getTop3();
+        gameactivity.isDialog = true;
+    }
+
+    @Override
+    public void dismiss(){
+        super.dismiss();
+        gameactivity.isDialog = false;
     }
 
     //Hide Keyboard on touch outside its scope.
