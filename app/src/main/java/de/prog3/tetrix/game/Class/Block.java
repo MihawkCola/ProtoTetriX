@@ -4,7 +4,7 @@ package de.prog3.tetrix.game.Class;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Paint;
+
 
 import de.prog3.tetrix.game.Abstract.AbstractPiece;
 
@@ -22,7 +22,7 @@ public class Block {
         return piece;
     }
 
-    public boolean isActive() {
+    public boolean isActive() { // gibt an was ein aktiver Piec ist
         return piece != null & !isPrediction ;
     }
     public void setPiece(AbstractPiece piece,boolean p) {

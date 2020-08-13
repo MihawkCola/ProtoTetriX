@@ -9,10 +9,13 @@ import de.prog3.tetrix.game.Abstract.AbstractPiece;
 public class ActivePiece {
     private int x;
     private int y;
+
     private int yPre;
     private int xAusPunkt;
+
     protected AbstractPiece piece;
-    /** reference t the parent grid */
+
+    // referenziert auf dem Grid wo es sich befindet
     private Block[][] grid;
 
     public ActivePiece(Block[][] grid) {
@@ -22,7 +25,8 @@ public class ActivePiece {
         y = 0;
         yPre = 0;
     }
-    public void addPiece(AbstractPiece piece){
+    public void spawnPiece(AbstractPiece piece){
+        resetP();
         this.piece = piece;
         boolean check = true;
         this.x = (grid.length/2)-(int)piece.getSizeD2()/2;
@@ -51,21 +55,16 @@ public class ActivePiece {
             }
         }
     }
-    public void addPiece(AbstractPiece piece,int x, int y){
-        this.piece = piece;
-        this.x = x;
-        this.y = y;
-    }
-    public void resetP(){
+    private void resetP(){
         y=0;
         x= xAusPunkt;
     }
-    public void clear(){
+    private void clear(){
         piece=null;
     }
 
 
-    public boolean canMoveLeft() { //L
+    private boolean moveLeft() {
         x--;
         for (int i = 0; i <piece.getBlocks().length;i++){
             for (int k = 0; k <piece.getBlocks()[0].length;k++){
@@ -84,7 +83,7 @@ public class ActivePiece {
         }
         return true;
     }
-    public boolean canMoveRight() { //L
+    private boolean moveRight() {
         x++;
         for (int i = 0; i <piece.getBlocks().length;i++){
             for (int k = 0; k <piece.getBlocks()[i].length;k++){
@@ -105,7 +104,7 @@ public class ActivePiece {
     }
 
 
-    public boolean canMoveDown() {//L
+    private boolean moveDown() {
         y++;
         for (int i = 0; i <piece.getBlocks().length;i++){
                 for (int k = 0; k <piece.getBlocks()[i].length;k++){
@@ -125,43 +124,35 @@ public class ActivePiece {
         }
         return true;
     }
-    public boolean canNextFrameDown(){
+    public boolean canNextFrameDown(){ // dient als überprufung ob der nächste tick der aktive Piece down gehen kann
         if(y< 0){
             return true;
         }
         removeFromGrid();
-        boolean tmp = canMoveDown();
+        boolean tmp = moveDown();
         if(tmp){
             y--;
         }
         addToGrid();
         return tmp;
     }
-    public void movePieceLeft() {//L
+    public void movePieceLeft() { //Steuerung nach Links
         removeFromGrid();
-        if (!canMoveLeft()){
-            addToGrid();
-            return;
-        }
+        moveLeft();
         addToGrid();
     }
-    public void movePieceRight() {//L
+    public void movePieceRight() {//Steuerung nach Rechts
         removeFromGrid();
-        if (!canMoveRight()){
-            addToGrid();
-            return;
-        }
+        moveRight();
         addToGrid();
     }
 
-    /**
-     * Add this piece to the grid
-     */
+
     public boolean addToGrid() {
         return addToGrid(true);
 
     }
-    public boolean addToGrid(boolean renderPreview) {
+    public boolean addToGrid(boolean renderPreview) { // fügt den aktiven Piece zum grid hinzu mit dem Prediktion(renderPreview)
         boolean end = true;
         for (int i = 0; i <piece.getBlocks().length;i++){
             for (int k = 0; k <piece.getBlocks()[i].length;k++){
@@ -177,19 +168,17 @@ public class ActivePiece {
             }
         }
         if(end && renderPreview){
-           instantDownPre();
+           instantDownPre(); //setzt die Preview zum grid dazu
         }
-        updateGrid(this.piece,this.x ,this.y,false);
+        updateGrid(this.piece,this.x ,this.y,false); // fügt den Piece zm grid dazu
         return end;
     }
-    /**
-     * Remove this piece from the grid
-     */
-    public void removeFromGrid() {
+
+    public void removeFromGrid() { // löscht den Preview und den aktiven Piece com grid
         updateGrid(null,this.x ,this.yPre,false);
         updateGrid(null,this.x,this.y,false);
     }
-    private void instantDownPre(){
+    private void instantDownPre(){ // setzten des Preview des aktiven Pieces
         int tmp = y;
         instantDown();
         updateGrid(this.piece,x ,y,true);
@@ -197,44 +186,44 @@ public class ActivePiece {
         y = tmp;
     }
 
-    private void instantDown(){
+    private void instantDown(){ // setzt denaktiven Piece soweit down Piece dieser kollediert
         for (int i = y;i <grid[0].length;i++){
-            if (!canMoveDown()){
+            if (!moveDown()){
                 break;
             }
         }
     }
-    public void moveInstantDown(){
+    public void moveInstantDown(){ //Steuerung setzt den aktiven Piece sofort nach Unten
         removeFromGrid();
         instantDown();
         addToGrid();
     }
-    public void updateGrid(AbstractPiece piece, int x, int y, boolean p){
+    private void updateGrid(AbstractPiece piece, int x, int y, boolean pre){ //updatet den jeweiligen Piece an der gesetzten position im grid, dabei wir doch angegeben ob es sich um eine Preview handelt
         for (int i = 0; i <this.piece.getBlocks().length;i++){
             for (int k = 0; k <this.piece.getBlocks()[i].length;k++){
                 if (this.piece.getBlocks()[i][k]) {
                     if (x+i >= 0 && x+i < grid.length
                             && y+k >=0 && y+k < grid[0].length) {
-                        grid[x + i][y + k].setPiece(piece,p);
+                        grid[x + i][y + k].setPiece(piece,pre);
                     }
                 }
             }
         }
     }
 
-
-    public boolean movePieceDown() {//L
+    public void reset(){
+        resetP();
+        clear();
+    }
+    public boolean movePieceDown() {//Steuerung setzt den Piece down wenn er kann
         removeFromGrid();
-        if (canMoveDown()) {
-            addToGrid();
-            return true;
-        }
+        boolean tmp = moveDown();
         addToGrid();
-        return false;
+        return tmp;
     }
 
 
-    public boolean canRotate(boolean[][] pre){
+    private boolean canRotate(boolean[][] pre){ // prüft ob der gesetzte Array im grid passt wenn nicht wird false zurückgegegben
         for (int i = 0; i <piece.getBlocks().length;i++){
             for (int k = 0; k <piece.getBlocks()[i].length;k++){
                 if(pre[i][k]) {
@@ -245,37 +234,30 @@ public class ActivePiece {
                         if(blockBelow.isActive()){
                             return false;
                         }
-
                     }else {return false;}
                 }
             }
         }
         return true;
     }
+    
     //Quelle: https://stackoverflow.com/questions/2799755/rotate-array-clockwise
-    public void rotatePiece(){
+    public void rotatePiece(){ //Steuerung um zu Rotieren
         removeFromGrid();
         int count = 0;
         do {
             count++;
             for (int i = 0; i <piece.getBlocks().length;i++){
                 for (int k = 0; k <piece.getBlocks()[i].length;k++){
-                    piece.getBlockRot()[k][piece.getBlocks().length-1-i]=piece.getBlocks()[i][k];
+                    piece.getBlockRot()[k][piece.getBlocks().length-1-i]=piece.getBlocks()[i][k]; // setzt den Rotation Array vom Piece
                 }
             }
-        }while (!canRotate(piece.getBlockRot())&&count<5);
-        if(count<4){ // Wenn Counter 4 ist hat sich an dem zustand vom Pieces nichts geändert
-            this.tiefeCopyArray2(piece.getBlockRot());
+        }while (!canRotate(piece.getBlockRot())&&count<5); // wenn dieser nicht pass und nicht unter 4 ist wird wiederholt
+
+        if(count<4){ // wenn der counter über 3 ist hat sich an dem zu stand nicht geändert da ein Piece 4 zustande beim Rotieren hat
+            this.piece.copyRotInblock();
         }
 
         addToGrid();
     }
-    private void tiefeCopyArray2(boolean[][] a){
-        for (int i = 0; i < a.length;i++){
-            for (int k = 0; k < a[0].length; k++){
-                this.piece.getBlocks()[i][k] = a[i][k];
-            }
-        }
-    }
-
 }

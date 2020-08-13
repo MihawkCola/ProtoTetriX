@@ -53,7 +53,7 @@ public abstract class AbstractPiece {
     public int getSizeD2() {
         return sizeD2;
     }
-    private void reset() {
+    private void resetRot() {
         copyInblockBase();
     }
     protected void copyInblockBase() {
@@ -61,5 +61,13 @@ public abstract class AbstractPiece {
             System.arraycopy(blocksBase[i], 0, blocks[i], 0, blocksBase[i].length);
         }
     }
-    public AbstractPiece getPiece(){reset(); return this; }
+    public void copyRotInblock() {
+        for (int i = 0; i < blockRot.length;i++){
+            System.arraycopy(blockRot[i], 0, blocks[i], 0, blockRot[i].length);
+        }
+    }
+    public AbstractPiece getPiece(){
+        resetRot();
+        return this;
+    }
 }

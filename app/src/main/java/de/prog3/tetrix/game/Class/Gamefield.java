@@ -11,7 +11,6 @@ import android.view.View;
 
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
 
 import de.prog3.tetrix.R;
 import de.prog3.tetrix.game.Abstract.AbstractPiece;
@@ -36,7 +35,6 @@ public class Gamefield extends View {
     private ArrayList<AbstractPiece> listNextPiece;
     private AbstractPiece nextPiece;
     private AbstractPiece OnePiece;
-    private AbstractPiece test;
     Random generator;
 
     NextGamefield nextField;
@@ -55,10 +53,11 @@ public class Gamefield extends View {
         generator = new Random(System.currentTimeMillis());
         this.nextField = nextField;
         gamefieldBackground = BitmapFactory.decodeResource(context.getResources(), R.drawable.gamefield);
+
         score = 0;
         lineScore= 0;
         bonusPunkte = 50;
-
+        // Erezugung des Grids
         for (int i = 0; i < grid.length; i++) {
             for (int k = 0; k < grid[i].length; k++) {
                 grid[i][k] = new Block();
@@ -77,11 +76,8 @@ public class Gamefield extends View {
         Bitmap opiece = BitmapFactory.decodeResource(context.getResources(),R.drawable.opiece);
 
 
-        test = new OnePiece(animation,animation,animation);
-
-
-        OnePiece = new OnePiece(animation,animation,animation);
-
+        OnePiece = new OnePiece(animation,animation,animation); // dient als Lücken Füller bei einer Vollen Reihe
+        //initialisierung der List
         list = new ArrayList<AbstractPiece>();
         list.add(new LPieceLeft(BitmapFactory.decodeResource(context.getResources(), R.drawable.syellow),prediktion,lpiecerechts));
         list.add(new LongPiece(BitmapFactory.decodeResource(context.getResources(), R.drawable.sblue),prediktion,longpiece));
@@ -92,16 +88,23 @@ public class Gamefield extends View {
         list.add(new ZPieceRight(BitmapFactory.decodeResource(context.getResources(), R.drawable.spurple),prediktion,zpieceleft));
 
         activePiece = new ActivePiece(grid);
-        createRandomNextPiece();
-        activePiece.addPiece(nextPiece.getPiece());
-        createRandomNextPiece();
-        activePiece.addToGrid();
+        initialSatrtPiece();
     }
 
-    public void createRandomNextPiece() {
+    public void createRandomNextPiece() { // das aus der liste gezogene Piece wird in nextPiece gespeichert
         int k = (int)(generator.nextDouble()*list.size());
         nextPiece = list.get(k);
         nextField.addPiece(list.get(k));
+    }
+    private void initialSatrtPiece(){
+        createRandomNextPiece();
+        activePiece.spawnPiece(nextPiece.getPiece());
+        createRandomNextPiece();
+        activePiece.addToGrid();
+    }
+    private void getNewPiece(){
+        activePiece.spawnPiece(nextPiece.getPiece());
+        createRandomNextPiece();
     }
 
 
@@ -130,9 +133,7 @@ public class Gamefield extends View {
                 scoreCount--;
                 score = score + scoreCount * bonusPunkte;
             }
-            activePiece.resetP();
-            activePiece.addPiece(nextPiece.getPiece());
-            createRandomNextPiece();
+            getNewPiece();
             boolean addedSuccessfully = activePiece.addToGrid();
             if (!addedSuccessfully) {
                 isFinished = true;
@@ -149,7 +150,7 @@ public class Gamefield extends View {
         return true;
     }
 
-    public int checkLine() {
+    public int checkLine() { // prüft ob eine Line Voll und setzt die jeweiligeen werte
         int scoreCount = 0;
         for (int k = HEIGHT - 1; k >= 0; k--) {
             if (numberInLine(k) == WIDTH) {
@@ -164,7 +165,7 @@ public class Gamefield extends View {
 
         return scoreCount;
     }
-    private int numberInLine(int y) {
+    private int numberInLine(int y) { // pruft auf den übergebenen y wert, ob ein reihe Voll ist
         int count =0;
         for (Block[] blocks : grid) {
             if (blocks[y].isActive()) {
@@ -173,13 +174,13 @@ public class Gamefield extends View {
         }
         return count;
     }
-    private void setLine(int y) {
+    private void setLine(int y) { // Diese Methode setzt eine Volle Line auf das Objekt OnePiece
         for (Block[] blocks : grid) {
             blocks[y].setPiece(OnePiece, false);
         }
     }
 
-    private void moveGridDown(int y) {
+    private void moveGridDown(int y) { // bewegt alles an der stelle y um eins Runter
         y--;
         for (int k = y; k >= 0; k--) {
             for (Block[] blocks : grid) {
@@ -191,7 +192,7 @@ public class Gamefield extends View {
         }
     }
 
-    private void removeGridLine(int y) {
+    private void removeGridLine(int y) { // löscht die angegebnde y Line
         for (Block[] blocks : grid) {
             blocks[y].clear();
         }
@@ -226,12 +227,9 @@ public class Gamefield extends View {
         this.isFinished = false;
         nextField.clear();
         nextPiece = null;
-        activePiece.clear();
-        activePiece.resetP();
-        createRandomNextPiece();
-        activePiece.addPiece(nextPiece.getPiece());
-        createRandomNextPiece();
-        activePiece.addToGrid();
+        activePiece.reset();
+
+        initialSatrtPiece();
     }
 
     @Override
